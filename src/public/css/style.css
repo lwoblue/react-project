@@ -34,10 +34,14 @@ html {
   -moz-osx-font-smoothing: grayscale;
   /* 웹킷 마음대로 눌림 하이라이트 막음 */
   -webkit-tap-highlight-color: transparent;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
   margin: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* 기본 셋업 */
