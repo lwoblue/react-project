@@ -6,18 +6,12 @@ import Bar from 'component/chart/bar/Bar';
 
 const AppRouter = () => {
   return (
-    <div style={style}>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/line" component={Line} />
-        <Route path="/bar" component={Bar} />
-      </Switch>
-    </div>
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route path="/line" component={Line} />
+      <Route path="/bar" component={Bar} />
+    </Switch>
   );
-};
-
-const style = {
-  marginTop: '20px',
 };
 
 export default AppRouter;
