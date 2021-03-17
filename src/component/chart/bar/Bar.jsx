@@ -4,7 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { ResponsiveBar } from '@nivo/bar';
 import { data } from 'component/chart/bar/BarData';
-import Typography from '@material-ui/core/Typography';
+import BarMode from 'component/chart/bar/BarMode';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,8 +30,11 @@ const Bar = () => {
   const classes = useStyles();
   const [mode, setMode] = useState('');
 
-  const groupMode = () => {
-    setMode('grouped');
+  const getGroupMode = () => {
+    // eslint-disable-next-line no-lone-blocks
+    {
+      mode !== '' ? setMode('') : setMode('grouped');
+    }
   };
 
   return (
@@ -149,6 +153,12 @@ const Bar = () => {
           </Grid>
         </Grid>
       </Grid>
+
+      <Button color="primary" onClick={getGroupMode}>
+        Primary
+      </Button>
+
+      <BarMode />
     </>
   );
 };
