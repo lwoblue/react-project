@@ -108,7 +108,10 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     height: 340,
-    width: 1600,
+    width: '100%',
+  },
+  item: {
+    width: '100%',
   },
   control: {
     padding: theme.spacing(2),
@@ -126,9 +129,11 @@ const Bar = () => {
       <Grid container className={classes.root} spacing={2}>
         <Grid item xs={12}>
           <Grid container>
-            <Grid item>
-              <FormLabel>spacing</FormLabel>
-              <Paper className={classes.paper}>{MyResponsiveBar}</Paper>
+            <Grid item className={classes.item}>
+              <Paper className={classes.paper}>
+                <FormLabel>spacing</FormLabel>
+                {MyResponsiveBar}
+              </Paper>
             </Grid>
           </Grid>
         </Grid>
