@@ -7,6 +7,10 @@ import { data } from 'component/chart/bar/BarData';
 import BarMode from 'component/chart/bar/BarMode';
 import Button from '@material-ui/core/Button';
 
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -29,12 +33,13 @@ const useStyles = makeStyles((theme) => ({
 const Bar = () => {
   const classes = useStyles();
   const [mode, setMode] = useState('');
+  const [state, setState] = useState({
+    checked: true,
+  });
 
-  const getGroupMode = () => {
-    // eslint-disable-next-line no-lone-blocks
-    {
-      mode !== '' ? setMode('') : setMode('grouped');
-    }
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+    state.checked !== true ? setMode('') : setMode('grouped');
   };
 
   return (
@@ -153,12 +158,21 @@ const Bar = () => {
           </Grid>
         </Grid>
       </Grid>
+      {/* groupMode string optional default:'stacked' */}
 
-      <Button color="primary" onClick={getGroupMode}>
-        Primary
-      </Button>
-
-      <BarMode />
+      <FormGroup row>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={state.checked}
+              onChange={handleChange}
+              name="checked"
+              color="primary"
+            />
+          }
+          label="Stacked & Grouped"
+        />
+      </FormGroup>
     </>
   );
 };

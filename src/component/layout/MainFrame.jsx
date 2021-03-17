@@ -11,19 +11,18 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   wrap: {
     height: '100%',
-    width:`100%`,
+    width: `100%`,
     position: 'absolute',
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   nav: {
     top: '0',
     height: '64px',
     position: 'absolute',
-    
   },
   separator: {
     top: '64px',
-    position: 'fixed',
+    position: 'absolute',
     zIndex: '9999',
     width: '100%',
     height: '50px',
@@ -35,10 +34,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: '100px',
     bottom: '0',
-    right:'0',
+    right: '0',
     left: '0',
-    overflowY: 'scroll',
-    overflowX: 'hidden',
+    overflow: 'auto',
   },
   mp: {
     padding: theme.spacing(5),
