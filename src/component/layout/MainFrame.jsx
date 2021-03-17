@@ -15,9 +15,11 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   nav: {
+    display: 'flex',
     height: '64px',
   },
   separator: {
+    display: 'flex',
     height: '50px',
     padding: '14px',
     boxShadow: '0 2px 2px 0 rgba(0,0,0,0.1)',
@@ -26,11 +28,9 @@ const useStyles = makeStyles((theme) => ({
   content: {
     display: 'flex',
     flex: 1,
-    overflow: 'auto',
-    minHeight: '607px',
   },
   mp: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(5),
   },
   main: {
     flexGrow: 1,
