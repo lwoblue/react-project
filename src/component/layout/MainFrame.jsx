@@ -10,24 +10,35 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   wrap: {
-    display: 'flex',
-    flexDirection: 'column',
     height: '100%',
+    width:`100%`,
+    position: 'absolute',
+    overflow: 'hidden'
   },
   nav: {
-    display: 'flex',
+    top: '0',
     height: '64px',
+    position: 'absolute',
+    
   },
   separator: {
-    display: 'flex',
+    top: '64px',
+    position: 'fixed',
+    zIndex: '9999',
+    width: '100%',
     height: '50px',
     padding: '14px',
     boxShadow: '0 2px 2px 0 rgba(0,0,0,0.1)',
     backgroundColor: 'white',
   },
   content: {
-    display: 'flex',
-    flex: 1,
+    position: 'absolute',
+    top: '100px',
+    bottom: '0',
+    right:'0',
+    left: '0',
+    overflowY: 'scroll',
+    overflowX: 'hidden',
   },
   mp: {
     padding: theme.spacing(5),
