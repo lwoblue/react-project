@@ -71,3 +71,12 @@ img {
 .buttonG{
     background-color: #ffffff !important;
 }
+.login__find{
+  text-align: end; 
+
+}
+.login__find > button{
+  border: none;
+  background-color: rgba(255, 255, 255, 0.0);
+  color: #839470;  
+}

@@ -31,15 +31,24 @@ function LoginKakao() {
       success: (authObj) => {
         console.log("정상로그인 되었습니다.", authObj);
       },
-    //   fail: (error) => {
-    //     console.error("로그인 에러", error);
-    //   },
+      //   fail: (error) => {
+      //     console.error("로그인 에러", error);
+      //   },
     });
   };
   return (
     <div>
-      <button className="buttonK" onClick={kakaoLoginClick}>
-        카카오 로그인
+      <button
+        style={{
+          border: "none",
+          backgroundColor: " #fff024",
+          width: "100%",
+          height: "56px",
+          marginTop: "10px",
+        }}
+        onClick={kakaoLoginClick}
+      >
+        카카오 로그인 / firebase 테스트 버튼
       </button>
     </div>
   );
