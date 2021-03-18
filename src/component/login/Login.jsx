@@ -3,20 +3,22 @@ import "./Login.css";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import LoginService from "./LoginService";
+import LoginKakao from "./LoginKakao";
 
 const Login = () => {
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
   const idInputHandler = useCallback((e) => {
-    // e.preventDefault();
+    e.preventDefault();
     const textId = e.target.value;
     setId(textId); // true vs. false
   }, []);
+
   const pwdInputHandler = useCallback((e) => {
     e.preventDefault();
     const textPwd = e.target.value;
     setPwd(textPwd);
-    console.log('');
+    console.log('textPwd: ',textPwd);
   }, []);
 
   //   id: email -> 유효성 검사
@@ -46,9 +48,9 @@ const Login = () => {
     },
     [id, pwd]
   );
-  const kakaoLogin = ()=>{
+  const kakaoLoginClick = useCallback(()=>{},[]);
 
-  }
+  const googleLoginClick = useCallback(()=>{},[]);
 
   return (
     <div className="login">
@@ -69,6 +71,7 @@ const Login = () => {
           <div className="login__input">
             <VpnKeyIcon />
             <input
+              type="password"
               value={pwd}
               placeholder="Enter your Password"
               onChange={pwdInputHandler}
@@ -77,8 +80,10 @@ const Login = () => {
         </div>
         <button onClick={loginClickHandler}>Sign In</button>
         <div className="login___social">
-            <button onClick={kakaoLogin}>카카오 로그인</button>
+            <button className="buttonK" onClick={kakaoLoginClick}>카카오 로그인</button>
+            <LoginKakao />
             {/* <img src="/images/kakao_login_medium_wide.png" alt="" /> */}
+            <button className="buttonG" onClick={googleLoginClick}>Google 로그인</button>
         </div>
       </div>
     </div>
