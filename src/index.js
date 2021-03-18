@@ -1,13 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import 'public/css/style.css';
-import MainFrame from 'component/layout/MainFrame';
-import Login from 'component/login/Login';
+import React from "react";
+import ReactDOM from "react-dom";
+import "public/css/style.css";
+import MainFrame from "component/layout/MainFrame";
 
 ReactDOM.render(
   <>
-    <Login/>
-    {/* <MainFrame /> */}
+    <MainFrame />
   </>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
