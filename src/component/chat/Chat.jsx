@@ -29,29 +29,36 @@ const Chat = () => {
 
   return (
     <>
-      <div className="chat"  >
-        
-        {/* <h2> You are in the {roomId} </h2> */}
-        <div className="chat__header">
-          <div className="chat__headerLeft">
-            <h4 className="chat__channelName">
-              <strong>#{roomDetails?.name}</strong>
-              <StarOutlineIcon />
-            </h4>
+      <div className="chat-container">
+        <div className="channel-wrap"  >
+          <div >
+            야 이거 왜안돼
           </div>
         </div>
-        <div className="chat__messages">
-            {/* <Message .../> */}
-            {roomMessages.map(({message , timestamp, user, userImage})=>(
-                <Message
-                message={message}
-                timestamp={timestamp}
-                user={user}
-                userImage={userImage} />
-            ))}
-        </div>
-        <div className="chat__messages">
-          <ChatInput channelName={roomDetails?.name} channelId={roomId}/>
+        <div className="chat-wrap"  >
+          
+          {/* <h2> You are in the {roomId} </h2> */}
+          <div className="chat__header">
+            <div className="chat__headerLeft">
+              <h4 className="chat__channelName">
+                <strong>#{roomDetails?.name}</strong>
+                <StarOutlineIcon />
+              </h4>
+            </div>
+          </div>
+          <div className="chat__messages">
+              {/* <Message .../> */}
+              {roomMessages.map(({message , timestamp, user, userImage})=>(
+                  <Message
+                  message={message}
+                  timestamp={timestamp}
+                  user={user}
+                  userImage={userImage} />
+              ))}
+          </div>
+          <div className="chat-input">
+            <ChatInput channelName={roomDetails?.name} channelId={roomId}/>
+          </div>
         </div>
       </div>
     </>
