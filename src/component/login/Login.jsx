@@ -5,10 +5,11 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import LoginService from "./LoginService";
 import LoginKakao from "./LoginKakao";
 import SignUp from "./SignUp";
-// import { auth, provider } from "../../../
+// import { auth, provider } from "../../firebase";
 import { actionTypes } from "./state/reducer";
 import { useStateValue } from "./state/StateProvider";
 import { useHistory } from "react-router";
+import LoginGoogle from "./LoginGoogle";
 
 const Login = () => {
   const history = useHistory();
@@ -58,18 +59,18 @@ const Login = () => {
   const kakaoLoginClick = useCallback(() => {}, []);
 
   const googleLoginClick = () => {
-    // auth
-    //   .signInWithPopup(provider)
-    //   .then((result) => {
-    //     console.log(result);
-    //     dispatch({
-    //       type: actionTypes.SET_USER,
-    //       user: result.user,
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     alert(error.message);
-    //   });
+    auth
+      .signInWithPopup(provider)
+      .then((result) => {
+        console.log(result);
+        // dispatch({
+        //   type: actionTypes.SET_USER,
+        //   user: result.user,
+        // });
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   };
 
   const signupClick = () => {
@@ -118,6 +119,7 @@ const Login = () => {
             <button className="buttonG" onClick={googleLoginClick}>
               Google 로그인
             </button>
+            {/* <LoginGoogle /> */}
           </div>
         </div>
       </div>
