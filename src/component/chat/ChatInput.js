@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import db from "../../firebase";
-// import { useStateValue } from "../chat/state/StateProvider";
+import { useStateValue } from "../chat/state/StateProvider";
 import "./ChatInput.css";
 import firebase from "firebase";
 
@@ -8,6 +8,7 @@ import logo from '../../public/images/logo.png';
 
 const ChatInput = ({ channelName, channelId }) => {
   const [input, setInput] = useState("");
+  const [{ user }] = useStateValue();
   const onChange = useCallback((e) => {
     setInput(e.target.value);
   }, []);
@@ -20,8 +21,8 @@ const ChatInput = ({ channelName, channelId }) => {
       db.collection("rooms").doc(channelId).collection("messages").add({
         message: input,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        user: '관리자',
-        userImage: logo,
+        user: user.displayName,
+        userImage: user.photoURL,
       });
     }
     setInput((e.target.value = ""));
