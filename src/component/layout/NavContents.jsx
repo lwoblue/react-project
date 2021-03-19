@@ -15,7 +15,7 @@ import Divider from '@material-ui/core/Divider';
 
 export function breadcrumbNameMap(to) {
   // const candidate = { '/bar': 'Bar', '/line': 'Line', '/pie': 'Pie' };
-  const candidate = { '/line': 'Line', '/bar': 'Bar', '/chat': 'chat' };
+  const candidate = { '/line': 'Line', '/bar': 'Bar', '/chat': 'talk' };
   return candidate[to];
 }
 
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 const NavContents = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-
+ 
   const handleClick = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -91,7 +91,7 @@ const NavContents = () => {
           
           <Collapse component="li" in={open} timeout="auto" unmountOnExit>
             <List disablePadding>
-              <ListItemLink to="/chat" className={classes.nested} />
+              <ListItemLink to="/chat" className={classes.nested} title={'solomonts'} id={'DVWjjfbmPMGni08saFJA'} />
             </List>
           </Collapse>
         </List>

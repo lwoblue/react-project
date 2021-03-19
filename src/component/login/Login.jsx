@@ -5,14 +5,14 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import LoginService from "./LoginService";
 import LoginKakao from "./LoginKakao";
 import SignUp from "./SignUp";
-// import { auth, provider } from "../../firebase";
-import { actionTypes } from "./state/reducer";
-import { useStateValue } from "./state/StateProvider";
+import { auth, provider } from "./../../firebase";
+import { actionTypes } from "../chat/state/reducer";
+import { useStateValue } from "../chat/state/StateProvider";
 import { useHistory } from "react-router";
-import LoginGoogle from "./LoginGoogle";
 
 const Login = () => {
   const history = useHistory();
+  const [state, dispatch] = useStateValue();
   const [signUp, setSignUp] = useState(false);
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
@@ -47,6 +47,7 @@ const Login = () => {
       LoginService.login(id, pwd)
         .then((res) => {
           console.log(res.data);
+          history.push('/Home')
         })
         .catch(() => {
           console.log("login Error!");
@@ -63,10 +64,11 @@ const Login = () => {
       .signInWithPopup(provider)
       .then((result) => {
         console.log(result);
-        // dispatch({
-        //   type: actionTypes.SET_USER,
-        //   user: result.user,
-        // });
+        history.push('/Home');
+        dispatch({
+          type: actionTypes.SET_USER,
+          user: result.user,
+        });
       })
       .catch((error) => {
         alert(error.message);

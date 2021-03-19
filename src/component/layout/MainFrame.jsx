@@ -7,32 +7,43 @@ import ContentsRoute from "component/route/ContentsRoute";
 import Separator from "./Separator";
 import { makeStyles } from "@material-ui/core/styles";
 import LoginTemplate from "component/login/LoginTemplate";
+import { useStateValue } from "component/chat/state/StateProvider";
+// import { useStateValue } from "../chat/state/StateProvider";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   wrap: {
-    display: "flex",
-    flexDirection: "column",
-    height: "100%",
+    height: '100%',
+    width: `100%`,
+    position: 'absolute',
+    overflow: 'hidden',
   },
   nav: {
-    height: "64px",
+    top: '0',
+    height: '64px',
+    position: 'absolute',
   },
   separator: {
-    height: "50px",
-    padding: "14px",
-    boxShadow: "0 2px 2px 0 rgba(0,0,0,0.1)",
-    backgroundColor: "white",
+    top: '64px',
+    position: 'absolute',
+    zIndex: '9999',
+    width: '100%',
+    height: '50px',
+    padding: '14px',
+    boxShadow: '0 2px 2px 0 rgba(0,0,0,0.1)',
+    backgroundColor: 'white',
   },
   content: {
-    display: "flex",
-    flex: 1,
-    overflow: "auto",
-    minHeight: "607px",
+    position: 'absolute',
+    top: '100px',
+    bottom: '0',
+    right: '0',
+    left: '0',
+    overflow: 'auto',
   },
   mp: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(5),
   },
   main: {
     flexGrow: 1,
@@ -52,9 +63,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainFrame = () => {
+  // const [{user}, dispatch] = useStateValue();
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [user, setUser] = React.useState(null);
+  const [open, setOpen] = React.useState(false)
+  const [{user}, dispatch] = useStateValue();
 
   const appOpen = (drOpen) => {
     setOpen(drOpen);
