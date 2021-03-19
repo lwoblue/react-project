@@ -1,5 +1,6 @@
 .chatInput {
   border-radius: 20px;
+  height: 100%;
   /* width: auto; */
 }
 
@@ -10,16 +11,28 @@
 }
 
 .chatInput > form > input {
-  width: 70%;
-  right: 150px;
-  position: fixed;
-  bottom: 30px;
-  border: 1px solid gray;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #6bd470;
+  background-color: #fff;
+  left: 0;
   border-radius: 3px;
   padding: 20px;
+  width: 100%;
   /* flex: 0.7; */
 }
 
+.chatInput > form > input:hover {
+  border-color: #6bd470;
+}
+
 .chatInput > form > button {
-  display: none !important;
+  border-right-width: 3px;
+  border-left-width: 0px;
+  border-top-width: 0px;
+  border-bottom-width: 3px;
+  border-color: #6bd470;
+  background-color: #6bd470;
+  text-align: center;
+  width: 80px;
 }
