@@ -5,7 +5,7 @@ import Nav from './Nav';
 import ContentsRoute from 'component/route/ContentsRoute';
 import Separator from './Separator';
 import { makeStyles } from '@material-ui/core/styles';
-import { useStateValue } from "../chat/state/StateProvider";
+// import { useStateValue } from "../chat/state/StateProvider";
 
 const drawerWidth = 240;
 
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainFrame = () => {
-  const [{user}, dispatch] = useStateValue();
+  // const [{user}, dispatch] = useStateValue();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
