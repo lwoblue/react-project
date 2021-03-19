@@ -5,9 +5,12 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import LoginService from "./LoginService";
 import LoginKakao from "./LoginKakao";
 import SignUp from "./SignUp";
+// import { auth, provider } from "../../../
+import { actionTypes } from "./state/reducer";
+import { useStateValue } from "./state/StateProvider";
 
 const Login = () => {
-  const [signUp,setSignUp] =useState(false);
+  const [signUp, setSignUp] = useState(false);
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
   const idInputHandler = useCallback((e) => {
@@ -20,7 +23,7 @@ const Login = () => {
     e.preventDefault();
     const textPwd = e.target.value;
     setPwd(textPwd);
-    console.log('textPwd: ',textPwd);
+    console.log("textPwd: ", textPwd);
   }, []);
 
   //   id: email -> 유효성 검사
@@ -50,59 +53,75 @@ const Login = () => {
     },
     [id, pwd]
   );
-  const kakaoLoginClick = useCallback(()=>{},[]);
+  const kakaoLoginClick = useCallback(() => {}, []);
 
-  const googleLoginClick = useCallback(()=>{},[]);
+  const googleLoginClick = () => {
+    // auth
+    //   .signInWithPopup(provider)
+    //   .then((result) => {
+    //     console.log(result);
+    //     dispatch({
+    //       type: actionTypes.SET_USER,
+    //       user: result.user,
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     alert(error.message);
+    //   });
+  };
 
-  const signupClick = ()=>{
+  const signupClick = () => {
     setSignUp(true);
-  }
+  };
 
   return (
     <>
-    {signUp?(
-      <SignUp/>      
-    ):(
-      <div className="login">
-      <img src="/images/logo.png" alt="" />
-      <div className="login__container">
-        {/* <h1>Login</h1> */}
-        <div>
-          {/* id */}
-          <div className="login__input">
-            <AccountBoxIcon />
-            <input
-              value={id}
-              placeholder="Enter your Email"
-              onChange={idInputHandler}
-            />
-          </div>
-          {/* pwd */}
-          <div className="login__input">
-            <VpnKeyIcon />
-            <input
-              type="password"
-              value={pwd}
-              placeholder="Enter your Password"
-              onChange={pwdInputHandler}
-            />
-          </div>
-          <div className="login__find">
-            <button onClick={signupClick}>회원가입</button>
-            {/* <button>아이디패스워드찾기</button> */}
+      {signUp ? (
+        <SignUp />
+      ) : (
+        <div className="login">
+          <img src="/images/logo.png" alt="" />
+          <div className="login__container">
+            {/* <h1>Login</h1> */}
+            <div>
+              {/* id */}
+              <div className="login__input">
+                <AccountBoxIcon />
+                <input
+                  value={id}
+                  placeholder="Enter your Email"
+                  onChange={idInputHandler}
+                />
+              </div>
+              {/* pwd */}
+              <div className="login__input">
+                <VpnKeyIcon />
+                <input
+                  type="password"
+                  value={pwd}
+                  placeholder="Enter your Password"
+                  onChange={pwdInputHandler}
+                />
+              </div>
+              <div className="login__find">
+                <button onClick={signupClick}>회원가입</button>
+                {/* <button>아이디패스워드찾기</button> */}
+              </div>
+            </div>
+            <button onClick={loginClickHandler}>Sign In</button>
+            <div className="login___social">
+              <button className="buttonK" onClick={kakaoLoginClick}>
+                카카오 로그인
+              </button>
+              <LoginKakao />
+              {/* <img src="/images/kakao_login_medium_wide.png" alt="" /> */}
+              <button className="buttonG" onClick={googleLoginClick}>
+                Google 로그인
+              </button>
+            </div>
           </div>
         </div>
-        <button onClick={loginClickHandler}>Sign In</button>
-        <div className="login___social">
-            <button className="buttonK" onClick={kakaoLoginClick}>카카오 로그인</button>
-            <LoginKakao />
-            {/* <img src="/images/kakao_login_medium_wide.png" alt="" /> */}
-            <button className="buttonG" onClick={googleLoginClick}>Google 로그인</button>
-        </div>
-      </div>
-    </div>  
-    )}
-    
+      )}
     </>
   );
 };

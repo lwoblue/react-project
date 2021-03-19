@@ -1,18 +1,22 @@
 import React, { useState, useCallback } from "react";
+import { useHistory } from "react-router-dom";
 import "./Login.css";
 import LoginService from "./LoginService";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import EmailIcon from '@material-ui/icons/Email';
 
 function SignUp() {
-  const [id, setId] = useState("");
+  const history = useHistory();
+  const [email, setId] = useState("");
   const [pwd, setPwd] = useState("");
   const [userName, setUserName] = useState("");
+  const [InputStatus, setInputStatus] = useState("");
 
   const idInputHandler = useCallback((e) => {
     e.preventDefault();
-    const textId = e.target.value;
-    setId(textId); // true vs. false
+    const textEnail = e.target.value;
+    setId(textEnail); // true vs. false
   }, []);
 
   const pwdInputHandler = useCallback((e) => {
@@ -36,26 +40,58 @@ function SignUp() {
 
   const loginClickHandler = useCallback(
     (e) => {
-      const validate = isEmail(id);
-      if (validate) {
-        // set id
-        console.log("이메일 형식입니다.");
-      } else {
-        console.log("이메일 형식이 아닙니다.");
+      let emailValidate = false;
+      if (InputStatus === "사용가능한 이메일입니다.") {
+        emailValidate = true;
       }
-      LoginService.signUp(id, pwd, userName)
+      if (
+        email !== null &&
+        pwd !== null &&
+        userName !== null &&
+        emailValidate
+      ) {
+        LoginService.signUp(email, pwd, userName)
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch(() => {
+            console.log("SignUp Error!");
+          });
+        setId((e.target.value = ""));
+        setPwd((e.target.value = ""));
+        setUserName((e.target.value = ""));
+        // history.push("/");
+      } else {
+        // 빈 input 존재
+        alert("입력 양식을 채워주세요");
+      }
+    },
+    [email, pwd, userName]
+  );
+
+  const idDuplicateCheck = (e) => {
+    // 이메일 형식 체크
+    const validate = isEmail(email);
+    if (validate) {
+      // setInputStatus("올바른 이메일 형식입니다.");
+      // set id
+      LoginService.emailDuplicateCheck(email)
         .then((res) => {
-          console.log(res.data);
+          let status = res.data;
+          if (status === "true") {
+            setInputStatus("사용가능한 이메일입니다.");
+          } else {
+            //중복 상태입니다.
+            setInputStatus("중복된 이메일입니다.");
+          }
         })
         .catch(() => {
-          console.log("login Error!");
+          console.log("check Duplcate ERROR!");
         });
-      setId((e.target.value = ""));
-      setPwd((e.target.value = ""));
-      setUserName((e.target.value = ""));
-    },
-    [id, pwd, userName]
-  );
+    } else {
+      setInputStatus("이메일 형식이 아닙니다.");
+    }
+  };
 
   return (
     <div className="login">
@@ -65,12 +101,31 @@ function SignUp() {
         <div>
           {/* id */}
           <div className="login__input">
-            <AccountBoxIcon />
+            <EmailIcon />
             <input
-              value={id}
+              value={email}
               placeholder="Enter your Email"
               onChange={idInputHandler}
             />
+          </div>
+          <div
+            className="login__inputDuplicateChk"
+            style={{ textAlign: "end" }}
+          >
+            <span>{InputStatus}</span>
+            <button
+              style={{
+                border: "none",
+                backgroundColor: '#98d33a',
+                borderRadius: "4px",
+                height: '25px',
+                width: '80px',
+                marginLeft: '10px',
+              }}
+              onClick={idDuplicateCheck}
+            >
+              중복체크
+            </button>
           </div>
           {/* name */}
           <div className="login__input">

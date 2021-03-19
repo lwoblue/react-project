@@ -2,19 +2,26 @@ import axios from 'axios'
 const LOGIN_API_BASE_URL= "http://localhost:8080/users";
 class LoginService {
     // send username, password to the SERVER
-    login(id,pwd){
+    login(email,pwd){
         return axios.post(LOGIN_API_BASE_URL+'/login', {
-            id,
+            email,
             pwd
         })
     }
 
-    signUp(id,pwd,username){
+    signUp(email,pwd,username){
         return axios.post(LOGIN_API_BASE_URL+'/signUp', {
-            id,
+            email,
             pwd,
             username
         })
+    }
+
+    emailDuplicateCheck(email){
+        return axios.post(LOGIN_API_BASE_URL+'/duplicateCheck',{
+            email
+        })
+
     }
 
     executeHelloService() {
