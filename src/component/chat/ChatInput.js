@@ -17,6 +17,7 @@ const ChatInput = ({ channelName, channelId }) => {
     console.log("send>>>", e.target.value);
     console.log(channelId);
     e.preventDefault();
+    if(!input)return;
     if (channelId) {
       db.collection("rooms").doc(channelId).collection("messages").add({
         message: input,
@@ -37,7 +38,7 @@ const ChatInput = ({ channelName, channelId }) => {
           placeholder={`Message #${channelName}`}
         />
         <button type="submit" onClick={sendMessage}>
-          SEND
+          보내기
         </button>
       </form>
     </div>

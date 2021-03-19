@@ -1,7 +1,6 @@
 .chat-container {
   display: flex;
   bottom: 0px;
-  background-color: red;
 }
 .channel-wrap {
   display: block;
@@ -62,4 +61,18 @@
 
 .chat-input {
   position: relative;
+}
+.chat__messages::-webkit-scrollbar {
+  width: 10px;
+}
+.chat__messages::-webkit-scrollbar-button {
+  background-color: #c9c9c9;
+}
+
+.chat__messages::-webkit-scrollbar-track {
+  background-color: #f7ecf1;
+}
+
+.chat__messages::-webkit-scrollbar-thumb {
+  background-color: #c9c9c9;
 }

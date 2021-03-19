@@ -32,7 +32,7 @@ const Chat = () => {
       <div className="chat-container">
         <div className="channel-wrap"  >
           <div >
-            야 이거 왜안돼
+            
           </div>
         </div>
         <div className="chat-wrap"  >
