@@ -9,6 +9,7 @@ import { auth, provider } from "./../../firebase";
 import { actionTypes } from "../chat/state/reducer";
 import { useStateValue } from "../chat/state/StateProvider";
 import { useHistory } from "react-router";
+import LoginTemplate from "./LoginTemplate";
 
 const Login = () => {
   const history = useHistory();
@@ -47,7 +48,7 @@ const Login = () => {
       LoginService.login(id, pwd)
         .then((res) => {
           console.log(res.data);
-          history.push('/Home')
+          history.push('/Home');
         })
         .catch(() => {
           console.log("login Error!");
@@ -78,6 +79,7 @@ const Login = () => {
   const signupClick = () => {
     // setSignUp(true);
     history.push('/signUp');
+    return <LoginTemplate />
   };
 
   return (

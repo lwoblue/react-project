@@ -8,7 +8,7 @@ function LoginTemplate() {
     <div>
       <Router>
         <Switch>
-          <Route path="/login" component={Login} />
+          <Route exact path={["/","/login"]} component={Login} />
           <Route path="/signUp" component={SignUp} />
         </Switch>
       </Router>
