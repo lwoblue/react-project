@@ -4,7 +4,8 @@ import "./Login.css";
 import LoginService from "./LoginService";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
-import EmailIcon from '@material-ui/icons/Email';
+import EmailIcon from "@material-ui/icons/Email";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 function SignUp() {
   const history = useHistory();
@@ -60,12 +61,14 @@ function SignUp() {
         setId((e.target.value = ""));
         setPwd((e.target.value = ""));
         setUserName((e.target.value = ""));
-        // history.push("/");
+        alert('ok');
+        history.push("/login");
       } else {
         // 빈 input 존재
         alert("입력 양식을 채워주세요");
       }
     },
+    // [email, pwd, userName,history]
     [email, pwd, userName]
   );
 
@@ -92,12 +95,19 @@ function SignUp() {
       setInputStatus("이메일 형식이 아닙니다.");
     }
   };
+  const goBack = ()=>{
+    history.push(`/login`);
+  }
 
   return (
     <div className="login">
       <img src="/images/logo.png" alt="" />
       <div className="login__container">
+        <div style={{ textAlign: "initial" }} onClick={goBack}>
+          <ArrowBackIcon />
+        </div>
         {/* <h1>Login</h1> */}
+
         <div>
           {/* id */}
           <div className="login__input">
@@ -116,11 +126,11 @@ function SignUp() {
             <button
               style={{
                 border: "none",
-                backgroundColor: '#98d33a',
+                backgroundColor: "#98d33a",
                 borderRadius: "4px",
-                height: '25px',
-                width: '80px',
-                marginLeft: '10px',
+                height: "25px",
+                width: "80px",
+                marginLeft: "10px",
               }}
               onClick={idDuplicateCheck}
             >

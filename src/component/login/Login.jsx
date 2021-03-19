@@ -8,8 +8,10 @@ import SignUp from "./SignUp";
 // import { auth, provider } from "../../../
 import { actionTypes } from "./state/reducer";
 import { useStateValue } from "./state/StateProvider";
+import { useHistory } from "react-router";
 
 const Login = () => {
+  const history = useHistory();
   const [signUp, setSignUp] = useState(false);
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
@@ -71,57 +73,54 @@ const Login = () => {
   };
 
   const signupClick = () => {
-    setSignUp(true);
+    // setSignUp(true);
+    history.push('/signUp');
   };
 
   return (
     <>
-      {signUp ? (
-        <SignUp />
-      ) : (
-        <div className="login">
-          <img src="/images/logo.png" alt="" />
-          <div className="login__container">
-            {/* <h1>Login</h1> */}
-            <div>
-              {/* id */}
-              <div className="login__input">
-                <AccountBoxIcon />
-                <input
-                  value={id}
-                  placeholder="Enter your Email"
-                  onChange={idInputHandler}
-                />
-              </div>
-              {/* pwd */}
-              <div className="login__input">
-                <VpnKeyIcon />
-                <input
-                  type="password"
-                  value={pwd}
-                  placeholder="Enter your Password"
-                  onChange={pwdInputHandler}
-                />
-              </div>
-              <div className="login__find">
-                <button onClick={signupClick}>회원가입</button>
-                {/* <button>아이디패스워드찾기</button> */}
-              </div>
+      <div className="login">
+        <img src="/images/logo.png" alt="" />
+        <div className="login__container">
+          {/* <h1>Login</h1> */}
+          <div>
+            {/* id */}
+            <div className="login__input">
+              <AccountBoxIcon />
+              <input
+                value={id}
+                placeholder="Enter your Email"
+                onChange={idInputHandler}
+              />
             </div>
-            <button onClick={loginClickHandler}>Sign In</button>
-            <div className="login___social">
-              <button className="buttonK" onClick={kakaoLoginClick}>
-                카카오 로그인
-              </button>
-              <LoginKakao />
-              {/* <img src="/images/kakao_login_medium_wide.png" alt="" /> */}
-              <button className="buttonG" onClick={googleLoginClick}>
-                Google 로그인
-              </button>
+            {/* pwd */}
+            <div className="login__input">
+              <VpnKeyIcon />
+              <input
+                type="password"
+                value={pwd}
+                placeholder="Enter your Password"
+                onChange={pwdInputHandler}
+              />
+            </div>
+            <div className="login__find">
+              <button onClick={signupClick}>회원가입</button>
+              {/* <button>아이디패스워드찾기</button> */}
             </div>
           </div>
+          <button onClick={loginClickHandler}>Sign In</button>
+          <div className="login___social">
+            <button className="buttonK" onClick={kakaoLoginClick}>
+              카카오 로그인
+            </button>
+            <LoginKakao />
+            {/* <img src="/images/kakao_login_medium_wide.png" alt="" /> */}
+            <button className="buttonG" onClick={googleLoginClick}>
+              Google 로그인
+            </button>
+          </div>
         </div>
-      )}
+      </div>
     </>
   );
 };

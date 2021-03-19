@@ -6,6 +6,7 @@ import Nav from "./Nav";
 import ContentsRoute from "component/route/ContentsRoute";
 import Separator from "./Separator";
 import { makeStyles } from "@material-ui/core/styles";
+import LoginTemplate from "component/login/LoginTemplate";
 
 const drawerWidth = 240;
 
@@ -61,39 +62,42 @@ const MainFrame = () => {
 
   return (
     <>
-      {!user ? (
-        <Login />
-      ) : (
-        <div className={classes.wrap}>
-          <Router>
-            <div className={classes.nav}>
-              <Nav appOpen={appOpen} />
-            </div>
-            <div
-              className={[
-                classes.separator,
-                clsx(classes.main, {
-                  [classes.mainShift]: open,
-                }),
-              ].join("  ")}
-            >
-              <Separator />
-            </div>
-            <div className={classes.content}>
-              <main
+      <div className={classes.wrap}>
+        <Router>
+          {!user ? (
+            // <Login />
+            <LoginTemplate/>
+          ) : (
+            <>
+              <div className={classes.nav}>
+                <Nav appOpen={appOpen} />
+              </div>
+              <div
                 className={[
-                  classes.mp,
+                  classes.separator,
                   clsx(classes.main, {
                     [classes.mainShift]: open,
                   }),
                 ].join("  ")}
               >
-                <ContentsRoute />
-              </main>
-            </div>
-          </Router>
-        </div>
-      )}
+                <Separator />
+              </div>
+              <div className={classes.content}>
+                <main
+                  className={[
+                    classes.mp,
+                    clsx(classes.main, {
+                      [classes.mainShift]: open,
+                    }),
+                  ].join("  ")}
+                >
+                  <ContentsRoute />
+                </main>
+              </div>
+            </>
+          )}
+        </Router>
+      </div>
     </>
   );
 };
