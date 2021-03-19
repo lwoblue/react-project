@@ -65,7 +65,7 @@ const Login = () => {
       .signInWithPopup(provider)
       .then((result) => {
         console.log(result);
-        history.push('/Home');
+        history.push('/home');
         dispatch({
           type: actionTypes.SET_USER,
           user: result.user,
