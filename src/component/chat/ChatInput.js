@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import db from "../../firebase";
-import { useStateValue } from "../chat/state/StateProvider";
+// import { useStateValue } from "../chat/state/StateProvider";
 import "./ChatInput.css";
 import firebase from "firebase";
 

@@ -11,6 +11,7 @@
 
 .chatInput > form > input {
   width: 70%;
+  right: 150px;
   position: fixed;
   bottom: 30px;
   border: 1px solid gray;
