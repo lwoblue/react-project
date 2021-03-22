@@ -1,11 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import clsx from 'clsx';
-import Nav from './Nav';
-import ContentsRoute from 'component/route/ContentsRoute';
-import Separator from './Separator';
-import { makeStyles } from '@material-ui/core/styles';
-import { useStateValue } from "../chat/state/StateProvider";
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import Login from "component/login/Login";
+import clsx from "clsx";
+import Nav from "./Nav";
+import ContentsRoute from "component/route/ContentsRoute";
+import Separator from "./Separator";
+import { makeStyles } from "@material-ui/core/styles";
+import LoginTemplate from "component/login/LoginTemplate";
+import { useStateValue } from "component/chat/state/StateProvider";
+// import { useStateValue } from "../chat/state/StateProvider";
 
 const drawerWidth = 240;
 
@@ -44,14 +47,14 @@ const useStyles = makeStyles((theme) => ({
   },
   main: {
     flexGrow: 1,
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: drawerWidth,
   },
   mainShift: {
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -60,9 +63,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainFrame = () => {
-  const [{user}, dispatch] = useStateValue();
+  // const [{user}, dispatch] = useStateValue();
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
+  const [{user}, dispatch] = useStateValue();
 
   const appOpen = (drOpen) => {
     setOpen(drOpen);
@@ -72,31 +76,38 @@ const MainFrame = () => {
     <>
       <div className={classes.wrap}>
         <Router>
-          <div className={classes.nav}>
-            <Nav appOpen={appOpen} />
-          </div>
-          <div
-            className={[
-              classes.separator,
-              clsx(classes.main, {
-                [classes.mainShift]: open,
-              }),
-            ].join('  ')}
-          >
-            <Separator />
-          </div>
-          <div className={classes.content}>
-            <main
-              className={[
-                classes.mp,
-                clsx(classes.main, {
-                  [classes.mainShift]: open,
-                }),
-              ].join('  ')}
-            >
-              <ContentsRoute />
-            </main>
-          </div>
+          {!user ? (
+            // <Login />
+            <LoginTemplate/>
+          ) : (
+            <>
+              <div className={classes.nav}>
+                <Nav appOpen={appOpen} />
+              </div>
+              <div
+                className={[
+                  classes.separator,
+                  clsx(classes.main, {
+                    [classes.mainShift]: open,
+                  }),
+                ].join("  ")}
+              >
+                <Separator />
+              </div>
+              <div className={classes.content}>
+                <main
+                  className={[
+                    classes.mp,
+                    clsx(classes.main, {
+                      [classes.mainShift]: open,
+                    }),
+                  ].join("  ")}
+                >
+                  <ContentsRoute />
+                </main>
+              </div>
+            </>
+          )}
         </Router>
       </div>
     </>
