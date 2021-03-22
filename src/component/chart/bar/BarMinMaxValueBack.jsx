@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   makeStyles,
@@ -40,57 +40,57 @@ ValueLabelComponent.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function BarMinMaxValue(props) {
+export default function BarMinMaxValueBack(props) {
   const classes = useStyles();
-  const [value, setValue] = useState([0, 800]);
+  const [maxValue, setMaxValue] = React.useState(800);
+  const [minValue, setMinValue] = React.useState(-1000);
 
   const handleSliderChange = (event, newValue) => {
-    setValue(newValue);
-    props.getMinMaxValue(newValue);
+    setMinValue(newValue[0]);
+    setMaxValue(newValue[1]);
+    // props.getMaxValue(maxValue);
   };
 
   const minHandleInputChange = (event) => {
-    // setMinValue(event.target.value === '' ? '' : Number(event.target.value));
-    if (event.target.value) {
-      setValue([Number(event.target.value), value[1]]);
-    }
-    props.getMinMaxValue([Number(event.target.value), value[1]]);
+    console.log('minHandleInputChange :::: ' + event.target.value);
+    setMinValue(event.target.value === '' ? '' : Number(event.target.value));
+
+    // props.getMaxValue(maxValue);
   };
 
   const maxHandleInputChange = (event) => {
-    // setMaxValue(event.target.value === '' ? '' : Number(event.target.value));
-    if (event.target.value) {
-      setValue([value[0], Number(event.target.value)]);
-    }
-    props.getMinMaxValue([value[0], Number(event.target.value)]);
+    console.log('maxHandleInputChange :::: ' + event.target.value);
+    setMaxValue(event.target.value === '' ? '' : Number(event.target.value));
+
+    // props.getMaxValue(maxValue);
   };
 
   const minHandleBlur = () => {
-    if (value[0] < -1000) {
-      setValue([-1000, value[1]]);
-    } else if (value[0] > 0) {
-      setValue([0, value[1]]);
+    if (minValue < -1000) {
+      setMinValue(-1000);
+    } else if (minValue > 0) {
+      setMinValue(0);
     }
   };
 
   const maxHandleBlur = () => {
-    if (value[1] < 0) {
-      setValue([value[0], 0]);
-    } else if (value[1] > 1000) {
-      setValue([value[0], 1000]);
+    if (maxValue < 0) {
+      setMaxValue(0);
+    } else if (maxValue > 1000) {
+      setMaxValue(1000);
     }
   };
 
   return (
     <div className={classes.root}>
       <div className={classes.margin} />
-      <Typography gutterBottom>MinMaxValue</Typography>
+      <Typography gutterBottom>Tooltip value label</Typography>
 
-      <Grid container spacing={2} alignItems="center">
+      <Grid container spacing={3} alignItems="center">
         <Grid item>
           <Input
             className={classes.minInput}
-            value={value[0]}
+            value={minValue}
             margin="dense"
             onChange={minHandleInputChange}
             onBlur={minHandleBlur}
@@ -110,7 +110,7 @@ export default function BarMinMaxValue(props) {
               index === 0 ? 'Minimum price' : 'Maximum price'
             }
             onChange={handleSliderChange}
-            value={value}
+            value={[minValue, maxValue]}
             min={-1000}
             max={1000}
           />
@@ -118,7 +118,7 @@ export default function BarMinMaxValue(props) {
         <Grid item>
           <Input
             className={classes.maxInput}
-            value={value[1]}
+            value={maxValue}
             margin="dense"
             onChange={maxHandleInputChange}
             onBlur={maxHandleBlur}
