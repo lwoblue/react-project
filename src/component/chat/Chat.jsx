@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
 import "./Chat.css";
 //material ui
 import StarOutlineIcon from "@material-ui/icons/StarOutline";
@@ -8,11 +7,20 @@ import Message from "./Message";
 import ChatInput from "./ChatInput";
 
 const Chat = () => {
-  let roomId  = 'DVWjjfbmPMGni08saFJA';
+  const [roomId, setRoomId] = useState('DVWjjfbmPMGni08saFJA');
   const [roomDetails, setRoomDetails] = useState(null);
   const [roomMessages, setRoomMessages] = useState([]);
+  const [channels, setChannels] = useState([]);
   
   useEffect(() => {
+    db.collection("rooms").onSnapshot((snapshot) =>
+    setChannels(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          name: doc.data().name,
+        }))
+      )
+    );
     if (roomId) {
       db.collection("rooms")
         .doc(roomId)
@@ -27,16 +35,29 @@ const Chat = () => {
       );
   }, [roomId]);
 
+  const selectChannel = (e) =>{
+    setRoomId(e.target.id);
+  }
+  const addChannel = ()=>{
+    const channelName = prompt('Please enter the channel name');
+    if(channelName){
+        db.collection('rooms').add({
+            name:channelName,
+        })
+    }
+  };
   return (
     <>
       <div className="chat-container">
         <div className="channel-wrap"  >
-          <div >
-            
-          </div>
+          <button type="button" onClick={addChannel} className="channel-add-btn">+ channel</button>
+          <ul className="channel-list">
+            {channels.map((channel) => (
+              <li onClick={selectChannel} id={channel.id}>{channel.name}</li> 
+            ))}
+          </ul>
         </div>
-        <div className="chat-wrap"  >
-          
+        <div className="chat-wrap">
           {/* <h2> You are in the {roomId} </h2> */}
           <div className="chat__header">
             <div className="chat__headerLeft">
