@@ -65,8 +65,7 @@ class UserListComponent extends Component {
           User List
         </Typography>
         <Button variant="contained" color="primary" onClick={this.addUser}>
-          {' '}
-          Add User{' '}
+          Add User
         </Button>
         <Table>
           <TableHead>

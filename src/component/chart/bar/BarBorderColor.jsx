@@ -42,18 +42,19 @@ const useStyles = makeStyles({
     width: 55,
   },
 });
-export default function BarMaxValue(props) {
+
+export default function BarBorderColor(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(800);
+  const [value, setValue] = React.useState(0);
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
-    props.getMaxValue(newValue);
+    props.getBarBorderRadius(newValue);
   };
 
   const handleInputChange = (event) => {
     setValue(event.target.value === '' ? '' : Number(event.target.value));
-    props.getMaxValue(
+    props.getBarBorderRadius(
       event.target.value === '' ? '' : Number(event.target.value)
     );
   };
@@ -61,15 +62,15 @@ export default function BarMaxValue(props) {
   const handleBlur = () => {
     if (value < 0) {
       setValue(0);
-    } else if (value > 1000) {
-      setValue(1000);
+    } else if (value > 100) {
+      setValue(100);
     }
   };
 
   return (
     <div className={classes.root}>
       <Typography id="input-slider" gutterBottom>
-        MinValue
+        BorderRadius
       </Typography>
       <Grid container spacing={3} alignItems="center">
         <Grid item xs>
@@ -78,8 +79,9 @@ export default function BarMaxValue(props) {
             onChange={handleSliderChange}
             aria-labelledby="input-slider"
             valueLabelDisplay="auto"
+            step={1}
             min={0}
-            max={1000}
+            max={100}
           />
         </Grid>
         <Grid item>
@@ -90,9 +92,9 @@ export default function BarMaxValue(props) {
             onChange={handleInputChange}
             onBlur={handleBlur}
             inputProps={{
-              // step: 10,
+              step: 1,
               min: 0,
-              max: 1000,
+              max: 100,
               type: 'number',
               'aria-labelledby': 'input-slider',
             }}

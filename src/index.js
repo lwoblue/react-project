@@ -11,5 +11,5 @@ ReactDOM.render(
       <MainFrame />
     </StateProvider>
   </>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

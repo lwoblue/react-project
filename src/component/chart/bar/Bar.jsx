@@ -1,16 +1,22 @@
 import { React, useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
-import { data } from 'component/chart/bar/BarData';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import { data } from './BarData';
 
-import { BarMode } from 'component/chart/bar/BarMode';
-import { BarLayout } from 'component/chart/bar/BarLayout';
-import { BarReverse } from 'component/chart/bar/BarReverse';
-import { BarMinValue } from 'component/chart/bar/BarMinValue';
-import { BarMaxValue } from 'component/chart/bar/BarMaxValue';
-import { BarMinMaxValue } from 'component/chart/bar/BarMinMaxValue';
+import { makeStyles, Grid, Paper, Typography } from '@material-ui/core';
+
+import {
+  BarMode,
+  BarLayout,
+  BarMinValue,
+  BarMaxValue,
+  BarPadding,
+  BarInnerPadding,
+  BarColors,
+  BarReverse,
+  BarMinMaxValue,
+  BarBorderRadius,
+  BarBorderWidth,
+} from 'component/chart/bar/barController';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +38,12 @@ const Bar = () => {
   const [reverse, setReverse] = useState();
   const [minValue, setMinValue] = useState();
   const [maxValue, setMaxValue] = useState();
+  const [minMaxValue, setminMaxValue] = useState([]);
+  const [padding, setPadding] = useState();
+  const [innerPadding, setInnerPadding] = useState();
+  const [colors, setColors] = useState('nivo');
+  const [borderRadius, setBorderRadius] = useState();
+  const [borderWidth, setBorderWidth] = useState();
 
   /**
    * GroupMode
@@ -88,21 +100,90 @@ const Bar = () => {
     maxValue: maxValue,
   };
 
+  /**
+   * MinMaxValue
+   */
+  function getMinMaxValue(value) {
+    return setminMaxValue(value);
+  }
+
+  const barMinMaxValue = {
+    minValue: minMaxValue[0],
+    maxValue: minMaxValue[1],
+  };
+
+  /**
+   * Padding
+   */
+  function getPadding(value) {
+    return setPadding(value);
+  }
+
+  const barPadding = {
+    padding: padding,
+  };
+
+  /**
+   * InnerPadding
+   */
+  function getInnerPadding(value) {
+    return setInnerPadding(value);
+  }
+
+  const barInnerPadding = {
+    innerPadding: innerPadding,
+  };
+
+  /**
+   * Colors
+   */
+  function getColors(value) {
+    return setColors(value);
+  }
+
+  const barColors = {
+    scheme: colors,
+  };
+
+  /**
+   * BarBorderRadius
+   */
+  function getBarBorderRadius(value) {
+    return setBorderRadius(value);
+  }
+
+  const barBorderRadius = {
+    borderRadius: borderRadius,
+  };
+
+  /**
+   * BarBorderWidth
+   */
+  function getBarBorderWidth(value) {
+    return setBorderWidth(value);
+  }
+
+  const barBorderWidth = {
+    borderWidth: borderWidth,
+  };
+
   const MyResponsiveBar = ({ data /* see data tab */ }) => (
     <ResponsiveBar
       data={data}
       keys={['hot dog', 'burger', 'sandwich', 'kebab', 'fries', 'donut']}
       indexBy="country"
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
-      padding={0.3}
       {...barMode}
       {...barLaout}
       {...barReverse}
       {...barMinValue}
       {...barMaxValue}
+      {...barMinMaxValue}
+      {...barPadding}
+      {...barInnerPadding}
+      colors={{ ...barColors }}
       valueScale={{ type: 'linear' }}
       indexScale={{ type: 'band', round: true }}
-      colors={{ scheme: 'nivo' }}
       defs={[
         {
           id: 'dots',
@@ -137,6 +218,8 @@ const Bar = () => {
           id: 'lines',
         },
       ]}
+      {...barBorderRadius}
+      {...barBorderWidth}
       borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
       axisTop={null}
       axisRight={null}
@@ -203,6 +286,7 @@ const Bar = () => {
         </Grid>
       </Grid>
 
+      <br></br>
       <BarMode getGroupMode={getGroupMode} />
       <br></br>
       <BarLayout getLayout={getLayout} />
@@ -213,7 +297,20 @@ const Bar = () => {
       <br></br>
       <BarMaxValue getMaxValue={getMaxValue} />
       <br></br>
-      <BarMinMaxValue />
+      <BarMinMaxValue getMinMaxValue={getMinMaxValue} />
+      <br></br>
+      <BarPadding getPadding={getPadding} />
+      <br></br>
+      <BarInnerPadding getInnerPadding={getInnerPadding} />
+      <br></br>
+      <Typography gutterBottom>style</Typography>
+      <br></br>
+      <BarColors getColors={getColors} />
+      <br></br>
+      <BarBorderRadius getBarBorderRadius={getBarBorderRadius} />
+      <br></br>
+      <BarBorderWidth getBarBorderWidth={getBarBorderWidth} />
+      <br></br>
     </>
   );
 };

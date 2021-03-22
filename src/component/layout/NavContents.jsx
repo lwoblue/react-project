@@ -54,9 +54,13 @@ const useStyles = makeStyles((theme) => ({
 const NavContents = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
- 
+  const [open1, setOpen1] = React.useState(false);
+
   const handleClick = () => {
     setOpen((prevOpen) => !prevOpen);
+  };
+  const handleClick1 = () => {
+    setOpen1((prevOpen) => !prevOpen);
   };
 
   return (
@@ -82,16 +86,21 @@ const NavContents = () => {
             </List>
           </Collapse>
 
-          <ListItem button open={open} onClick={handleClick}>
+          <ListItem button open={open1} onClick={handleClick1}>
             <ListItemIcon>
               <EqualizerIcon />
             </ListItemIcon>
             <ListItemText primary="chat" />
           </ListItem>
-          
-          <Collapse component="li" in={open} timeout="auto" unmountOnExit>
+
+          <Collapse component="li" in={open1} timeout="auto" unmountOnExit>
             <List disablePadding>
-              <ListItemLink to="/chat" className={classes.nested} title={'solomonts'} id={'DVWjjfbmPMGni08saFJA'} />
+              <ListItemLink
+                to="/chat"
+                className={classes.nested}
+                title={'solomonts'}
+                id={'DVWjjfbmPMGni08saFJA'}
+              />
             </List>
           </Collapse>
         </List>
