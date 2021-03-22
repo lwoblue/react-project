@@ -16,7 +16,7 @@ import {
   BarMinMaxValue,
   BarBorderRadius,
   BarBorderWidth,
-} from 'component/chart/bar/barController';
+} from 'component/chart/bar/BarController';
 
 const useStyles = makeStyles((theme) => ({
   root: {
