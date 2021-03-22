@@ -1,32 +1,46 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 // import { StyledText } from '../style';
 import KaKaoLogin from "react-kakao-login";
 
-const LoginKakao = ()=>{
-  const [data, setData] = useState(null);
-  const responseKaKao = (res)=>{
-    setData(JSON.stringify(res.data))
-    alert(JSON.stringify(data));    
+// interface State {
+//     data: any;
+// }
+
+class LoginKakao extends Component<any, State> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      data: "kakao",
+    };
   }
 
-  const responseFail = (err)=>{
+  responseKaKao = (res: any) => {
+    this.setState({
+      data: res,
+    });
+    alert(JSON.stringify(this.state.data));
+  };
+
+  responseFail = (err) => {
     alert(err);
-  }
+  };
 
-  return(
-    <>
+  render() {
+    return (
+      <>
         <br></br>
         <KaKaoBtn
           // jsKey={"2b67838751764359be17923f29aa820e"}
           // jsKey ={""}
           buttonText="KaKao"
-          onSuccess={responseKaKao}
-          onFailure={responseFail}
+          onSuccess={this.responseKaKao}
+          onFailure={this.responseFail}
           getProfile={true}
         />
       </>
-  );
+    );
+  }
 }
 
 const KaKaoBtn = styled(KaKaoLogin)`
