@@ -49,12 +49,12 @@ export default function BarBorderRadius(props) {
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
-    props.getBarBorderRadius(newValue);
+    props.getBorderRadius(newValue);
   };
 
   const handleInputChange = (event) => {
     setValue(event.target.value === '' ? '' : Number(event.target.value));
-    props.getBarBorderRadius(
+    props.getBorderRadius(
       event.target.value === '' ? '' : Number(event.target.value)
     );
   };

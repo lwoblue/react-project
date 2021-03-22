@@ -9,3 +9,5 @@ export { default as BarReverse } from './BarReverse';
 export { default as BarMinMaxValue } from './BarMinMaxValue';
 export { default as BarBorderRadius } from './BarBorderRadius';
 export { default as BarBorderWidth } from './BarBorderWidth';
+export { default as BarBorderColor } from './BarBorderColor';
+export { default as BarLabelTextColor } from './BarLabelTextColor';

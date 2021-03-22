@@ -49,12 +49,12 @@ export default function BarBorderWidth(props) {
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
-    props.getBarBorderWidth(newValue);
+    props.getBorderWidth(newValue);
   };
 
   const handleInputChange = (event) => {
     setValue(event.target.value === '' ? '' : Number(event.target.value));
-    props.getBarBorderWidth(
+    props.getBorderWidth(
       event.target.value === '' ? '' : Number(event.target.value)
     );
   };

@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function BarBorderColor(props) {
+export default function BarLabelTextColor(props) {
   const classes = useStyles();
   const [initial, setInitial] = useState('#000000');
   const [color, setColor] = useState();
@@ -19,13 +19,13 @@ export default function BarBorderColor(props) {
   const handleColor = ({ hex, rgba, r, g, b, a }) => {
     setColor(hex);
     setInitial(hex);
-    props.getBorderColor(hex);
+    props.getLabelTextColor(hex);
   };
 
   return (
     <div className={classes.root}>
       <Typography id="input-slider" gutterBottom>
-        BorderColor
+        LabelTextColor
       </Typography>
       <Grid container spacing={3} alignItems="center">
         <Grid item xs>

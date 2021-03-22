@@ -16,6 +16,8 @@ import {
   BarMinMaxValue,
   BarBorderRadius,
   BarBorderWidth,
+  BarBorderColor,
+  BarLabelTextColor,
 } from 'component/chart/bar/BarController';
 
 const useStyles = makeStyles((theme) => ({
@@ -44,6 +46,8 @@ const Bar = () => {
   const [colors, setColors] = useState('nivo');
   const [borderRadius, setBorderRadius] = useState();
   const [borderWidth, setBorderWidth] = useState();
+  const [borderColor, setBorderColor] = useState();
+  const [labelTextColor, setLabelTextColor] = useState();
 
   /**
    * GroupMode
@@ -146,9 +150,9 @@ const Bar = () => {
   };
 
   /**
-   * BarBorderRadius
+   * BorderRadius
    */
-  function getBarBorderRadius(value) {
+  function getBorderRadius(value) {
     return setBorderRadius(value);
   }
 
@@ -157,14 +161,36 @@ const Bar = () => {
   };
 
   /**
-   * BarBorderWidth
+   * BorderWidth
    */
-  function getBarBorderWidth(value) {
+  function getBorderWidth(value) {
     return setBorderWidth(value);
   }
 
   const barBorderWidth = {
     borderWidth: borderWidth,
+  };
+
+  /**
+   * BorderColor
+   */
+  function getBorderColor(value) {
+    return setBorderColor(value);
+  }
+
+  const barBorderColor = {
+    borderColor: borderColor,
+  };
+
+  /**
+   * LabelTextColor
+   */
+  function getLabelTextColor(value) {
+    return setLabelTextColor(value);
+  }
+
+  const barLabelTextColor = {
+    labelTextColor: labelTextColor,
   };
 
   const MyResponsiveBar = ({ data /* see data tab */ }) => (
@@ -220,7 +246,8 @@ const Bar = () => {
       ]}
       {...barBorderRadius}
       {...barBorderWidth}
-      borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+      {...barBorderColor}
+      // borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
       axisTop={null}
       axisRight={null}
       axisBottom={{
@@ -241,7 +268,7 @@ const Bar = () => {
       }}
       labelSkipWidth={12}
       labelSkipHeight={12}
-      labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+      {...barLabelTextColor}
       legends={[
         {
           dataFrom: 'keys',
@@ -285,7 +312,8 @@ const Bar = () => {
           </Grid>
         </Grid>
       </Grid>
-
+      <br></br>
+      <Typography gutterBottom>BASE</Typography>
       <br></br>
       <BarMode getGroupMode={getGroupMode} />
       <br></br>
@@ -303,13 +331,19 @@ const Bar = () => {
       <br></br>
       <BarInnerPadding getInnerPadding={getInnerPadding} />
       <br></br>
-      <Typography gutterBottom>style</Typography>
+      <Typography gutterBottom>STYLE</Typography>
       <br></br>
       <BarColors getColors={getColors} />
       <br></br>
-      <BarBorderRadius getBarBorderRadius={getBarBorderRadius} />
+      <BarBorderRadius getBorderRadius={getBorderRadius} />
       <br></br>
-      <BarBorderWidth getBarBorderWidth={getBarBorderWidth} />
+      <BarBorderWidth getBorderWidth={getBorderWidth} />
+      <br></br>
+      <BarBorderColor getBorderColor={getBorderColor} />
+      <br></br>
+      <Typography gutterBottom>LABELS</Typography>
+      <br></br>
+      <BarLabelTextColor getLabelTextColor={getLabelTextColor} />
       <br></br>
     </>
   );
