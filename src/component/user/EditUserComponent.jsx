@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ApiService from 'ApiService';
+import ApiService from 'api/ApiService';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';

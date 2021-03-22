@@ -15,7 +15,12 @@ import Divider from '@material-ui/core/Divider';
 
 export function breadcrumbNameMap(to) {
   // const candidate = { '/bar': 'Bar', '/line': 'Line', '/pie': 'Pie' };
-  const candidate = { '/line': 'Line', '/bar': 'Bar', '/chat': 'talk' };
+  const candidate = {
+    '/line': 'Line',
+    '/bar': 'Bar',
+    '/chat': 'talk',
+    '/users': 'UserList',
+  };
   return candidate[to];
 }
 
@@ -54,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
 const NavContents = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [open1, setOpen1] = React.useState(false);
 
   const handleClick = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -93,7 +97,7 @@ const NavContents = () => {
             <ListItemText primary="chat" />
           </ListItem>
 
-          <Collapse component="li" in={open1} timeout="auto" unmountOnExit>
+          <Collapse component="li" in={open} timeout="auto" unmountOnExit>
             <List disablePadding>
               <ListItemLink
                 to="/chat"
@@ -101,6 +105,20 @@ const NavContents = () => {
                 title={'solomonts'}
                 id={'DVWjjfbmPMGni08saFJA'}
               />
+            </List>
+          </Collapse>
+
+          {/* admin 카테고리 추가*/}
+          <ListItem button open={open} onClick={handleClick}>
+            <ListItemIcon>
+              <EqualizerIcon />
+            </ListItemIcon>
+            <ListItemText primary="admin" />
+          </ListItem>
+
+          <Collapse component="li" in={open} timeout="auto" unmountOnExit>
+            <List disablePadding>
+              <ListItemLink to="/users" className={classes.nested} />
             </List>
           </Collapse>
         </List>
