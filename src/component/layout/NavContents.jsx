@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React from 'react';
+import { React, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -58,13 +58,19 @@ const useStyles = makeStyles((theme) => ({
 
 const NavContents = () => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
 
   const handleClick = () => {
     setOpen((prevOpen) => !prevOpen);
   };
   const handleClick1 = () => {
     setOpen1((prevOpen) => !prevOpen);
+  };
+
+  const handleClick2 = () => {
+    setOpen2((prevOpen) => !prevOpen);
   };
 
   return (
@@ -97,7 +103,7 @@ const NavContents = () => {
             <ListItemText primary="chat" />
           </ListItem>
 
-          <Collapse component="li" in={open} timeout="auto" unmountOnExit>
+          <Collapse component="li" in={open1} timeout="auto" unmountOnExit>
             <List disablePadding>
               <ListItemLink
                 to="/chat"
@@ -109,14 +115,14 @@ const NavContents = () => {
           </Collapse>
 
           {/* admin 카테고리 추가*/}
-          <ListItem button open={open} onClick={handleClick}>
+          <ListItem button open={open2} onClick={handleClick2}>
             <ListItemIcon>
               <EqualizerIcon />
             </ListItemIcon>
             <ListItemText primary="admin" />
           </ListItem>
 
-          <Collapse component="li" in={open} timeout="auto" unmountOnExit>
+          <Collapse component="li" in={open2} timeout="auto" unmountOnExit>
             <List disablePadding>
               <ListItemLink to="/users" className={classes.nested} />
             </List>
