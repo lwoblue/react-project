@@ -22,10 +22,6 @@
   /* flex: 0.7; */
 }
 
-.chatInput > form > input:hover {
-  border-color: #6bd470;
-}
-
 .chatInput > form > button {
   border-right-width: 3px;
   border-left-width: 0px;
@@ -34,5 +30,24 @@
   border-color: #6bd470;
   background-color: #6bd470;
   text-align: center;
+}
+
+.chatInput > form > button:hover {
+  background-color: #41a046;
+}
+.send-btn {
   width: 80px;
+  font-size: 1rem;
+}
+
+.btn-emoji {
+  width: 70px;
+  font-size: 1.9rem;
+}
+
+.emoji-picker {
+  position: absolute;
+  bottom: 70px;
+  left: 5px;
+  border: 2px solid #6bd470;
 }
