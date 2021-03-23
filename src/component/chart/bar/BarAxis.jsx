@@ -1,9 +1,11 @@
 import { React, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import Typography from '@material-ui/core/Typography';
+import {
+  makeStyles,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Typography,
+} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { BarAxisEnable } from 'component/chart/bar/BarController';
 
@@ -22,9 +24,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ControlledAccordions() {
+export default function BarAxis(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+
   const [axisTop, setAxisTop] = useState({
     tickSize: 5,
     tickPadding: 5,
@@ -33,6 +36,8 @@ export default function ControlledAccordions() {
     legendOffset: -31,
     legendPosition: 'middle',
   });
+  const [axisTopState, setAxisTopState] = useState(axisTop);
+
   const [axisRight, setAxisRight] = useState({
     tickSize: 5,
     tickPadding: 5,
@@ -41,15 +46,7 @@ export default function ControlledAccordions() {
     legendOffset: -31,
     legendPosition: 'middle',
   });
-
-  const [axisBottom, setAxisBottom] = useState({
-    tickSize: 5,
-    tickPadding: 5,
-    tickRotation: 0,
-    legend: 'axisBottom',
-    legendOffset: -31,
-    legendPosition: 'middle',
-  });
+  const [axisRightState, setAxisRightState] = useState(axisRight);
 
   const [axisLeft, setAxisLeft] = useState({
     tickSize: 5,
@@ -59,15 +56,60 @@ export default function ControlledAccordions() {
     legendOffset: -31,
     legendPosition: 'middle',
   });
+  const [axisLeftState, setAxisLeftState] = useState(axisLeft);
+
+  const [axisBottom, setAxisBottom] = useState({
+    tickSize: 5,
+    tickPadding: 5,
+    tickRotation: 0,
+    legend: 'axisBottom',
+    legendOffset: -31,
+    legendPosition: 'middle',
+  });
+  const [axisBottomState, setAxisBottomState] = useState(axisBottom);
 
   const handleChange = (axis) => (event, isExpanded) => {
     setExpanded(isExpanded ? axis : false);
   };
 
+  const axisValue = [
+    { ...axisTopState },
+    { ...axisRightState },
+    { ...axisLeftState },
+    { ...axisBottomState },
+  ];
+
   const getAxisEnable = (value) => {
     console.log('value :::: ' + value);
     console.log('expanded :::: ' + expanded);
-    console.log('axisTop :::: ' + axisTop.toString());
+
+    if (expanded === 'axisTop') {
+      if (value) {
+        setAxisTopState(axisTop);
+      } else {
+        setAxisTopState(null);
+      }
+    } else if (expanded === 'axisRight') {
+      if (value) {
+        setAxisRightState(axisRight);
+      } else {
+        setAxisRightState(null);
+      }
+    } else if (expanded === 'axisLeft') {
+      if (value) {
+        setAxisLeftState(axisLeft);
+      } else {
+        setAxisLeftState(null);
+      }
+    } else if (expanded === 'axisBottom') {
+      if (value) {
+        setAxisBottomState(axisBottom);
+      } else {
+        setAxisBottomState(null);
+      }
+    }
+
+    props.getAxis(axisValue);
   };
 
   return (
