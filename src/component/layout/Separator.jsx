@@ -22,7 +22,7 @@ const Separator = () => {
               separator={<NavigateNextIcon fontSize="small" />}
               aria-label="breadcrumb"
             >
-              <LinkRouter color="inherit" to="/home">
+              <LinkRouter color="inherit" to="/">
                 Home
               </LinkRouter>
               {pathnames.map((value, index) => {
