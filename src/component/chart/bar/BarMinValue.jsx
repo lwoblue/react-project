@@ -1,9 +1,12 @@
 import React from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/core/Slider';
-import Input from '@material-ui/core/Input';
+import {
+  withStyles,
+  makeStyles,
+  Grid,
+  Typography,
+  Slider,
+  Input,
+} from '@material-ui/core';
 
 const PrettoSlider = withStyles({
   root: {
@@ -40,18 +43,20 @@ const useStyles = makeStyles({
   },
 });
 
-export const BarMinValue = (props) => {
+export default function BarMinValue(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
-    props.getMinValue(value);
+    props.getMinValue(newValue);
   };
 
   const handleInputChange = (event) => {
     setValue(event.target.value === '' ? '' : Number(event.target.value));
-    props.getMinValue(value);
+    props.getMinValue(
+      event.target.value === '' ? '' : Number(event.target.value)
+    );
   };
 
   const handleBlur = () => {
@@ -97,4 +102,4 @@ export const BarMinValue = (props) => {
       </Grid>
     </div>
   );
-};
+}
