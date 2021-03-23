@@ -82,10 +82,10 @@ const Chat = () => {
           {/* <h2> You are in the {roomId} </h2> */}
           <div className="chat__header">
             <div className="chat__headerLeft">
-              <h3 className="chat__channelName">
-                <strong>#{roomDetails?.name}</strong>
-                <StarOutlineIcon />
-              </h3>
+              <span className="chat__channelName">
+                <strong>{roomDetails?.name}</strong>
+                {/* <StarOutlineIcon /> */}
+              </span>
             </div>
           </div>
           <div className="chat__messages">
