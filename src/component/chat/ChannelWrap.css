@@ -1,77 +1,3 @@
-.chat-container {
-  display: flex;
-  bottom: 0px;
-}
-.chat-wrap {
-  width: 40%;
-  min-width: 500px;
-  border-radius: 20px;
-  display: block;
-  right: 50px;
-  margin-left: 50px;
-  background: linear-gradient(to right, #0f7c18, #0f7c18, #6bd470);
-  height: 750px;
-}
-
-.chat__header {
-  width: 100%;
-  height: 85px;
-  text-align: left;
-  /* color: #fff; */
-  display: inline-block;
-  padding: 5px 20px 5px 20px;
-  margin: 0;
-}
-
-.chat__channelName {
-  text-transform: lowercase;
-  font-size: 3.5rem;
-}
-
-.chat__channelName > strong {
-  font-weight: 1000;
-  background: linear-gradient(to right, #fbcac9, #8ca6ce);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.chat__channelName > .MuiSvgIcon-root {
-  margin-left: 10px;
-  font-size: 3.5rem;
-}
-
-.chat__messages {
-  padding: 5px;
-  margin-left: 5px;
-  margin-right: 5px;
-  overflow-y: scroll;
-  position: relative;
-  height: 590px;
-  background-color: #fff;
-}
-
-.chat-input {
-  position: relative;
-  border: 3px;
-  border-radius: 15px;
-  background-color: #429946;
-  padding: 3px;
-}
-.chat__messages::-webkit-scrollbar {
-  width: 10px;
-}
-.chat__messages::-webkit-scrollbar-button {
-  background-color: #c9c9c9;
-}
-
-.chat__messages::-webkit-scrollbar-track {
-  background-color: #f7ecf1;
-}
-
-.chat__messages::-webkit-scrollbar-thumb {
-  background-color: #c9c9c9;
-}
-
 /* channel  */
 .channel-wrap {
   min-width: 500px;
@@ -80,6 +6,7 @@
   background: linear-gradient(to right, #0f7c18, #0f7c18, #6bd470);
   border-radius: 20px;
   padding: 5px;
+  height: 750px;
 }
 
 .channel-btn-zone {
