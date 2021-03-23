@@ -11,3 +11,7 @@ export { default as BarBorderRadius } from './BarBorderRadius';
 export { default as BarBorderWidth } from './BarBorderWidth';
 export { default as BarBorderColor } from './BarBorderColor';
 export { default as BarLabelTextColor } from './BarLabelTextColor';
+export { default as BarEnableGridX } from './BarEnableGridX';
+export { default as BarEnableGridY } from './BarEnableGridY';
+export { default as BarAxis } from './BarAxis';
+export { default as BarAxisEnable } from './BarAxisEnable';

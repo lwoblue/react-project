@@ -1,9 +1,7 @@
 import { React, useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import { data } from './BarData';
-
 import { makeStyles, Grid, Paper, Typography } from '@material-ui/core';
-
 import {
   BarMode,
   BarLayout,
@@ -18,6 +16,9 @@ import {
   BarBorderWidth,
   BarBorderColor,
   BarLabelTextColor,
+  BarEnableGridX,
+  BarEnableGridY,
+  BarAxis,
 } from 'component/chart/bar/BarController';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +30,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   item: {
-    width: '100%',
+    width: '55%',
+    position: 'fixed',
+    marginLeft: '370px',
   },
 }));
 
@@ -48,6 +51,8 @@ const Bar = () => {
   const [borderWidth, setBorderWidth] = useState();
   const [borderColor, setBorderColor] = useState();
   const [labelTextColor, setLabelTextColor] = useState();
+  const [enableGridX, setEnableGridX] = useState(true);
+  const [enableGridY, setEnableGridY] = useState();
 
   /**
    * GroupMode
@@ -193,6 +198,28 @@ const Bar = () => {
     labelTextColor: labelTextColor,
   };
 
+  /**
+   * EnableGridX
+   */
+  function getEnableGridX(value) {
+    return setEnableGridX(value);
+  }
+
+  const barEnableGridX = {
+    enableGridX: enableGridX,
+  };
+
+  /**
+   * EnableGridY
+   */
+  function getEnableGridY(value) {
+    return setEnableGridY(value);
+  }
+
+  const barEnableGridY = {
+    enableGridY: enableGridY,
+  };
+
   const MyResponsiveBar = ({ data /* see data tab */ }) => (
     <ResponsiveBar
       data={data}
@@ -269,6 +296,8 @@ const Bar = () => {
       labelSkipWidth={12}
       labelSkipHeight={12}
       {...barLabelTextColor}
+      {...barEnableGridX}
+      {...barEnableGridY}
       legends={[
         {
           dataFrom: 'keys',
@@ -344,6 +373,15 @@ const Bar = () => {
       <Typography gutterBottom>LABELS</Typography>
       <br></br>
       <BarLabelTextColor getLabelTextColor={getLabelTextColor} />
+      <br></br>
+      <Typography gutterBottom>GRID & AXES</Typography>
+      <br></br>
+      <BarEnableGridX getEnableGridX={getEnableGridX} />
+      <br></br>
+      <BarEnableGridY getEnableGridY={getEnableGridY} />
+      <br></br>
+      <br></br>
+      <BarAxis />
       <br></br>
     </>
   );
