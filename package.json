@@ -42,6 +42,7 @@
     "eslint-webpack-plugin": "^2.5.2",
     "file-loader": "6.1.1",
     "firebase": "^8.3.1",
+    "firebase-admin": "^9.5.0",
     "fs-extra": "^9.0.1",
     "html-webpack-plugin": "4.5.0",
     "identity-obj-proxy": "3.0.0",
@@ -60,16 +61,15 @@
     "prompts": "2.4.0",
     "rcolor": "^2.0.2",
     "react": "^17.0.1",
+    "react-admin-firebase": "^3.2.17",
     "react-app-polyfill": "^2.0.0",
     "react-dev-utils": "^11.0.3",
     "react-dom": "^17.0.1",
-<<<<<<< HEAD
-    "react-kakao-login": "^2.1.0",
-=======
     "react-input-color": "^4.0.0",
->>>>>>> master
+    "react-kakao-login": "^2.1.0",
     "react-refresh": "^0.8.3",
     "react-router-dom": "^5.2.0",
+    "request-promise": "^4.2.6",
     "resolve": "1.18.1",
     "resolve-url-loader": "^3.1.2",
     "sass-loader": "^10.0.5",

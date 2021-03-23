@@ -1,32 +1,59 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 // import { StyledText } from '../style';
 import KaKaoLogin from "react-kakao-login";
+import { createFirebaseToken,updateOrCreateUser } from "./auth";
+import { auth } from "./../../firebase";
+import axios from "axios";
 
-const LoginKakao = ()=>{
-  const [data, setData] = useState(null);
-  const responseKaKao = (res)=>{
-    setData(JSON.stringify(res.data))
-    alert(JSON.stringify(data));    
+// interface State {
+//     data: any;
+// }
+const { Kakao } = window;
+class LoginKakao extends Component<any, State> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      data: "kakao",
+    };
   }
 
-  const responseFail = (err)=>{
+  responseKaKao = (res: any) => {
+    Kakao.init('f872b228ad63773a0377adb9608eb437');
+    this.setState({
+      data: res,
+    });
+    console.log(Kakao.isInitialized());
+    console.log(JSON.stringify(this.state.data));
+    const userId = `kakao:${this.state.data.profile.id}`;
+    const email = this.state.data.profile.kakao_account.email;
+    const displayName = this.state.data.profile.properties.nickname; 
+    const photoURL = this.state.data.profile.properties.profile_image;
+    alert(JSON.stringify(this.state.data));
+    updateOrCreateUser(userId, email, displayName ,photoURL);
+    auth.createCustomToken(userId, {provider: 'KAKAO'});    
+  };
+
+  responseFail = (err) => {
     alert(err);
-  }
+  };
 
-  return(
-    <>
+  
+
+  render() {
+    return (
+      <>
         <br></br>
         <KaKaoBtn
-          // jsKey={"2b67838751764359be17923f29aa820e"}
-          // jsKey ={""}
+          jsKey ={'f872b228ad63773a0377adb9608eb437'}
           buttonText="KaKao"
-          onSuccess={responseKaKao}
-          onFailure={responseFail}
+          onSuccess={this.responseKaKao}
+          onFailure={this.responseFail}
           getProfile={true}
         />
       </>
-  );
+    );
+  }
 }
 
 const KaKaoBtn = styled(KaKaoLogin)`
