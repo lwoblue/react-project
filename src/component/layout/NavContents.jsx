@@ -20,6 +20,7 @@ export function breadcrumbNameMap(to) {
     '/bar': 'Bar',
     '/chat': 'talk',
     '/users': 'UserList',
+    '/personal-information': 'Personal Information',
   };
   return candidate[to];
 }
@@ -61,6 +62,7 @@ const NavContents = () => {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
+  const [open3, setOpen3] = useState(false);
 
   const handleClick = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -71,6 +73,10 @@ const NavContents = () => {
 
   const handleClick2 = () => {
     setOpen2((prevOpen) => !prevOpen);
+  };
+
+  const handleClick3 = () => {
+    setOpen3((prevOpen) => !prevOpen);
   };
 
   return (
@@ -125,6 +131,23 @@ const NavContents = () => {
           <Collapse component="li" in={open2} timeout="auto" unmountOnExit>
             <List disablePadding>
               <ListItemLink to="/users" className={classes.nested} />
+            </List>
+          </Collapse>
+
+          {/* 개인정보 카테고리 추가*/}
+          <ListItem button open={open3} onClick={handleClick3}>
+            <ListItemIcon>
+              <EqualizerIcon />
+            </ListItemIcon>
+            <ListItemText primary="user" />
+          </ListItem>
+
+          <Collapse component="li" in={open3} timeout="auto" unmountOnExit>
+            <List disablePadding>
+              <ListItemLink
+                to="/personal-information"
+                className={classes.nested}
+              />
             </List>
           </Collapse>
         </List>

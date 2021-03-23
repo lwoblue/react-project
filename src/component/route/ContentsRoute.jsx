@@ -22,6 +22,7 @@ const AppRouter = () => {
         <Route path="/users" component={UserListComponent} />
         <Route path="/add-user" component={AddUserComponent} />
         <Route path="/edit-user" component={EditUserComponent} />
+        <Route path="/personal-information" component={EditUserComponent} />
       </Switch>
     </>
   );
