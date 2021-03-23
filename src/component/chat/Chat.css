@@ -3,28 +3,36 @@
   bottom: 0px;
 }
 .chat-wrap {
-  border-radius: 20px;
   width: 40%;
+  min-width: 500px;
+  border-radius: 20px;
   display: block;
   right: 50px;
   margin-left: 50px;
-  background: linear-gradient(to right, #0f7c18, #6bd470, #6bd470, #0f7c18);
+  background: linear-gradient(to right, #0f7c18, #0f7c18, #6bd470);
   height: 750px;
 }
 
 .chat__header {
   width: 100%;
+  height: 85px;
   text-align: left;
-  color: #fff;
+  /* color: #fff; */
   display: inline-block;
   padding: 5px 20px 5px 20px;
   margin: 0;
-  height: 85px;
 }
 
 .chat__channelName {
   text-transform: lowercase;
   font-size: 3.5rem;
+}
+
+.chat__channelName > strong {
+  font-weight: 1000;
+  background: linear-gradient(to right, #fbcac9, #8ca6ce);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .chat__channelName > .MuiSvgIcon-root {
@@ -36,7 +44,6 @@
   padding: 5px;
   margin-left: 5px;
   margin-right: 5px;
-  /* border: 5px dotted #6bd470; */
   overflow-y: scroll;
   position: relative;
   height: 590px;
@@ -67,10 +74,10 @@
 
 /* channel  */
 .channel-wrap {
+  min-width: 500px;
   display: block;
   width: 40%;
-  /* background-color: #6bd470; */
-  background: linear-gradient(to right, #0f7c18, #6bd470, #6bd470, #0f7c18);
+  background: linear-gradient(to right, #0f7c18, #0f7c18, #6bd470);
   border-radius: 20px;
   padding: 5px;
 }
@@ -84,15 +91,26 @@
 }
 
 .channel-add-btn {
-  float: right;
+  color: #ffffff;
+  float: left;
   margin-top: 10px;
-  margin-right: 10px;
+  margin-left: 10px;
   padding: 10px;
-  width: 200px;
+  width: 50px;
   height: 50px;
   font-size: 1.7rem;
   border-radius: 10px;
-  background-color: #fdfdfd;
+  background: #23a12e;
+  opacity: 0.9;
+}
+.channel-add-btn:hover {
+  background: #40a548;
+  opacity: 1;
+}
+
+.channel-add-btn:active {
+  background: #1f8827;
+  opacity: 1;
 }
 
 .channel-list {
@@ -106,9 +124,9 @@
 }
 .channel-list > li {
   border-bottom: 1px dotted #cac9c9;
+  display: flex;
 }
-
-.channel-thumb {
+.channel-list-thumb {
   display: inline-block;
   width: 50px;
   height: 45px;
@@ -119,28 +137,45 @@
   /* background-color: #6bd470; */
   border: 5px solid #6bd470;
   border-radius: 10px;
-  margin: 5px 5px 5px 20px;
+  margin: 0 20px 0 0;
 }
-.channel-div {
+.channel-list-div {
+  width: 90%;
+  min-width: 370px;
   font-size: 1.7rem;
-  display: inline-block;
   padding: 5px;
   text-decoration: none;
-  width: 65%;
   border-radius: 5px;
   margin: 5px;
 }
-.channel-span {
-  margin-right: 20px;
-  width: 50px;
-  background-color: transparent;
-  padding: 5px;
+.channel-list-name {
+  cursor: pointer;
+}
+.channel-list-name:hover {
+  font-weight: 1000;
+  color: #3096f5;
+}
+.channel-del-btn {
+  margin: 5px;
   text-decoration: none;
-  color: #000000;
+  text-align: center;
+  padding: 5px;
+  min-width: 65px;
+  border-radius: 5px;
+  vertical-align: bottom;
 }
 
-.channel-span:hover {
-  color: #1383ce;
+.channel-del-btn > span {
+  cursor: pointer;
+  margin-top: 15px;
+  display: inline-block;
+  font-size: 1rem;
+  background-color: transparent;
+  color: #0f0f0f;
+}
+
+.channel-del-btn > span:hover {
+  color: red;
 }
 
 .channel-list::-webkit-scrollbar {
