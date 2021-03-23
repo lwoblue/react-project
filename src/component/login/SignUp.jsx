@@ -8,6 +8,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { signUp } from '../login/auth';
+import db from '../../firebase';
 
 function SignUp() {
   const history = useHistory();
@@ -56,8 +57,17 @@ function SignUp() {
         // LoginService.signUp(email, pwd, userName)
         await signUp(email, pwd)
           .then((res) => {
-            console.log('check!!!!!!');
-            // console.log(res.data);
+            const user = {
+              id: res.user.uid,
+              email: res.user.email,
+              userName: userName,
+            };
+            db.collection('users')
+              .doc('IR3CFnBcoETVQpqXRYXF')
+              .collection('user')
+              .add(user);
+            alert('회원가입이 완료되었습니다.');
+            history.push('/login');
           })
           .catch((e) => {
             console.log('SignUp Error!');
@@ -66,8 +76,6 @@ function SignUp() {
         setId((e.target.value = ''));
         setPwd((e.target.value = ''));
         setUserName((e.target.value = ''));
-        alert('ok');
-        history.push('/login');
       } else {
         // 빈 input 존재
         alert('입력 양식을 채워주세요');

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import ApiService from 'api/ApiService';
+// import ApiService from 'api/ApiService';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+
+import { signUp } from '../login/auth';
+import db from '../../firebase';
 
 class AddUserComponent extends Component {
   constructor(props) {
@@ -27,41 +30,63 @@ class AddUserComponent extends Component {
     });
   };
 
-  saveUser = (e) => {
+  // saveUser = (e) => {
+  //   e.preventDefault();
+
+  //   let user = {
+  //     userName: this.state.userName,
+  //     password: this.state.password,
+  //     firstName: this.state.firstName,
+  //     lastName: this.state.lastName,
+  //     age: this.state.age,
+  //     salary: this.state.salary,
+  //     email: this.state.email,
+  //   };
+
+  //   ApiService.fetchUsers()
+  //     .then((res) => {
+  //       this.setState({
+  //         message: user.userName + '님이 성공적으로 등록되었습니다.',
+  //       });
+  //       console.log(this.state.message);
+  //       this.props.history.push('/users');
+  //     })
+  //     .catch((err) => {
+  //       console.log('saveUser() Error!!', err);
+  //     });
+
+  //   ApiService.addUser(user)
+  //     .then((res) => {
+  //       this.setState({
+  //         message: user.userName + '님이 성공적으로 등록되었습니다.',
+  //       });
+  //       console.log(this.state.message);
+  //       this.props.history.push('/users');
+  //     })
+  //     .catch((err) => {
+  //       console.log('saveUser() Error!!', err);
+  //     });
+  // };
+
+  saveUser = async (e) => {
     e.preventDefault();
 
-    let user = {
-      userName: this.state.userName,
-      password: this.state.password,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      age: this.state.age,
-      salary: this.state.salary,
-      email: this.state.email,
-    };
-
-    ApiService.fetchUsers()
+    await signUp(this.state.email, this.state.password)
       .then((res) => {
-        this.setState({
-          message: user.userName + '님이 성공적으로 등록되었습니다.',
-        });
-        console.log(this.state.message);
+        const user = {
+          id: res.user.uid,
+          email: res.user.email,
+          userName: this.state.userName,
+        };
+        db.collection('users')
+          .doc('IR3CFnBcoETVQpqXRYXF')
+          .collection('user')
+          .add(user);
+        alert('회원 등록이 완료되었습니다.');
         this.props.history.push('/users');
       })
-      .catch((err) => {
-        console.log('saveUser() Error!!', err);
-      });
-
-    ApiService.addUser(user)
-      .then((res) => {
-        this.setState({
-          message: user.userName + '님이 성공적으로 등록되었습니다.',
-        });
-        console.log(this.state.message);
-        this.props.history.push('/users');
-      })
-      .catch((err) => {
-        console.log('saveUser() Error!!', err);
+      .catch((e) => {
+        console.log('saveUser() Error!!', e);
       });
   };
 
@@ -72,6 +97,16 @@ class AddUserComponent extends Component {
           Add User
         </Typography>
         <form style={formContainer}>
+          <TextField
+            type="text"
+            placeholder="please input your email"
+            name="email"
+            fullWidth
+            margin="normal"
+            value={this.state.email}
+            onChange={this.onChange}
+          />
+
           <TextField
             type="text"
             placeholder="please input your userName"
@@ -92,6 +127,7 @@ class AddUserComponent extends Component {
             onChange={this.onChange}
           />
 
+          {/*
           <TextField
             placeholder="please input your first name"
             name="firstName"
@@ -128,17 +164,7 @@ class AddUserComponent extends Component {
             margin="normal"
             value={this.state.salary}
             onChange={this.onChange}
-          />
-
-          <TextField
-            type="text"
-            placeholder="please input your email"
-            name="email"
-            fullWidth
-            margin="normal"
-            value={this.state.email}
-            onChange={this.onChange}
-          />
+          /> */}
 
           <Button variant="contained" color="primary" onClick={this.saveUser}>
             Save
