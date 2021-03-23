@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ApiService from 'ApiService';
+import ApiService from 'api/ApiService';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -17,6 +17,7 @@ class AddUserComponent extends Component {
       age: '',
       salary: '',
       message: null,
+      email: '',
     };
   }
 
@@ -36,6 +37,7 @@ class AddUserComponent extends Component {
       lastName: this.state.lastName,
       age: this.state.age,
       salary: this.state.salary,
+      email: this.state.email,
     };
 
     ApiService.fetchUsers()
@@ -125,6 +127,16 @@ class AddUserComponent extends Component {
             fullWidth
             margin="normal"
             value={this.state.salary}
+            onChange={this.onChange}
+          />
+
+          <TextField
+            type="text"
+            placeholder="please input your email"
+            name="email"
+            fullWidth
+            margin="normal"
+            value={this.state.email}
             onChange={this.onChange}
           />
 

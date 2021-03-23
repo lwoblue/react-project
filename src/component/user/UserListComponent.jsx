@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import ApiService from 'ApiService';
+import ApiService from 'api/ApiService';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,6 +9,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+import { auth } from './../../firebase';
 
 class UserListComponent extends Component {
   constructor(props) {
@@ -42,6 +44,9 @@ class UserListComponent extends Component {
         this.setState({
           message: 'User Deleted Successfully',
         });
+        this.setState({
+          users: this.state.users.filter((user) => user.id !== userID),
+        });
       })
       .catch((err) => {
         console.log('deleteUser Error!', err);
@@ -65,8 +70,7 @@ class UserListComponent extends Component {
           User List
         </Typography>
         <Button variant="contained" color="primary" onClick={this.addUser}>
-          {' '}
-          Add User{' '}
+          Add User
         </Button>
         <Table>
           <TableHead>
@@ -77,6 +81,7 @@ class UserListComponent extends Component {
               <TableCell align="center">UserName</TableCell>
               <TableCell align="center">Age</TableCell>
               <TableCell align="center">Salary</TableCell>
+              <TableCell align="center">Email</TableCell>
               <TableCell align="center">Edit</TableCell>
               <TableCell align="center">Delete</TableCell>
             </TableRow>
@@ -92,6 +97,7 @@ class UserListComponent extends Component {
                 <TableCell align="center">{user.userName}</TableCell>
                 <TableCell align="center">{user.age}</TableCell>
                 <TableCell align="center">{user.salary}</TableCell>
+                <TableCell align="center">{user.email}</TableCell>
                 <TableCell
                   align="center"
                   onClick={() => this.editUser(user.id)}

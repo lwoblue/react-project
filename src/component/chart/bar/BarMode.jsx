@@ -1,9 +1,7 @@
 import { useState, React } from 'react';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import { FormGroup, FormControlLabel, Switch } from '@material-ui/core';
 
-export const BarMode = (props) => {
+export default function BarMode(props) {
   const [value, setValue] = useState('grouped');
   const [state, setState] = useState({
     checked: true,
@@ -32,4 +30,4 @@ export const BarMode = (props) => {
       </FormGroup>
     </>
   );
-};
+}
