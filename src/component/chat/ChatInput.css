@@ -1,53 +1,43 @@
 .chatInput {
   border-radius: 20px;
   height: 100%;
-  /* width: auto; */
 }
-
 .chatInput > form {
   position: relative;
   display: flex;
   justify-content: center;
 }
-
 .chatInput > form > input {
-  border-width: 3px;
-  border-style: solid;
-  border-color: #6bd470;
+  margin: 2px;
   background-color: #fff;
   left: 0;
-  border-radius: 3px;
+  border-radius: 10px;
   padding: 20px;
   width: 100%;
-  /* flex: 0.7; */
 }
-
 .chatInput > form > button {
-  border-right-width: 3px;
-  border-left-width: 0px;
-  border-top-width: 0px;
-  border-bottom-width: 3px;
-  border-color: #6bd470;
-  background-color: #6bd470;
-  text-align: center;
-}
-
-.chatInput > form > button:hover {
+  margin-left: 3px;
+  margin-right: 3px;
   background-color: #41a046;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 10px;
+}
+.chatInput > form > button:hover {
+  background-color: #2a9e57;
 }
 .send-btn {
   width: 80px;
   font-size: 1rem;
 }
-
 .btn-emoji {
   width: 70px;
-  font-size: 1.9rem;
+  font-size: 2.4rem;
 }
-
 .emoji-picker {
   position: absolute;
   bottom: 70px;
   left: 5px;
-  border: 2px solid #6bd470;
+  margin: 2px;
 }
