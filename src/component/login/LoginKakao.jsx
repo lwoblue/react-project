@@ -1,57 +1,102 @@
-import React, { useCallback } from "react";
-// import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { useHistory } from "react-router";
+import styled from "styled-components";
+import KaKaoLogin from "react-kakao-login";
+import { createFirebaseToken, updateOrCreateUser } from "./auth";
+import { auth } from "./../../firebase";
+import { actionTypes } from "../chat/state/reducer";
+import { useStateValue } from "../chat/state/StateProvider";
+import axios from "axios";
 
-const { Kakao } = window;
-// const history = useHistory();
+// interface State {
+//     data: any;
+// }
+const LOGIN_API_BASE_URL = "http://localhost:8080/users";
+// const { Kakao } = window;
+const LoginKakao = () => {
+  const history = useHistory();
+  const [state, dispatch] = useStateValue();
+  const [uid, setUid] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [provider, setProvider] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
 
-function LoginKakao() {
-  //   const kakaoLoginClick = () => {
-  //     Kakao.Auth.login({
-  //       success:  (authObj)=> {
-  //         fetch(`토큰 전달할 api`, {
-  //           method: "GET",
-  //           headers: {
-  //             Authorization: authObj.access_token,
-  //           },
-  //         })
-  //           .then((res) => res.json())
-  //           .then((res) => {
-  //             console.log(res.access_token);
-  //             localStorage.setItem("Kakao_token", res.access_token);
-  //             if (res.access_token) {
-  //               console.log("Successfully logged in!!");
-  //               // history.push("/");
-  //             }
-  //           });
-  //       },
-  //     });
-  //   };
-  const kakaoLoginClick = () => {
-    Kakao.Auth.login({
-      success: (authObj) => {
-        console.log("정상로그인 되었습니다.", authObj);
+  const responseKaKao = (res) => {
+    // console.log(JSON.stringify(res));
+    setUid(`kakao:${res.profile.id}`);
+    setEmail(res.profile.kakao_account.email);
+    setName(res.profile.properties.nickname);
+    setPhotoURL(res.profile.properties.profile_image);
+    setProvider("kakao");
+
+    const access_token = res.response.access_token;
+    const uid = res.profile.id;
+    const email = res.profile.kakao_account.email;
+    const name = res.profile.properties.nickname;
+    const photoURL = res.profile.properties.profile_image;
+    const provider = "kakao";
+    // fetch(`${LOGIN_API_BASE_URL}/signin/kakao`, {
+    fetch(`${LOGIN_API_BASE_URL}/verifyToken`, {
+      //백엔드에서 원하는 형태의 endpoint로 입력해서 fetch한다.
+      method: "POST",
+      headers: {
+        Authorization: res.response.access_token,
+        //받아오는 response객체의 access_token을 통해 유저 정보를 authorize한다.
+        "Content-Type": "application/json",
       },
-      //   fail: (error) => {
-      //     console.error("로그인 에러", error);
-      //   },
-    });
+      body: JSON.stringify({
+        uid,
+        email,
+        name,
+        photoURL,
+      }),
+    })
+      .then((res) => res.json())
+      .then(
+        (res) => {
+          // yes
+          localStorage.setItem("token", res.firebase_token);
+          dispatch({
+            type: actionTypes.SET_USER,
+            user: name,
+          });
+          history.push('/home');
+        },
+        alert("로그인 성공하였습니다")
+        
+      );
+  };
+
+  const responseFail = (err) => {
+    alert(err);
   };
   return (
-    <div>
-      <button
-        style={{
-          border: "none",
-          backgroundColor: " #fff024",
-          width: "100%",
-          height: "56px",
-          marginTop: "10px",
-        }}
-        onClick={kakaoLoginClick}
-      >
-        카카오 로그인 / firebase 테스트 버튼
-      </button>
-    </div>
+    <>
+      <KaKaoBtn
+        jsKey={"f872b228ad63773a0377adb9608eb437"}
+        buttonText="KaKao"
+        onSuccess={responseKaKao}
+        onFailure={responseFail}
+        getProfile={true}
+      />
+    </>
   );
-}
+};
+
+const KaKaoBtn = styled(KaKaoLogin)`
+  width: 100%;
+  height: 56px;
+  background-color: #ffeb00;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 0px 15px 0 rgba(0, 0, 0, 0.2);
+  }
+`;
 
 export default LoginKakao;
