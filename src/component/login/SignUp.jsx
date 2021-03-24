@@ -60,7 +60,9 @@ function SignUp() {
             const user = {
               id: res.user.uid,
               email: res.user.email,
+              password: pwd,
               userName: userName,
+              deleteYN: 'n',
             };
             db.collection('users')
               .doc('IR3CFnBcoETVQpqXRYXF')

@@ -136,6 +136,28 @@ const useToolbarStyles = makeStyles((theme) => ({
   },
 }));
 
+const deleteUser = (deleteUserList) => {
+  let user = {
+    deleteYN: 'y',
+  };
+  deleteUserList.forEach((deleteuser) => {
+    db.collection('users')
+      .doc('IR3CFnBcoETVQpqXRYXF')
+      .collection('user')
+      .where('email', '==', deleteuser)
+      .get()
+      .then((querySnapshot) => {
+        console.log('Document successfully delete!');
+        querySnapshot.forEach((doc) => {
+          doc.ref.update(user);
+        });
+      })
+      .catch((err) => {
+        console.log('deleteUser Error!!', err);
+      });
+  });
+};
+
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const { numSelected } = props;
@@ -168,7 +190,12 @@ const EnhancedTableToolbar = (props) => {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
+          <IconButton
+            aria-label="delete"
+            onClick={() => {
+              deleteUser(props.selectedList);
+            }}
+          >
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -185,6 +212,7 @@ const EnhancedTableToolbar = (props) => {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  selectedList: PropTypes.string.isRequired,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -220,13 +248,14 @@ export default function EnhancedTable() {
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  // userList
   const [rows, setRows] = useState([]);
   useEffect(() => {
     db.collection('users')
       .doc('IR3CFnBcoETVQpqXRYXF')
       .collection('user')
-      .onSnapshot((snapshot) => {
+      .where('deleteYN', '==', 'n')
+      .get()
+      .then((snapshot) => {
         setRows(snapshot.docs.map((doc) => doc.data()));
       });
   }, []);
@@ -287,7 +316,10 @@ export default function EnhancedTable() {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          selectedList={selected}
+        />
         <TableContainer>
           <Table
             className={classes.table}

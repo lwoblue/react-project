@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import db from '../../firebase';
+import firebase from 'firebase';
 
 class EditUserComponent extends Component {
   constructor(props) {
@@ -14,11 +15,11 @@ class EditUserComponent extends Component {
     this.state = {
       id: '',
       userName: '',
-      firstName: '',
-      lastName: '',
-      age: '',
-      salary: '',
-      message: null,
+      // firstName: '',
+      // lastName: '',
+      // age: '',
+      // salary: '',
+      // message: null,
       email: '',
     };
   }
@@ -49,10 +50,9 @@ class EditUserComponent extends Component {
     db.collection('users')
       .doc('IR3CFnBcoETVQpqXRYXF')
       .collection('user')
-      .where('id', '==', window.localStorage.getItem('userID'))
+      .where('email', '==', window.localStorage.getItem('userID'))
       .get()
       .then((querySnapshot) => {
-        console.log('userID--->', window.localStorage.getItem('userID'));
         querySnapshot.forEach((doc) => {
           let user = doc.data();
           this.setState({
@@ -67,6 +67,7 @@ class EditUserComponent extends Component {
       .catch((error) => {
         console.log('Error getting documents: ', error);
       });
+    this.setState({ userImage: firebase.auth().currentUser.photoURL });
   };
 
   onChange = (e) => {
@@ -116,14 +117,13 @@ class EditUserComponent extends Component {
     db.collection('users')
       .doc('IR3CFnBcoETVQpqXRYXF')
       .collection('user')
-      .where('id', '==', window.localStorage.getItem('userID'))
+      .where('email', '==', window.localStorage.getItem('userID'))
       .get()
       .then((querySnapshot) => {
-        console.log('Document successfully deleted!');
+        console.log('Document successfully update!');
         querySnapshot.forEach((doc) => {
           doc.ref.update(user);
         });
-        window.localStorage.removeItem('userID');
         this.props.history.push('/users');
       })
       .catch((err) => {
@@ -135,9 +135,10 @@ class EditUserComponent extends Component {
     return (
       <div>
         <Typography variant="h4" style={style}>
-          Edit User
+          Edit Personal Information
         </Typography>
         <form>
+          <img src={this.state.userImage} alt="" />
           <TextField
             type="text"
             placeholder="Edit your email"
@@ -150,6 +151,7 @@ class EditUserComponent extends Component {
 
           <TextField
             type="text"
+            placeholder="Edit your name"
             name="userName"
             fullWidth
             margin="normal"

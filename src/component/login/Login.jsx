@@ -65,6 +65,10 @@ const Login = () => {
             if (doc.exists) {
               console.log(doc.id, ' => ', doc.data());
               window.localStorage.setItem('userID', id);
+              dispatch({
+                type: actionTypes.SET_USER,
+                user: doc.data(),
+              });
               history.push('/home');
             } else {
               alert('존재하지 않는 사용자입니다. 회원가입해주세요.');
