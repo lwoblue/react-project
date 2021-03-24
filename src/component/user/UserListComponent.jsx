@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -136,11 +136,11 @@ const useToolbarStyles = makeStyles((theme) => ({
   },
 }));
 
-const deleteUser = (deleteUserList) => {
+const deleteUser = (props) => {
   let user = {
     deleteYN: 'y',
   };
-  deleteUserList.forEach((deleteuser) => {
+  props.selectedList.forEach((deleteuser) => {
     db.collection('users')
       .doc('IR3CFnBcoETVQpqXRYXF')
       .collection('user')
@@ -151,6 +151,7 @@ const deleteUser = (deleteUserList) => {
         querySnapshot.forEach((doc) => {
           doc.ref.update(user);
         });
+        props.setSelected([]);
       })
       .catch((err) => {
         console.log('deleteUser Error!!', err);
@@ -193,7 +194,7 @@ const EnhancedTableToolbar = (props) => {
           <IconButton
             aria-label="delete"
             onClick={() => {
-              deleteUser(props.selectedList);
+              deleteUser(props);
             }}
           >
             <DeleteIcon />
@@ -212,7 +213,7 @@ const EnhancedTableToolbar = (props) => {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
-  selectedList: PropTypes.string.isRequired,
+  selectedList: PropTypes.array.isRequired,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -258,7 +259,7 @@ export default function EnhancedTable() {
       .then((snapshot) => {
         setRows(snapshot.docs.map((doc) => doc.data()));
       });
-  }, []);
+  }, [rows]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -275,25 +276,26 @@ export default function EnhancedTable() {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
-  };
+  const handleClick = useCallback(
+    (event, name) => {
+      const selectedIndex = selected.indexOf(name);
+      let newSelected = [];
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, name);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1)
+        );
+      }
+      setSelected(newSelected);
+    },
+    [selected]
+  );
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -317,6 +319,7 @@ export default function EnhancedTable() {
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar
+          setSelected={setSelected}
           numSelected={selected.length}
           selectedList={selected}
         />

@@ -73,7 +73,7 @@ function SignUp() {
             console.log('SignUp Error!');
             console.log(e);
           });
-        setId((e.target.value = ''));
+        setEmail((e.target.value = ''));
         setPwd((e.target.value = ''));
         setUserName((e.target.value = ''));
       } else {

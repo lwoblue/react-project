@@ -61,13 +61,14 @@ class EditUserComponent extends Component {
             // salary: user.salary,
             userName: user.userName,
             email: user.email,
+            userImage: user.photoURL,
           });
         });
       })
       .catch((error) => {
         console.log('Error getting documents: ', error);
       });
-    this.setState({ userImage: firebase.auth().currentUser.photoURL });
+    // this.setState({ userImage: firebase.auth().currentUser.photoURL });
   };
 
   onChange = (e) => {
