@@ -87,7 +87,6 @@ const Login = () => {
       <div className="login">
         <img src="/images/logo.png" alt="" />
         <div className="login__container">
-          {/* <h1>Login</h1> */}
           <div>
             {/* id */}
             <div className="login__input">
@@ -113,13 +112,9 @@ const Login = () => {
               {/* <button>아이디패스워드찾기</button> */}
             </div>
           </div>
-          <button onClick={loginClickHandler}>Sign In</button>
+          <button className="buttonS" onClick={loginClickHandler}>Sign In</button>
           <div className="login___social">
-            <button className="buttonK" onClick={kakaoLoginClick}>
-              카카오 로그인
-            </button>
             <LoginKakao />
-            {/* <img src="/images/kakao_login_medium_wide.png" alt="" /> */}
             <button className="buttonG" onClick={googleLoginClick}>
               Google 로그인
             </button>
