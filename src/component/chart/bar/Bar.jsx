@@ -1,9 +1,7 @@
 import { React, useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import { data } from './BarData';
-
 import { makeStyles, Grid, Paper, Typography } from '@material-ui/core';
-
 import {
   BarMode,
   BarLayout,
@@ -18,6 +16,9 @@ import {
   BarBorderWidth,
   BarBorderColor,
   BarLabelTextColor,
+  BarEnableGridX,
+  BarEnableGridY,
+  BarAxis,
 } from 'component/chart/bar/BarController';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +30,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   item: {
-    width: '100%',
+    width: '55%',
+    position: 'fixed',
+    marginLeft: '370px',
   },
 }));
 
@@ -48,6 +51,12 @@ const Bar = () => {
   const [borderWidth, setBorderWidth] = useState();
   const [borderColor, setBorderColor] = useState();
   const [labelTextColor, setLabelTextColor] = useState();
+  const [enableGridX, setEnableGridX] = useState(true);
+  const [enableGridY, setEnableGridY] = useState();
+  const [axisTop, setAxisTop] = useState(null);
+  const [axisRight, setAxisRight] = useState(null);
+  const [axisLeft, setAxisLeft] = useState(null);
+  const [axisBottom, setAxisBottom] = useState(null);
 
   /**
    * GroupMode
@@ -193,6 +202,48 @@ const Bar = () => {
     labelTextColor: labelTextColor,
   };
 
+  /**
+   * EnableGridX
+   */
+  function getEnableGridX(value) {
+    return setEnableGridX(value);
+  }
+
+  const barEnableGridX = {
+    enableGridX: enableGridX,
+  };
+
+  /**
+   * EnableGridY
+   */
+  function getEnableGridY(value) {
+    return setEnableGridY(value);
+  }
+
+  const barEnableGridY = {
+    enableGridY: enableGridY,
+  };
+
+  /**
+   * Axis
+   */
+  function getAxis(value) {
+    console.log(value);
+    return (
+      setAxisTop(value[0].axisTopState),
+      setAxisRight(value[1].axisRightState),
+      setAxisLeft(value[2].axisLeftState),
+      setAxisBottom(value[3].axisBottomState)
+    );
+  }
+
+  const barAxis = {
+    axisTop: axisTop,
+    axisRight: axisRight,
+    axisLeft: axisLeft,
+    axisBottom: axisBottom,
+  };
+
   const MyResponsiveBar = ({ data /* see data tab */ }) => (
     <ResponsiveBar
       data={data}
@@ -247,17 +298,17 @@ const Bar = () => {
       {...barBorderRadius}
       {...barBorderWidth}
       {...barBorderColor}
-      // borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
-      axisTop={null}
-      axisRight={null}
-      axisBottom={{
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: 'country',
-        legendPosition: 'middle',
-        legendOffset: 32,
-      }}
+      // {...barAxis}
+      // axisTop={null}
+      // axisRight={null}
+      // axisBottom={{
+      //   tickSize: 5,
+      //   tickPadding: 5,
+      //   tickRotation: 0,
+      //   legend: 'country',
+      //   legendPosition: 'middle',
+      //   legendOffset: 32,
+      // }}
       axisLeft={{
         tickSize: 5,
         tickPadding: 5,
@@ -269,6 +320,8 @@ const Bar = () => {
       labelSkipWidth={12}
       labelSkipHeight={12}
       {...barLabelTextColor}
+      {...barEnableGridX}
+      {...barEnableGridY}
       legends={[
         {
           dataFrom: 'keys',
@@ -344,6 +397,15 @@ const Bar = () => {
       <Typography gutterBottom>LABELS</Typography>
       <br></br>
       <BarLabelTextColor getLabelTextColor={getLabelTextColor} />
+      <br></br>
+      <Typography gutterBottom>GRID & AXES</Typography>
+      <br></br>
+      <BarEnableGridX getEnableGridX={getEnableGridX} />
+      <br></br>
+      <BarEnableGridY getEnableGridY={getEnableGridY} />
+      <br></br>
+      <br></br>
+      <BarAxis getAxis={getAxis} />
       <br></br>
     </>
   );
