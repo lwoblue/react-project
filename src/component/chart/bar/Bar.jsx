@@ -53,6 +53,10 @@ const Bar = () => {
   const [labelTextColor, setLabelTextColor] = useState();
   const [enableGridX, setEnableGridX] = useState(true);
   const [enableGridY, setEnableGridY] = useState();
+  const [axisTop, setAxisTop] = useState(null);
+  const [axisRight, setAxisRight] = useState(null);
+  const [axisLeft, setAxisLeft] = useState(null);
+  const [axisBottom, setAxisBottom] = useState(null);
 
   /**
    * GroupMode
@@ -220,6 +224,26 @@ const Bar = () => {
     enableGridY: enableGridY,
   };
 
+  /**
+   * Axis
+   */
+  function getAxis(value) {
+    console.log(value);
+    return (
+      setAxisTop(value[0].axisTopState),
+      setAxisRight(value[1].axisRightState),
+      setAxisLeft(value[2].axisLeftState),
+      setAxisBottom(value[3].axisBottomState)
+    );
+  }
+
+  const barAxis = {
+    axisTop: axisTop,
+    axisRight: axisRight,
+    axisLeft: axisLeft,
+    axisBottom: axisBottom,
+  };
+
   const MyResponsiveBar = ({ data /* see data tab */ }) => (
     <ResponsiveBar
       data={data}
@@ -274,17 +298,17 @@ const Bar = () => {
       {...barBorderRadius}
       {...barBorderWidth}
       {...barBorderColor}
-      // borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
-      axisTop={null}
-      axisRight={null}
-      axisBottom={{
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: 'country',
-        legendPosition: 'middle',
-        legendOffset: 32,
-      }}
+      // {...barAxis}
+      // axisTop={null}
+      // axisRight={null}
+      // axisBottom={{
+      //   tickSize: 5,
+      //   tickPadding: 5,
+      //   tickRotation: 0,
+      //   legend: 'country',
+      //   legendPosition: 'middle',
+      //   legendOffset: 32,
+      // }}
       axisLeft={{
         tickSize: 5,
         tickPadding: 5,
@@ -381,7 +405,7 @@ const Bar = () => {
       <BarEnableGridY getEnableGridY={getEnableGridY} />
       <br></br>
       <br></br>
-      <BarAxis />
+      <BarAxis getAxis={getAxis} />
       <br></br>
     </>
   );
