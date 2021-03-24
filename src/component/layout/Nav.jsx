@@ -19,6 +19,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Badge from '@material-ui/core/Badge';
+import Textsms from '@material-ui/icons/Textsms';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+
 const drawerWidth = 240;
 
 const goldColor = createMuiTheme({
@@ -90,12 +96,22 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  sectionDesktop: {
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+  },
 }));
 
 const Nav = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  
+  const isMenuOpen = Boolean(anchorEl);
+
+  const menuId = 'primary-search-account-menu';
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -106,6 +122,27 @@ const Nav = (props) => {
     setOpen(false);
     props.appOpen(open);
   };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+  const handleMenuOpen = () => {
+    
+  };
+  
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
 
   return (
     <>
@@ -139,9 +176,32 @@ const Nav = (props) => {
                 <ListItemText primary="SolomonTs" />
               </ListItem>
             </Typography>
+            {/* <Button color="inherit" onClick={onOpenChat}>Support</Button> */}
+            <div className={classes.sectionDesktop}>
+              <IconButton aria-label="notifications" color="inherit" onClick={handleMenuOpen}> 
+                <Badge badgeContent={0} color="secondary">
+                  <ListItem component={RouterLink} to="/chat">
+                    <Textsms />
+                  </ListItem>
+                </Badge>
+              </IconButton>
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                // onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                  <ListItem component={RouterLink} to="/users">
+                    <AccountCircle />
+                  </ListItem>
+              </IconButton>
+            </div>
             <Button color="inherit">Logout</Button>
           </Toolbar>
         </AppBar>
+        {renderMenu}
         <Drawer
           className={classes.drawer}
           variant="persistent"
