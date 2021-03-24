@@ -12,15 +12,15 @@ import db from '../../firebase';
 
 function SignUp() {
   const history = useHistory();
-  const [email, setId] = useState('');
+  const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
   const [userName, setUserName] = useState('');
   const [InputStatus, setInputStatus] = useState('');
 
   const idInputHandler = useCallback((e) => {
     e.preventDefault();
-    const textEnail = e.target.value;
-    setId(textEnail); // true vs. false
+    const textEmail = e.target.value;
+    setEmail(textEmail); // true vs. false
   }, []);
 
   const pwdInputHandler = useCallback((e) => {
@@ -33,7 +33,6 @@ function SignUp() {
     e.preventDefault();
     const textName = e.target.value;
     setUserName(textName);
-    // console.log("userName: ", textName);
   });
 
   //   id: email -> 유효성 검사
@@ -54,7 +53,6 @@ function SignUp() {
         userName !== null &&
         emailValidate
       ) {
-        // LoginService.signUp(email, pwd, userName)
         await signUp(email, pwd)
           .then((res) => {
             const user = {
@@ -121,8 +119,6 @@ function SignUp() {
         <div style={{ textAlign: 'initial' }} onClick={goBack}>
           <ArrowBackIcon />
         </div>
-        {/* <h1>Login</h1> */}
-
         <div>
           {/* id */}
           <div className="login__input">
