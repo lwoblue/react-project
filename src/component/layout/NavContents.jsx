@@ -18,8 +18,10 @@ export function breadcrumbNameMap(to) {
   const candidate = {
     '/line': 'Line',
     '/bar': 'Bar',
-    '/chat': 'talk',
+    '/chat': 'Talk',
     '/users': 'UserList',
+    '/gallery': 'Gallery',
+    
   };
   return candidate[to];
 }
@@ -61,6 +63,7 @@ const NavContents = () => {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
+  const [open3, setOpen3] = useState(false);
 
   const handleClick = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -71,6 +74,10 @@ const NavContents = () => {
 
   const handleClick2 = () => {
     setOpen2((prevOpen) => !prevOpen);
+  };
+
+  const handleClick3 = () => {
+    setOpen3((prevOpen) => !prevOpen);
   };
 
   return (
@@ -102,7 +109,6 @@ const NavContents = () => {
             </ListItemIcon>
             <ListItemText primary="chat" />
           </ListItem>
-
           <Collapse component="li" in={open1} timeout="auto" unmountOnExit>
             <List disablePadding>
               <ListItemLink
@@ -125,6 +131,18 @@ const NavContents = () => {
           <Collapse component="li" in={open2} timeout="auto" unmountOnExit>
             <List disablePadding>
               <ListItemLink to="/users" className={classes.nested} />
+            </List>
+          </Collapse>
+
+          <ListItem button open={open3} onClick={handleClick3}>
+            <ListItemIcon>
+              <EqualizerIcon />
+            </ListItemIcon>
+            <ListItemText primary="gallery" />
+          </ListItem>
+          <Collapse component="li" in={open3} timeout="auto" unmountOnExit>
+            <List disablePadding>
+              <ListItemLink to="/gallery" className={classes.nested}/>
             </List>
           </Collapse>
         </List>

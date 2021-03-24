@@ -1,4 +1,6 @@
 import firebase from 'firebase';
+// import * as admin from 'firebase-admin';
+// import firebaseAdmin from 'firebase-admin';
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: 'AIzaSyBl_90mMKRVK1R3v71Z0OgDchqu-Mumdts',
@@ -13,7 +15,11 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 const auth = firebase.auth();
+// const authAdmin = firebaseAdmin.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 
+// const adminAuth = admin.auth();
+
+// export { auth, provider, adminAuth };
 export { auth, provider };
 export default db;
