@@ -1,17 +1,35 @@
 import { React, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   makeStyles,
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Typography,
+  Tooltip,
+  Slider,
+  TextField,
 } from '@material-ui/core';
+
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {
-  BarAxisEnable,
-  BarAxisTickSize,
-  BarAxisTickPadding,
-} from 'component/chart/bar/BarController';
+import { BarAxisEnable, BarSlider } from 'component/chart/bar/BarController';
+import Circle from 'react-circle';
+
+function ValueLabelComponent(props) {
+  const { children, open, value } = props;
+
+  return (
+    <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
+      {children}
+    </Tooltip>
+  );
+}
+
+ValueLabelComponent.propTypes = {
+  children: PropTypes.element.isRequired,
+  open: PropTypes.bool.isRequired,
+  value: PropTypes.number.isRequired,
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,22 +50,22 @@ const useStyles = makeStyles((theme) => ({
   borderSolid: {
     border: '1px solid rgb(0 0 0 / 15%)',
   },
-  cJVylD: {
-    fill: 'rgb(226, 93, 71)',
+  circleStyle: {
+    width: '60%',
+    marginLeft: '10px',
   },
-  kQKPIi: {
-    stroke: 'rgb(226, 93, 71)',
-  },
-  bEYNVl: {
-    fill: 'rgb(247, 250, 251)',
-    stroke: 'rgb(221, 221, 221)',
+  legendInput: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: 200,
+    },
   },
 }));
 
 export default function BarAxis(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
-
+  const [circle, setCircle] = useState(0);
   const [axisTopState, setAxisTopState] = useState(false);
   const [axisTop, setAxisTop] = useState({
     tickSize: 5,
@@ -92,6 +110,11 @@ export default function BarAxis(props) {
     setExpanded(isExpanded ? axis : false);
   };
 
+  const handleSliderChange = (event, newValue) => {
+    setCircle(newValue);
+    axisSliderState(newValue, 'Circle');
+  };
+
   const getAxisEnable = (value) => {
     if (expanded === 'axisTop') {
       if (value === true) {
@@ -128,69 +151,164 @@ export default function BarAxis(props) {
     }
   };
 
-  const getTickSize = (value) => {
-    if (expanded === 'axisTop') {
-      setAxisTop({ ...axisTop, tickSize: value });
-      if (axisTopState === true) {
-        props.getAxisTop({ ...axisTop, tickSize: value });
-      } else {
-        props.getAxisTop(null);
-      }
-    } else if (expanded === 'axisRight') {
-      setAxisRight({ ...axisRight, tickSize: value });
-      if (axisRightState === true) {
-        props.getAxisRight({ ...axisRight, tickSize: value });
-      } else {
-        props.getAxisRight(null);
-      }
-    } else if (expanded === 'axisLeft') {
-      setAxisLeft({ ...axisLeft, tickSize: value });
-      if (axisLeftState === true) {
-        props.getAxisLeft({ ...axisLeft, tickSize: value });
-      } else {
-        props.getAxisLeft(null);
-      }
-    } else if (expanded === 'axisBottom') {
-      setAxisBottom({ ...axisBottom, tickSize: value });
-      if (axisBottomState === true) {
-        props.getAxisBottom({ ...axisBottom, tickSize: value });
-      } else {
-        props.getAxisBottom(null);
-      }
+  const getAxisTickSizeNum = () => {
+    return { default: 2, name: 'TickSize', step: 1, min: 0, max: 50 };
+  };
+
+  const getAxisTickPaddingNum = () => {
+    return { default: 2, name: 'TickPadding', step: 1, min: 0, max: 50 };
+  };
+
+  const axisSliderState = (value, value2) => {
+    switch (expanded) {
+      case 'axisTop':
+        if (value2 === 'TickSize') {
+          setAxisTop({ ...axisTop, tickSize: value });
+          if (axisTopState === true) {
+            props.getAxisTop({ ...axisTop, tickSize: value });
+          } else {
+            props.getAxisTop(null);
+          }
+        } else if (value2 === 'TickPadding') {
+          setAxisTop({ ...axisTop, tickPadding: value });
+          if (axisTopState === true) {
+            props.getAxisTop({ ...axisTop, tickPadding: value });
+          } else {
+            props.getAxisTop(null);
+          }
+        } else if (value2 === 'Circle') {
+          setAxisTop({ ...axisTop, tickRotation: value });
+          if (axisTopState === true) {
+            props.getAxisTop({ ...axisTop, tickRotation: value });
+          } else {
+            props.getAxisTop(null);
+          }
+        }
+        break;
+      case 'axisRight':
+        if (value2 === 'TickSize') {
+          setAxisRight({ ...axisRight, tickSize: value });
+          if (axisRightState === true) {
+            props.getAxisRight({ ...axisRight, tickSize: value });
+          } else {
+            props.getAxisRight(null);
+          }
+        } else if (value2 === 'TickPadding') {
+          setAxisRight({ ...axisRight, tickPadding: value });
+          if (axisRightState === true) {
+            props.getAxisRight({ ...axisRight, tickPadding: value });
+          } else {
+            props.getAxisRight(null);
+          }
+        } else if (value2 === 'Circle') {
+          setAxisRight({ ...axisRight, tickRotation: value });
+          if (axisRightState === true) {
+            props.getAxisRight({ ...axisRight, tickRotation: value });
+          } else {
+            props.getAxisRight(null);
+          }
+        }
+        break;
+      case 'axisLeft':
+        if (value2 === 'TickSize') {
+          setAxisLeft({ ...axisLeft, tickSize: value });
+          if (axisLeftState === true) {
+            props.getAxisLeft({ ...axisLeft, tickSize: value });
+          } else {
+            props.getAxisLeft(null);
+          }
+        } else if (value2 === 'TickPadding') {
+          setAxisLeft({ ...axisLeft, tickPadding: value });
+          if (axisLeftState === true) {
+            props.getAxisLeft({ ...axisLeft, tickPadding: value });
+          } else {
+            props.getAxisLeft(null);
+          }
+        } else if (value2 === 'Circle') {
+          setAxisLeft({ ...axisLeft, tickRotation: value });
+          if (axisLeftState === true) {
+            props.getAxisLeft({ ...axisLeft, tickRotation: value });
+          } else {
+            props.getAxisLeft(null);
+          }
+        }
+        break;
+      case 'axisBottom':
+        if (value2 === 'TickSize') {
+          setAxisBottom({ ...axisBottom, tickSize: value });
+          if (axisBottomState === true) {
+            props.getAxisBottom({ ...axisBottom, tickSize: value });
+          } else {
+            props.getAxisBottom(null);
+          }
+        } else if (value2 === 'TickPadding') {
+          setAxisBottom({ ...axisBottom, tickPadding: value });
+          if (axisBottomState === true) {
+            props.getAxisBottom({ ...axisBottom, tickPadding: value });
+          } else {
+            props.getAxisBottom(null);
+          }
+        } else if (value2 === 'Circle') {
+          setAxisBottom({ ...axisBottom, tickRotation: value });
+          if (axisBottomState === true) {
+            props.getAxisBottom({ ...axisBottom, tickRotation: value });
+          } else {
+            props.getAxisBottom(null);
+          }
+        }
+        break;
+      default:
+        break;
     }
   };
 
-  const getAxisTickPadding = (value) => {
-    if (expanded === 'axisTop') {
-      setAxisTop({ ...axisTop, tickPadding: value });
-      if (axisTopState === true) {
-        props.getAxisTop({ ...axisTop, tickPadding: value });
-      } else {
-        props.getAxisTop(null);
-      }
-    } else if (expanded === 'axisRight') {
-      setAxisRight({ ...axisRight, tickPadding: value });
-      if (axisRightState === true) {
-        props.getAxisRight({ ...axisRight, tickPadding: value });
-      } else {
-        props.getAxisRight(null);
-      }
-    } else if (expanded === 'axisLeft') {
-      setAxisLeft({ ...axisLeft, tickPadding: value });
-      if (axisTopState === true) {
-        props.getAxisLeft({ ...axisLeft, tickPadding: value });
-      } else {
-        props.getAxisRight(null);
-      }
-    } else if (expanded === 'axisBottom') {
-      setAxisBottom({ ...axisBottom, tickPadding: value });
-      if (axisBottomState === true) {
-        props.getAxisBottom({ ...axisBottom, tickPadding: value });
-      } else {
-        props.getAxisBottom(null);
-      }
-    }
-  };
+  function SliderCircle() {
+    return (
+      <>
+        <Typography id="input-slider" gutterBottom>
+          Circle
+        </Typography>
+        <Circle
+          animate={true} // Boolean: Animated/Static progress
+          animationDuration="0.5s" // String: Length of animation
+          responsive={false} // Boolean: Make SVG adapt to parent size
+          size="100" // String: Defines the size of the circle.
+          lineWidth="25" // String: Defines the thickness of the circle's stroke.
+          progress={circle} // String: Update to change the progress and percentage.
+          progressColor="#e0b250" // String: Color of "progress" portion of circle.
+          bgColor="#ebe7c4" // String: Color of "empty" portion of circle.
+          textColor="#6b778c" // String: Color of percentage text color.
+          textStyle={{
+            font: 'bold 4rem Helvetica, Arial, sans-serif', // CSSProperties: Custom styling for percentage.
+          }}
+          percentSpacing={10} // Number: Adjust spacing of "%" symbol and number.
+          roundedStroke={false} // Boolean: Rounded/Flat line ends
+          showPercentage={true} // Boolean: Show/hide percentage.
+          showPercentageSymbol={true} // Boolean: Show/hide only the "%" symbol.
+        />
+        <Slider
+          className={classes.circleStyle}
+          ValueLabelComponent={ValueLabelComponent}
+          aria-label="custom thumb label"
+          defaultValue={0}
+          onChange={handleSliderChange}
+          step={10}
+          min={-100}
+          max={100}
+        />
+        <form className={classes.root} noValidate autoComplete="off">
+          <div>
+            <TextField
+              label="Size"
+              id="standard-size-small"
+              defaultValue="Small"
+              size="small"
+            />
+          </div>
+        </form>
+      </>
+    );
+  }
 
   return (
     <div className={classes.root}>
@@ -211,18 +329,9 @@ export default function BarAxis(props) {
         </AccordionSummary>
         <AccordionDetails className={classes.db}>
           <BarAxisEnable getAxisEnable={getAxisEnable} />
-          <BarAxisTickSize getTickSize={getTickSize} />
-          <BarAxisTickPadding getAxisTickPadding={getAxisTickPadding} />
-          <svg width="36" height="36">
-            <circle cx="18" cy="18" r="15" className={classes.bEYNVl}></circle>
-            <g transform="translate(18,18)">
-              <g transform="rotate(56)">
-                <line y2="-15" className={classes.kQKPIi}></line>
-                <circle r="1.5" className={classes.cJVylD}></circle>
-                <circle cy="-15" r="3" className={classes.cJVylD}></circle>
-              </g>
-            </g>
-          </svg>
+          <BarSlider state={axisSliderState} info={getAxisTickSizeNum} />
+          <BarSlider state={axisSliderState} info={getAxisTickPaddingNum} />
+          {SliderCircle()}
         </AccordionDetails>
       </Accordion>
 
@@ -243,8 +352,9 @@ export default function BarAxis(props) {
         </AccordionSummary>
         <AccordionDetails className={classes.db}>
           <BarAxisEnable getAxisEnable={getAxisEnable} />
-          <BarAxisTickSize getTickSize={getTickSize} />
-          <BarAxisTickPadding getAxisTickPadding={getAxisTickPadding} />
+          <BarSlider state={axisSliderState} info={getAxisTickSizeNum} />
+          <BarSlider state={axisSliderState} info={getAxisTickPaddingNum} />
+          {SliderCircle()}
         </AccordionDetails>
       </Accordion>
 
@@ -265,8 +375,9 @@ export default function BarAxis(props) {
         </AccordionSummary>
         <AccordionDetails className={classes.db}>
           <BarAxisEnable getAxisEnable={getAxisEnable} />
-          <BarAxisTickSize getTickSize={getTickSize} />
-          <BarAxisTickPadding getAxisTickPadding={getAxisTickPadding} />
+          <BarSlider state={axisSliderState} info={getAxisTickSizeNum} />
+          <BarSlider state={axisSliderState} info={getAxisTickPaddingNum} />
+          {SliderCircle()}
         </AccordionDetails>
       </Accordion>
 
@@ -287,8 +398,9 @@ export default function BarAxis(props) {
         </AccordionSummary>
         <AccordionDetails className={classes.db}>
           <BarAxisEnable getAxisEnable={getAxisEnable} />
-          <BarAxisTickSize getTickSize={getTickSize} />
-          <BarAxisTickPadding getAxisTickPadding={getAxisTickPadding} />
+          <BarSlider state={axisSliderState} info={getAxisTickSizeNum} />
+          <BarSlider state={axisSliderState} info={getAxisTickPaddingNum} />
+          {SliderCircle()}
         </AccordionDetails>
       </Accordion>
     </div>

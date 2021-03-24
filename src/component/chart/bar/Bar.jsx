@@ -3,16 +3,12 @@ import { ResponsiveBar } from '@nivo/bar';
 import { data } from './BarData';
 import { makeStyles, Grid, Paper, Typography } from '@material-ui/core';
 import {
-  BarMode,
-  BarLayout,
+  BarSwitch,
   BarSlider,
-  BarColors,
-  BarReverse,
   BarMinMaxValue,
+  BarColors,
   BarBorderColor,
   BarLabelTextColor,
-  BarEnableGridX,
-  BarEnableGridY,
   BarAxis,
 } from 'component/chart/bar/BarController';
 
@@ -54,11 +50,42 @@ const Bar = () => {
   const [axisBottom, setAxisBottom] = useState(null);
 
   /**
+   * Switch
+   */
+  function switchState(value, value2) {
+    switch (value2) {
+      case 'GroupMode':
+        setMode(value);
+        break;
+      case 'Layout':
+        setlaout(value);
+        break;
+      case 'Reverse':
+        setReverse(value);
+        break;
+      case 'EnableGridX':
+        setEnableGridX(value);
+        break;
+      case 'EnableGridY':
+        setEnableGridY(value);
+        break;
+      default:
+        break;
+    }
+  }
+
+  /**
    * GroupMode
    */
-  function getGroupMode(value) {
-    return setMode(value);
-  }
+
+  const groupModeInfo = () => {
+    return {
+      default: 'grouped',
+      name: 'GroupMode',
+      valueTrue: 'grouped',
+      valueFalse: 'stacked',
+    };
+  };
 
   const barMode = {
     groupMode: mode,
@@ -67,9 +94,15 @@ const Bar = () => {
   /**
    * Layout
    */
-  function getLayout(value) {
-    return setlaout(value);
-  }
+
+  const layoutInfo = () => {
+    return {
+      default: 'horizontal',
+      name: 'Layout',
+      valueTrue: 'horizontal',
+      valueFalse: 'vertical',
+    };
+  };
 
   const barLaout = {
     layout: laout,
@@ -78,9 +111,15 @@ const Bar = () => {
   /**
    * Reverse
    */
-  function getReverse(value) {
-    return setReverse(value);
-  }
+
+  const reverseInfo = () => {
+    return {
+      default: true,
+      name: 'Reverse',
+      valueTrue: true,
+      valueFalse: false,
+    };
+  };
 
   const barReverse = {
     reverse: reverse,
@@ -89,7 +128,7 @@ const Bar = () => {
   /**
    * Slider
    */
-  function getSlider(value, value2) {
+  function sliderState(value, value2) {
     switch (value2) {
       case 'MinValue':
         setMinValue(value);
@@ -234,9 +273,14 @@ const Bar = () => {
   /**
    * EnableGridX
    */
-  function getEnableGridX(value) {
-    return setEnableGridX(value);
-  }
+  const EnableGridXInfo = () => {
+    return {
+      default: false,
+      name: 'EnableGridX',
+      valueTrue: false,
+      valueFalse: true,
+    };
+  };
 
   const barEnableGridX = {
     enableGridX: enableGridX,
@@ -245,9 +289,15 @@ const Bar = () => {
   /**
    * EnableGridY
    */
-  function getEnableGridY(value) {
-    return setEnableGridY(value);
-  }
+
+  const EnableGridYInfo = () => {
+    return {
+      default: false,
+      name: 'EnableGridY',
+      valueTrue: false,
+      valueFalse: true,
+    };
+  };
 
   const barEnableGridY = {
     enableGridY: enableGridY,
@@ -406,29 +456,29 @@ const Bar = () => {
       <br></br>
       <Typography gutterBottom>BASE</Typography>
       <br></br>
-      <BarMode getGroupMode={getGroupMode} />
+      <BarSwitch state={switchState} info={groupModeInfo} />
       <br></br>
-      <BarLayout getLayout={getLayout} />
+      <BarSwitch state={switchState} info={layoutInfo} />
       <br></br>
-      <BarReverse getReverse={getReverse} />
+      <BarSwitch state={switchState} info={reverseInfo} />
       <br></br>
-      <BarSlider getSlider={getSlider} info={getMinValueNum} />
+      <BarSlider state={sliderState} info={getMinValueNum} />
       <br></br>
-      <BarSlider getSlider={getSlider} info={getMaxValueNum} />
+      <BarSlider state={sliderState} info={getMaxValueNum} />
       <br></br>
       <BarMinMaxValue getMinMaxValue={getMinMaxValue} />
       <br></br>
-      <BarSlider getSlider={getSlider} info={getPaddingNum} />
+      <BarSlider state={sliderState} info={getPaddingNum} />
       <br></br>
-      <BarSlider getSlider={getSlider} info={getInnerPaddingNum} />
+      <BarSlider state={sliderState} info={getInnerPaddingNum} />
       <br></br>
       <Typography gutterBottom>STYLE</Typography>
       <br></br>
       <BarColors getColors={getColors} />
       <br></br>
-      <BarSlider getSlider={getSlider} info={getBorderRadiusNum} />
+      <BarSlider state={sliderState} info={getBorderRadiusNum} />
       <br></br>
-      <BarSlider getSlider={getSlider} info={getBorderWidthNum} />
+      <BarSlider state={sliderState} info={getBorderWidthNum} />
       <br></br>
       <BarBorderColor getBorderColor={getBorderColor} />
       <br></br>
@@ -438,9 +488,9 @@ const Bar = () => {
       <br></br>
       <Typography gutterBottom>GRID & AXES</Typography>
       <br></br>
-      <BarEnableGridX getEnableGridX={getEnableGridX} />
+      <BarSwitch state={switchState} info={EnableGridXInfo} />
       <br></br>
-      <BarEnableGridY getEnableGridY={getEnableGridY} />
+      <BarSwitch state={switchState} info={EnableGridYInfo} />
       <br></br>
       <br></br>
       <BarAxis

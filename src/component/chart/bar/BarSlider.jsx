@@ -55,12 +55,12 @@ export default function BarSlider(props) {
   let max = props.info().max;
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
-    props.getSlider(newValue, name);
+    props.state(newValue, name);
   };
 
   const handleInputChange = (event) => {
     setValue(event.target.value === '' ? '' : Number(event.target.value));
-    props.getSlider(
+    props.state(
       event.target.value === '' ? '' : Number(event.target.value),
       name
     );
