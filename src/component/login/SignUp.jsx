@@ -60,6 +60,7 @@ function SignUp() {
               email: res.user.email,
               password: pwd,
               userName: userName,
+              photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3SvtTRgIX1lfL2YSByB8kwoVkVYQB93It2g&usqp=CAU',
               deleteYN: 'n',
             };
             db.collection('users')
@@ -73,7 +74,7 @@ function SignUp() {
             console.log('SignUp Error!');
             console.log(e);
           });
-        setId((e.target.value = ''));
+        setEmail((e.target.value = ''));
         setPwd((e.target.value = ''));
         setUserName((e.target.value = ''));
       } else {

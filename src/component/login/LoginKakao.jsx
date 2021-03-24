@@ -24,18 +24,21 @@ const LoginKakao = () => {
 
   const responseKaKao = (res) => {
     // console.log(JSON.stringify(res));
-    setUid(`kakao:${res.profile.id}`);
-    setEmail(res.profile.kakao_account.email);
-    setName(res.profile.properties.nickname);
-    setPhotoURL(res.profile.properties.profile_image);
-    setProvider("kakao");
-
-    const access_token = res.response.access_token;
-    const uid = res.profile.id;
-    const email = res.profile.kakao_account.email;
-    const name = res.profile.properties.nickname;
-    const photoURL = res.profile.properties.profile_image;
-    const provider = "kakao";
+    // setUid(`kakao:${res.profile.id}`);
+    // setEmail(res.profile.kakao_account.email);
+    // setName(res.profile.properties.nickname);
+    // setPhotoURL(res.profile.properties.profile_image);
+    // setProvider("kakao");
+    let access_token = res.response.access_token;
+    let uid = `kakao:${res.profile.id}`;
+    let email = res.profile.kakao_account.email;
+    let name = res.profile.properties.nickname;
+    let photoURL = res.profile.properties.profile_image;
+    let provider = "kakao";
+    if (photoURL === undefined) {
+      photoURL =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3SvtTRgIX1lfL2YSByB8kwoVkVYQB93It2g&usqp=CAU";
+    }
     // fetch(`${LOGIN_API_BASE_URL}/signin/kakao`, {
     fetch(`${LOGIN_API_BASE_URL}/verifyToken`, {
       //백엔드에서 원하는 형태의 endpoint로 입력해서 fetch한다.
@@ -53,19 +56,27 @@ const LoginKakao = () => {
       }),
     })
       .then((res) => res.json())
-      .then(
-        (res) => {
-          // yes
-          localStorage.setItem("token", res.firebase_token);
-          dispatch({
-            type: actionTypes.SET_USER,
-            user: name,
+      .then((res) => {
+        // yes
+        localStorage.setItem("token", res.firebase_token);
+        localStorage.setItem("userID", email);
+        console.log("kakao login>>>: ", res);
+        auth
+          .signInWithCustomToken(res.firebase_token)
+          .then((user) => {
+            dispatch({
+              type: actionTypes.SET_USER,
+              user: user,
+            });
+            history.push("/home");
+          }, alert("로그인 성공하였습니다"));
+
+          })
+          .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
           });
-          history.push('/home');
-        },
-        alert("로그인 성공하였습니다")
         
-      );
   };
 
   const responseFail = (err) => {

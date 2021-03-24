@@ -67,6 +67,7 @@ class EditUserComponent extends Component {
       .catch((error) => {
         console.log('Error getting documents: ', error);
       });
+      console.log("firebase.auth().currentUser:",firebase.auth().currentUser);
     this.setState({ userImage: firebase.auth().currentUser.photoURL });
   };
 

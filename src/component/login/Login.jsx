@@ -28,7 +28,6 @@ const Login = () => {
     e.preventDefault();
     const textPwd = e.target.value;
     setPwd(textPwd);
-    console.log('textPwd: ', textPwd);
   }, []);
 
   //   id: email -> 유효성 검사
@@ -46,14 +45,6 @@ const Login = () => {
       } else {
         console.log('이메일 형식이 아닙니다.');
       }
-      // LoginService.login(id, pwd)
-      //   .then((res) => {
-      //     console.log(res.data);
-      //     history.push('/Home');
-      //   })
-      //   .catch(() => {
-      //     console.log("login Error!");
-      //   });
       db.collection('users')
         .doc('IR3CFnBcoETVQpqXRYXF')
         .collection('user')
@@ -90,7 +81,6 @@ const Login = () => {
     auth
       .signInWithPopup(provider)
       .then((result) => {
-        console.log(result);
         history.push('/home');
         dispatch({
           type: actionTypes.SET_USER,
