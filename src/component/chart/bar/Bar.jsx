@@ -5,15 +5,10 @@ import { makeStyles, Grid, Paper, Typography } from '@material-ui/core';
 import {
   BarMode,
   BarLayout,
-  BarMinValue,
-  BarMaxValue,
-  BarPadding,
-  BarInnerPadding,
+  BarSlider,
   BarColors,
   BarReverse,
   BarMinMaxValue,
-  BarBorderRadius,
-  BarBorderWidth,
   BarBorderColor,
   BarLabelTextColor,
   BarEnableGridX,
@@ -92,11 +87,41 @@ const Bar = () => {
   };
 
   /**
+   * Slider
+   */
+  function getSlider(value, value2) {
+    switch (value2) {
+      case 'MinValue':
+        setMinValue(value);
+        break;
+      case 'MaxValue':
+        setMaxValue(value);
+        break;
+      case 'Padding':
+        setPadding(value);
+        break;
+      case 'InnerPadding':
+        setInnerPadding(value);
+        break;
+      case 'BorderRadius':
+        setBorderRadius(value);
+        break;
+      case 'BorderWidth':
+        setBorderWidth(value);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  /**
    * MinValue
    */
-  function getMinValue(value) {
-    return setMinValue(value);
-  }
+
+  const getMinValueNum = () => {
+    return { default: 0, name: 'MinValue', step: 10, min: -1000, max: 0 };
+  };
 
   const barMinValue = {
     minValue: minValue,
@@ -105,9 +130,10 @@ const Bar = () => {
   /**
    * MaxValue
    */
-  function getMaxValue(value) {
-    return setMaxValue(value);
-  }
+
+  const getMaxValueNum = () => {
+    return { default: 800, name: 'MaxValue', step: 10, min: 0, max: 1000 };
+  };
 
   const barMaxValue = {
     maxValue: maxValue,
@@ -128,9 +154,10 @@ const Bar = () => {
   /**
    * Padding
    */
-  function getPadding(value) {
-    return setPadding(value);
-  }
+
+  const getPaddingNum = () => {
+    return { default: 0.3, name: 'Padding', step: 0.1, min: 0, max: 0.9 };
+  };
 
   const barPadding = {
     padding: padding,
@@ -139,9 +166,10 @@ const Bar = () => {
   /**
    * InnerPadding
    */
-  function getInnerPadding(value) {
-    return setInnerPadding(value);
-  }
+
+  const getInnerPaddingNum = () => {
+    return { default: 0, name: 'InnerPadding', step: 1, min: 0, max: 10 };
+  };
 
   const barInnerPadding = {
     innerPadding: innerPadding,
@@ -161,9 +189,9 @@ const Bar = () => {
   /**
    * BorderRadius
    */
-  function getBorderRadius(value) {
-    return setBorderRadius(value);
-  }
+  const getBorderRadiusNum = () => {
+    return { default: 0, name: 'BorderRadius', step: 1, min: 0, max: 100 };
+  };
 
   const barBorderRadius = {
     borderRadius: borderRadius,
@@ -172,9 +200,10 @@ const Bar = () => {
   /**
    * BorderWidth
    */
-  function getBorderWidth(value) {
-    return setBorderWidth(value);
-  }
+
+  const getBorderWidthNum = () => {
+    return { default: 0, name: 'BorderWidth', step: 1, min: 0, max: 20 };
+  };
 
   const barBorderWidth = {
     borderWidth: borderWidth,
@@ -225,22 +254,46 @@ const Bar = () => {
   };
 
   /**
-   * Axis
+   * AxisTop
    */
-  function getAxis(value) {
-    console.log(value);
-    return (
-      setAxisTop(value[0].axisTopState),
-      setAxisRight(value[1].axisRightState),
-      setAxisLeft(value[2].axisLeftState),
-      setAxisBottom(value[3].axisBottomState)
-    );
+  function getAxisTop(value) {
+    return setAxisTop(value);
   }
 
-  const barAxis = {
+  const barAxisTop = {
     axisTop: axisTop,
+  };
+
+  /**
+   * AxisRight
+   */
+  function getAxisRight(value) {
+    return setAxisRight(value);
+  }
+
+  const barAxisRight = {
     axisRight: axisRight,
+  };
+
+  /**
+   * AxisLeft
+   */
+  function getAxisLeft(value) {
+    return setAxisLeft(value);
+  }
+
+  const barAxisLeft = {
     axisLeft: axisLeft,
+  };
+
+  /**
+   * AxisBottom
+   */
+  function getAxisBottom(value) {
+    return setAxisBottom(value);
+  }
+
+  const barAxisBottom = {
     axisBottom: axisBottom,
   };
 
@@ -298,25 +351,10 @@ const Bar = () => {
       {...barBorderRadius}
       {...barBorderWidth}
       {...barBorderColor}
-      // {...barAxis}
-      // axisTop={null}
-      // axisRight={null}
-      // axisBottom={{
-      //   tickSize: 5,
-      //   tickPadding: 5,
-      //   tickRotation: 0,
-      //   legend: 'country',
-      //   legendPosition: 'middle',
-      //   legendOffset: 32,
-      // }}
-      axisLeft={{
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: 'food',
-        legendPosition: 'middle',
-        legendOffset: -40,
-      }}
+      {...barAxisTop}
+      {...barAxisRight}
+      {...barAxisLeft}
+      {...barAxisBottom}
       labelSkipWidth={12}
       labelSkipHeight={12}
       {...barLabelTextColor}
@@ -374,23 +412,23 @@ const Bar = () => {
       <br></br>
       <BarReverse getReverse={getReverse} />
       <br></br>
-      <BarMinValue getMinValue={getMinValue} />
+      <BarSlider getSlider={getSlider} info={getMinValueNum} />
       <br></br>
-      <BarMaxValue getMaxValue={getMaxValue} />
+      <BarSlider getSlider={getSlider} info={getMaxValueNum} />
       <br></br>
       <BarMinMaxValue getMinMaxValue={getMinMaxValue} />
       <br></br>
-      <BarPadding getPadding={getPadding} />
+      <BarSlider getSlider={getSlider} info={getPaddingNum} />
       <br></br>
-      <BarInnerPadding getInnerPadding={getInnerPadding} />
+      <BarSlider getSlider={getSlider} info={getInnerPaddingNum} />
       <br></br>
       <Typography gutterBottom>STYLE</Typography>
       <br></br>
       <BarColors getColors={getColors} />
       <br></br>
-      <BarBorderRadius getBorderRadius={getBorderRadius} />
+      <BarSlider getSlider={getSlider} info={getBorderRadiusNum} />
       <br></br>
-      <BarBorderWidth getBorderWidth={getBorderWidth} />
+      <BarSlider getSlider={getSlider} info={getBorderWidthNum} />
       <br></br>
       <BarBorderColor getBorderColor={getBorderColor} />
       <br></br>
@@ -405,7 +443,13 @@ const Bar = () => {
       <BarEnableGridY getEnableGridY={getEnableGridY} />
       <br></br>
       <br></br>
-      <BarAxis getAxis={getAxis} />
+      <BarAxis
+        className={classes.mb}
+        getAxisTop={getAxisTop}
+        getAxisRight={getAxisRight}
+        getAxisLeft={getAxisLeft}
+        getAxisBottom={getAxisBottom}
+      />
       <br></br>
     </>
   );

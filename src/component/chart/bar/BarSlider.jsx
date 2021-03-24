@@ -36,40 +36,48 @@ const PrettoSlider = withStyles({
 
 const useStyles = makeStyles({
   root: {
-    width: 250,
+    width: 300,
+    marginTop: '20px',
+    marginBottom: '20px',
   },
   input: {
     width: 55,
   },
 });
-export default function BarMaxValue(props) {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(800);
 
+export default function BarSlider(props) {
+  const classes = useStyles();
+  const [value, setValue] = React.useState(props.info().default);
+
+  let name = props.info().name;
+  let step = props.info().step;
+  let min = props.info().min;
+  let max = props.info().max;
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
-    props.getMaxValue(newValue);
+    props.getSlider(newValue, name);
   };
 
   const handleInputChange = (event) => {
     setValue(event.target.value === '' ? '' : Number(event.target.value));
-    props.getMaxValue(
-      event.target.value === '' ? '' : Number(event.target.value)
+    props.getSlider(
+      event.target.value === '' ? '' : Number(event.target.value),
+      name
     );
   };
 
   const handleBlur = () => {
-    if (value < 0) {
-      setValue(0);
-    } else if (value > 1000) {
-      setValue(1000);
+    if (value < min) {
+      setValue(min);
+    } else if (value > max) {
+      setValue(max);
     }
   };
 
   return (
     <div className={classes.root}>
       <Typography id="input-slider" gutterBottom>
-        MinValue
+        {name}
       </Typography>
       <Grid container spacing={3} alignItems="center">
         <Grid item xs>
@@ -78,8 +86,9 @@ export default function BarMaxValue(props) {
             onChange={handleSliderChange}
             aria-labelledby="input-slider"
             valueLabelDisplay="auto"
-            min={0}
-            max={1000}
+            step={step}
+            min={min}
+            max={max}
           />
         </Grid>
         <Grid item>
@@ -90,9 +99,9 @@ export default function BarMaxValue(props) {
             onChange={handleInputChange}
             onBlur={handleBlur}
             inputProps={{
-              // step: 10,
-              min: 0,
-              max: 1000,
+              step: step,
+              min: min,
+              max: max,
               type: 'number',
               'aria-labelledby': 'input-slider',
             }}

@@ -36,25 +36,27 @@ const PrettoSlider = withStyles({
 
 const useStyles = makeStyles({
   root: {
-    width: 250,
+    width: 300,
+    marginTop: '20px',
+    marginBottom: '20px',
   },
   input: {
     width: 55,
   },
 });
 
-export default function BarBorderRadius(props) {
+export default function BarAxisTickSize(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(2);
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
-    props.getBorderRadius(newValue);
+    props.getTickSize(newValue);
   };
 
   const handleInputChange = (event) => {
     setValue(event.target.value === '' ? '' : Number(event.target.value));
-    props.getBorderRadius(
+    props.getTickSize(
       event.target.value === '' ? '' : Number(event.target.value)
     );
   };
@@ -62,15 +64,15 @@ export default function BarBorderRadius(props) {
   const handleBlur = () => {
     if (value < 0) {
       setValue(0);
-    } else if (value > 100) {
-      setValue(100);
+    } else if (value > 50) {
+      setValue(50);
     }
   };
 
   return (
     <div className={classes.root}>
       <Typography id="input-slider" gutterBottom>
-        BorderRadius
+        TickSize
       </Typography>
       <Grid container spacing={3} alignItems="center">
         <Grid item xs>
@@ -81,7 +83,7 @@ export default function BarBorderRadius(props) {
             valueLabelDisplay="auto"
             step={1}
             min={0}
-            max={100}
+            max={50}
           />
         </Grid>
         <Grid item>
@@ -94,7 +96,7 @@ export default function BarBorderRadius(props) {
             inputProps={{
               step: 1,
               min: 0,
-              max: 100,
+              max: 50,
               type: 'number',
               'aria-labelledby': 'input-slider',
             }}

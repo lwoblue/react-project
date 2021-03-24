@@ -36,51 +36,54 @@ const PrettoSlider = withStyles({
 
 const useStyles = makeStyles({
   root: {
-    width: 250,
+    width: 300,
+    marginTop: '20px',
+    marginBottom: '20px',
   },
   input: {
     width: 55,
   },
 });
 
-export default function BarMinValue(props) {
+export default function BarAxisTickPadding(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(2);
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
-    props.getMinValue(newValue);
+    props.getAxisTickPadding(newValue);
   };
 
   const handleInputChange = (event) => {
     setValue(event.target.value === '' ? '' : Number(event.target.value));
-    props.getMinValue(
+    props.getAxisTickPadding(
       event.target.value === '' ? '' : Number(event.target.value)
     );
   };
 
   const handleBlur = () => {
-    if (value < -1000) {
-      setValue(-1000);
-    } else if (value > 0) {
+    if (value < 0) {
       setValue(0);
+    } else if (value > 50) {
+      setValue(50);
     }
   };
 
   return (
     <div className={classes.root}>
       <Typography id="input-slider" gutterBottom>
-        MinValue
+        TickPadding
       </Typography>
       <Grid container spacing={3} alignItems="center">
         <Grid item xs>
           <PrettoSlider
-            value={typeof value === 'number' ? value : -1000}
+            value={typeof value === 'number' ? value : 0}
             onChange={handleSliderChange}
             aria-labelledby="input-slider"
             valueLabelDisplay="auto"
-            min={-1000}
-            max={0}
+            step={1}
+            min={0}
+            max={50}
           />
         </Grid>
         <Grid item>
@@ -91,9 +94,9 @@ export default function BarMinValue(props) {
             onChange={handleInputChange}
             onBlur={handleBlur}
             inputProps={{
-              step: 10,
-              min: -1000,
-              max: 0,
+              step: 1,
+              min: 0,
+              max: 50,
               type: 'number',
               'aria-labelledby': 'input-slider',
             }}
