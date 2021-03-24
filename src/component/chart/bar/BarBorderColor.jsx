@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 export default function BarBorderColor(props) {
   const classes = useStyles();
   const [initial, setInitial] = useState('#000000');
-  const [color, setColor] = useState();
+  const [color, setColor] = useState('');
 
   const handleColor = ({ hex, rgba, r, g, b, a }) => {
     setColor(hex);
