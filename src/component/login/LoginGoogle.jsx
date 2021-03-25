@@ -22,12 +22,11 @@ function LoginGoogle() {
       .catch((error) => {
         alert(error.message);
       });
+    localStorage.setItem("userID", auth.currentUser.email);
     // users table 조회 후 없는 계정이라면 users table에 추가할것.
-    let randStr = Math.random().toString(36).substr(2,11);
     const user = {
         email: auth.currentUser.email,
         username: auth.currentUser.displayName,
-        password: randStr,
         photoURL:auth.currentUser.photoURL,
         deleteYN: 'n',
         provider: 'google'

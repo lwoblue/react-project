@@ -51,8 +51,7 @@ const LoginKakao = () => {
       .then((res) => {
         // yes
         localStorage.setItem("token", res.firebase_token);
-        localStorage.setItem("userID", email);
-        console.log("kakao login>>>: ", res);
+        localStorage.setItem("userID", email)
         auth
           .signInWithCustomToken(res.firebase_token)
           .then((user) => {

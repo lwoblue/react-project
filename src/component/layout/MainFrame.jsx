@@ -63,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainFrame = () => {
-  // const [{user}, dispatch] = useStateValue();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [{ user }, dispatch] = useStateValue();
