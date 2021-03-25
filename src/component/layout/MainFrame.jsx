@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   separator: {
     top: '64px',
     position: 'absolute',
-    zIndex: '9999',
+    zIndex: '1000',
     width: '100%',
     height: '50px',
     padding: '14px',

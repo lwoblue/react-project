@@ -65,12 +65,14 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    zIndex: '1001',
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: '#e9e5c2',
   },
   drawerHeader: {
-    // backgroundColor: '#000000e8',
+    backgroundColor: '#e9e5c2',
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
