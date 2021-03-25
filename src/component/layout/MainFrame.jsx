@@ -76,7 +76,7 @@ const MainFrame = () => {
     <>
       <div className={classes.wrap}>
         <Router>
-          {user ? (
+          {!user ? (
             // <Login />
             <LoginTemplate />
           ) : (
