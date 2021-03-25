@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import ApiService from 'api/ApiService';
+import ApiService from 'api/ApiService';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -28,48 +28,47 @@ class EditUserComponent extends Component {
     this.loadUser();
   }
 
-  // loadUser = () => {
-  //   ApiService.fetchUserByID(window.localStorage.getItem('userID'))
-  //     .then((res) => {
-  //       let user = res.data;
-  //       this.setState({
-  //         id: user.id,
-  //         userName: user.userName,
-  //         firstName: user.firstName,
-  //         lastName: user.lastName,
-  //         age: user.age,
-  //         salary: user.salary,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log('loadUser() Error!!', err);
-  //     });
-  // };
-
   loadUser = () => {
-    db.collection('users')
-      .doc('IR3CFnBcoETVQpqXRYXF')
-      .collection('user')
-      .where('email', '==', window.localStorage.getItem('userID'))
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          let user = doc.data();
-          this.setState({
-            id: user.uid,
-            // age: user.age,
-            // salary: user.salary,
-            userName: user.userName,
-            email: user.email,
-            userImage: user.photoURL,
-          });
+    ApiService.fetchUserByID(window.localStorage.getItem('userID'))
+      .then((res) => {
+        let user = res.data;
+        this.setState({
+          id: user.id,
+          userName: user.userName,
+          email: user.email,
+          userImage: user.photoURL,
         });
       })
-      .catch((error) => {
-        console.log('Error getting documents: ', error);
+      .catch((err) => {
+        console.log('loadUser() Error!!', err);
       });
-    // this.setState({ userImage: firebase.auth().currentUser.photoURL });
   };
+
+  // firebase db 연동
+  // loadUser = () => {
+  //   db.collection('users')
+  //     .doc('IR3CFnBcoETVQpqXRYXF')
+  //     .collection('user')
+  //     .where('email', '==', window.localStorage.getItem('userID'))
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       querySnapshot.forEach((doc) => {
+  //         let user = doc.data();
+  //         this.setState({
+  //           id: user.uid,
+  //           // age: user.age,
+  //           // salary: user.salary,
+  //           userName: user.userName,
+  //           email: user.email,
+  //           userImage: user.photoURL,
+  //         });
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log('Error getting documents: ', error);
+  //     });
+  //   // this.setState({ userImage: firebase.auth().currentUser.photoURL });
+  // };
 
   onChange = (e) => {
     this.setState({
@@ -77,22 +76,45 @@ class EditUserComponent extends Component {
     });
   };
 
+  saveUser = (e) => {
+    e.preventDefault();
+
+    let user = {
+      id: this.state.id,
+      userName: this.state.userName,
+    };
+
+    ApiService.editUser(user)
+      .then((res) => {
+        this.props.history.push('/users');
+      })
+      .catch((err) => {
+        console.log('saveUser() Error!!', err);
+      });
+  };
+
+  // firebase db 연동
   // saveUser = (e) => {
   //   e.preventDefault();
-
   //   let user = {
-  //     id: this.state.id,
-  //     password: this.state.password,
-  //     firstName: this.state.firstName,
-  //     lastName: this.state.lastName,
-  //     age: this.state.age,
-  //     salary: this.state.salary,
+  //     //id: this.state.id,
+  //     userName: this.state.userName,
+  //     // password: this.state.password,
+  //     // firstName: this.state.firstName,
+  //     // lastName: this.state.lastName,
+  //     // age: this.state.age,
+  //     // salary: this.state.salary,
+  //     email: this.state.email,
   //   };
-
-  //   ApiService.editUser(user)
-  //     .then((res) => {
-  //       this.setState({
-  //         message: user.lastName + '님 정보가 수정되었습니다.',
+  //   db.collection('users')
+  //     .doc('IR3CFnBcoETVQpqXRYXF')
+  //     .collection('user')
+  //     .where('email', '==', window.localStorage.getItem('userID'))
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       console.log('Document successfully update!');
+  //       querySnapshot.forEach((doc) => {
+  //         doc.ref.update(user);
   //       });
   //       this.props.history.push('/users');
   //     })
@@ -100,37 +122,6 @@ class EditUserComponent extends Component {
   //       console.log('saveUser() Error!!', err);
   //     });
   // };
-
-  saveUser = (e) => {
-    e.preventDefault();
-
-    let user = {
-      //id: this.state.id,
-      userName: this.state.userName,
-      // password: this.state.password,
-      // firstName: this.state.firstName,
-      // lastName: this.state.lastName,
-      // age: this.state.age,
-      // salary: this.state.salary,
-      email: this.state.email,
-    };
-
-    db.collection('users')
-      .doc('IR3CFnBcoETVQpqXRYXF')
-      .collection('user')
-      .where('email', '==', window.localStorage.getItem('userID'))
-      .get()
-      .then((querySnapshot) => {
-        console.log('Document successfully update!');
-        querySnapshot.forEach((doc) => {
-          doc.ref.update(user);
-        });
-        this.props.history.push('/users');
-      })
-      .catch((err) => {
-        console.log('saveUser() Error!!', err);
-      });
-  };
 
   render() {
     return (

@@ -20,6 +20,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import ApiService from 'api/ApiService';
 
 import db from '../../firebase';
 
@@ -136,25 +137,38 @@ const useToolbarStyles = makeStyles((theme) => ({
   },
 }));
 
+// <firebase db 연동>
+// const deleteUser = (props) => {
+//   let user = {
+//     deleteYN: 'y',
+//   };
+//   props.selectedList.forEach((deleteuser) => {
+//     db.collection('users')
+//       .doc('IR3CFnBcoETVQpqXRYXF')
+//       .collection('user')
+//       .where('email', '==', deleteuser)
+//       .get()
+//       .then((querySnapshot) => {
+//         console.log('Document successfully delete!');
+//         querySnapshot.forEach((doc) => {
+//           doc.ref.update(user);
+//         });
+//         props.setSelected([]);
+//       })
+//       .catch((err) => {
+//         console.log('deleteUser Error!!', err);
+//       });
+//   });
+// };
+
 const deleteUser = (props) => {
-  let user = {
-    deleteYN: 'y',
-  };
   props.selectedList.forEach((deleteuser) => {
-    db.collection('users')
-      .doc('IR3CFnBcoETVQpqXRYXF')
-      .collection('user')
-      .where('email', '==', deleteuser)
-      .get()
-      .then((querySnapshot) => {
-        console.log('Document successfully delete!');
-        querySnapshot.forEach((doc) => {
-          doc.ref.update(user);
-        });
+    ApiService.deleteUser(deleteuser)
+      .then((res) => {
         props.setSelected([]);
       })
       .catch((err) => {
-        console.log('deleteUser Error!!', err);
+        console.log('deleteUser Error!', err);
       });
   });
 };
@@ -251,15 +265,25 @@ export default function EnhancedTable() {
 
   const [rows, setRows] = useState([]);
   useEffect(() => {
-    db.collection('users')
-      .doc('IR3CFnBcoETVQpqXRYXF')
-      .collection('user')
-      .where('deleteYN', '==', 'n')
-      .get()
-      .then((snapshot) => {
-        setRows(snapshot.docs.map((doc) => doc.data()));
+    ApiService.fetchUsers()
+      .then((res) => {
+        setRows(res.data);
+      })
+      .catch((err) => {
+        console.log('reloadUserList() Error!!', err);
       });
-  }, [rows]);
+
+    // <firebase db 연동>
+    // db.collection('users')
+    //   .doc('IR3CFnBcoETVQpqXRYXF')
+    //   .collection('user')
+    //   .where('deleteYN', '==', 'n')
+    //   .get()
+    //   .then((snapshot) => {
+    //     setRows(snapshot.docs.map((doc) => doc.data()));
+    //   });
+    // }, [rows]);
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

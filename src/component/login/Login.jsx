@@ -2,9 +2,8 @@ import React, { useState, useCallback } from 'react';
 import './Login.css';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-//import LoginService from './LoginService';
+import LoginService from './LoginService';
 import LoginKakao from './LoginKakao';
-import SignUp from './SignUp';
 import { auth, provider } from './../../firebase';
 import { actionTypes } from '../chat/state/reducer';
 import { useStateValue } from '../chat/state/StateProvider';
@@ -46,39 +45,48 @@ const Login = () => {
       } else {
         console.log('이메일 형식이 아닙니다.');
       }
-      // LoginService.login(id, pwd)
-      //   .then((res) => {
-      //     console.log(res.data);
-      //     history.push('/Home');
-      //   })
-      //   .catch(() => {
-      //     console.log("login Error!");
-      //   });
-      db.collection('users')
-        .doc('IR3CFnBcoETVQpqXRYXF')
-        .collection('user')
-        .where('email', '==', id)
-        .where('password', '==', pwd)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            if (doc.exists) {
-              console.log(doc.id, ' => ', doc.data());
-              window.localStorage.setItem('userID', id);
-              dispatch({
-                type: actionTypes.SET_USER,
-                user: doc.data(),
-              });
-              history.push('/home');
-            } else {
-              alert('존재하지 않는 사용자입니다. 회원가입해주세요.');
-              history.push('/signUp');
-            }
+      LoginService.login(id, pwd)
+        .then((res) => {
+          window.localStorage.setItem('userID', id);
+          console.log('login--->', res.data);
+          dispatch({
+            type: actionTypes.SET_USER,
+            user: res.data,
           });
+          console.log(res.data);
+          history.push('/home');
         })
-        .catch((error) => {
-          console.error('login Error!', error);
+        .catch(() => {
+          console.log('login Error!');
         });
+
+      // <firebase db 연동>
+      // db.collection('users')
+      //   .doc('IR3CFnBcoETVQpqXRYXF')
+      //   .collection('user')
+      //   .where('email', '==', id)
+      //   .where('password', '==', pwd)
+      //   .get()
+      //   .then((querySnapshot) => {
+      //     querySnapshot.forEach((doc) => {
+      //       if (doc.exists) {
+      //         console.log(doc.id, ' => ', doc.data());
+      //         window.localStorage.setItem('userID', id);
+      //         dispatch({
+      //           type: actionTypes.SET_USER,
+      //           user: doc.data(),
+      //         });
+      //         history.push('/home');
+      //       } else {
+      //         alert('존재하지 않는 사용자입니다. 회원가입해주세요.');
+      //         history.push('/signUp');
+      //       }
+      //     });
+      //   })
+      //   .catch((error) => {
+      //     console.error('login Error!', error);
+      //   });
+
       setId((e.target.value = ''));
       setPwd((e.target.value = ''));
     },
@@ -138,7 +146,9 @@ const Login = () => {
               {/* <button>아이디패스워드찾기</button> */}
             </div>
           </div>
-          <button className="buttonS" onClick={loginClickHandler}>Sign In</button>
+          <button className="buttonS" onClick={loginClickHandler}>
+            Sign In
+          </button>
           <div className="login___social">
             <LoginKakao />
             <button className="buttonG" onClick={googleLoginClick}>

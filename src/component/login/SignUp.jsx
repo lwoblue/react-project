@@ -61,11 +61,23 @@ function SignUp() {
               password: pwd,
               userName: userName,
               deleteYN: 'n',
+              photoURL:
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3SvtTRgIX1lfL2YSByB8kwoVkVYQB93It2g&usqp=CAU',
             };
-            db.collection('users')
-              .doc('IR3CFnBcoETVQpqXRYXF')
-              .collection('user')
-              .add(user);
+            // <firebase db 연동>
+            // db.collection('users')
+            //   .doc('IR3CFnBcoETVQpqXRYXF')
+            //   .collection('user')
+            //   .add(user);
+
+            LoginService.signUp(email, pwd, userName)
+              .then((res) => {
+                console.log(res.data);
+              })
+              .catch(() => {
+                console.log('SignUp Error!');
+              });
+
             alert('회원가입이 완료되었습니다.');
             history.push('/login');
           })
