@@ -11,7 +11,7 @@ import axios from "axios";
 // interface State {
 //     data: any;
 // }
-const LOGIN_API_BASE_URL = "http://localhost:8080/users";
+const LOGIN_API_BASE_URL = "http://localhost:8090/users";
 // const { Kakao } = window;
 const LoginKakao = () => {
   const history = useHistory();
@@ -19,22 +19,14 @@ const LoginKakao = () => {
   const [uid, setUid] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [provider, setProvider] = useState("");
   const [photoURL, setPhotoURL] = useState("");
 
   const responseKaKao = (res) => {
-    // console.log(JSON.stringify(res));
-    // setUid(`kakao:${res.profile.id}`);
-    // setEmail(res.profile.kakao_account.email);
-    // setName(res.profile.properties.nickname);
-    // setPhotoURL(res.profile.properties.profile_image);
-    // setProvider("kakao");
     let access_token = res.response.access_token;
     let uid = `kakao:${res.profile.id}`;
     let email = res.profile.kakao_account.email;
     let name = res.profile.properties.nickname;
     let photoURL = res.profile.properties.profile_image;
-    let provider = "kakao";
     if (photoURL === undefined) {
       photoURL =
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3SvtTRgIX1lfL2YSByB8kwoVkVYQB93It2g&usqp=CAU";

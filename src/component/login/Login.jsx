@@ -11,6 +11,7 @@ import { useStateValue } from '../chat/state/StateProvider';
 import { useHistory } from 'react-router';
 import LoginTemplate from './LoginTemplate';
 import db from '../../firebase';
+import LoginGoogle from './LoginGoogle';
 
 const Login = () => {
   const history = useHistory();
@@ -75,23 +76,6 @@ const Login = () => {
     },
     [id, pwd]
   );
-  const kakaoLoginClick = useCallback(() => {}, []);
-
-  const googleLoginClick = () => {
-    auth
-      .signInWithPopup(provider)
-      .then((result) => {
-        history.push('/home');
-        dispatch({
-          type: actionTypes.SET_USER,
-          user: result.user,
-        });
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
-
   const signupClick = () => {
     // setSignUp(true);
     history.push('/signUp');
@@ -131,10 +115,7 @@ const Login = () => {
           <button className="buttonS" onClick={loginClickHandler}>Sign In</button>
           <div className="login___social">
             <LoginKakao />
-            <button className="buttonG" onClick={googleLoginClick}>
-              Google 로그인
-            </button>
-            {/* <LoginGoogle /> */}
+            <LoginGoogle/>
           </div>
         </div>
       </div>
