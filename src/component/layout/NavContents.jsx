@@ -161,7 +161,6 @@ const NavContents = () => {
             </List>
           </Collapse>
         </List>
-        <Divider />
       </nav>
     </>
   );

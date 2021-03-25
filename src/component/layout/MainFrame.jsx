@@ -96,7 +96,7 @@ const MainFrame = () => {
               <div className={classes.content}>
                 <main
                   className={[
-                    classes.separator,
+                    classes.mp,
                     clsx(classes.main, {
                       [classes.mainShift]: open,
                     }),

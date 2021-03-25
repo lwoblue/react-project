@@ -6,12 +6,12 @@ import SignUp from './SignUp';
 function LoginTemplate() {
   return (
     <div>
-      {/* <Router> */}
-      <Switch>
-        <Route exact path={['/', '/login']} component={Login} />
-        <Route path="/signUp" component={SignUp} />
-      </Switch>
-      {/* </Router> */}
+      <Router>
+        <Switch>
+          <Route exact path={['/', '/login']} component={Login} />
+          <Route path="/signUp" component={SignUp} />
+        </Switch>
+      </Router>
     </div>
   );
 }
