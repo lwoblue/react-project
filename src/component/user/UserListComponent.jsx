@@ -282,8 +282,7 @@ export default function EnhancedTable() {
     //   .then((snapshot) => {
     //     setRows(snapshot.docs.map((doc) => doc.data()));
     //   });
-    // }, [rows]);
-  }, []);
+  }, [rows]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
