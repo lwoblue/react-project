@@ -8,7 +8,7 @@ import UserListComponent from 'component/user/UserListComponent';
 import AddUserComponent from 'component/user/AddUserComponent';
 import EditUserComponent from 'component/user/EditUserComponent';
 
-const AppRouter = () => {
+const ContentsRoute = () => {
   return (
     <>
       <Switch>
@@ -17,15 +17,13 @@ const AppRouter = () => {
         <Route path="/bar" component={Bar} />
         <Route path="/chat" component={ChatFrame} />
         <Route path="/gallery" component={Gallery} />
-      </Switch>
-
-      <Switch>
         <Route path="/users" component={UserListComponent} />
         <Route path="/add-user" component={AddUserComponent} />
         <Route path="/edit-user" component={EditUserComponent} />
+        <Route path="/personal-information" component={EditUserComponent} />
       </Switch>
     </>
   );
 };
 
-export default AppRouter;
+export default ContentsRoute;
