@@ -1,7 +1,13 @@
 import { React, useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import { data } from './BarData';
-import { makeStyles, Grid, Paper, Typography } from '@material-ui/core';
+import {
+  makeStyles,
+  Grid,
+  Paper,
+  Typography,
+  Divider,
+} from '@material-ui/core';
 import {
   BarSwitch,
   BarSlider,
@@ -458,7 +464,24 @@ const Bar = () => {
 
   return (
     <>
-      <Grid container className={classes.root} spacing={2}>
+      <div className={classes.root}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            <Paper className={classes.paper}>
+              <Typography gutterBottom>BASE</Typography>
+              <Divider />
+              <BarSwitch state={switchState} info={groupModeInfo} />
+              <Divider />
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Paper className={classes.paper}>{MyResponsiveBar({ data })}</Paper>
+          </Grid>
+        </Grid>
+      </div>
+
+      {/* <Grid container className={classes.root} spacing={2}>
         <Grid item xs={12}>
           <Grid container>
             <Grid item className={classes.item}>
@@ -516,7 +539,7 @@ const Bar = () => {
         getAxisLeft={getAxisLeft}
         getAxisBottom={getAxisBottom}
       />
-      <br></br>
+      <br></br> */}
     </>
   );
 };

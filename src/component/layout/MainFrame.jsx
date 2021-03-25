@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
   },
   content: {
+    backgroundColor: '#0000000a',
     position: 'absolute',
     top: '100px',
     bottom: '0',
