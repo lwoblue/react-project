@@ -262,6 +262,7 @@ export default function EnhancedTable() {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [searchInput, setSearchInput] = useState('');
 
   const [rows, setRows] = useState([]);
   useEffect(() => {
@@ -333,6 +334,13 @@ export default function EnhancedTable() {
     setDense(event.target.checked);
   };
 
+  const handleChangeSearchInput = (event) => {
+    setSearchInput(event.target.value);
+    rows.filter((row) => {
+      return row.email.toLowerCase().includes(searchInput);
+    });
+  };
+
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
@@ -341,6 +349,13 @@ export default function EnhancedTable() {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
+        <input
+          className="search"
+          type="search"
+          placeholder="Search..."
+          onChange={handleChangeSearchInput}
+        />
+
         <EnhancedTableToolbar
           setSelected={setSelected}
           numSelected={selected.length}
