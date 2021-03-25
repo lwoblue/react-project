@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Home from 'component/Home';
-import Line from 'component/chart/line/Line';
 import Bar from 'component/chart/bar/Bar';
 import ChatFrame from 'component/chat/ChatFrame';
 import Gallery from 'component/gallery/Gallery';
@@ -15,7 +14,6 @@ const AppRouter = () => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/home" component={Home} />
-        <Route path="/line" component={Line} />
         <Route path="/bar" component={Bar} />
         <Route path="/chat" component={ChatFrame} />
         <Route path="/gallery" component={Gallery} />

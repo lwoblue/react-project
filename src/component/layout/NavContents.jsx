@@ -1,27 +1,27 @@
 /* eslint-disable no-nested-ternary */
 import { React, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Collapse from '@material-ui/core/Collapse';
-import ListItemText from '@material-ui/core/ListItemText';
+import {
+  makeStyles,
+  List,
+  ListItem,
+  Collapse,
+  ListItemText,
+  ListItemIcon,
+} from '@material-ui/core';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
-import { Link as RouterLink } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 
 export function breadcrumbNameMap(to) {
   // const candidate = { '/bar': 'Bar', '/line': 'Line', '/pie': 'Pie' };
   const candidate = {
-    '/line': 'Line',
     '/bar': 'Bar',
     '/chat': 'Talk',
     '/users': 'UserList',
     '/gallery': 'Gallery',
-    
   };
   return candidate[to];
 }
@@ -93,12 +93,6 @@ const NavContents = () => {
 
           <Collapse component="li" in={open} timeout="auto" unmountOnExit>
             <List disablePadding>
-              <ListItemLink to="/line" className={classes.nested} />
-            </List>
-          </Collapse>
-
-          <Collapse component="li" in={open} timeout="auto" unmountOnExit>
-            <List disablePadding>
               <ListItemLink to="/bar" className={classes.nested} />
             </List>
           </Collapse>
@@ -142,7 +136,7 @@ const NavContents = () => {
           </ListItem>
           <Collapse component="li" in={open3} timeout="auto" unmountOnExit>
             <List disablePadding>
-              <ListItemLink to="/gallery" className={classes.nested}/>
+              <ListItemLink to="/gallery" className={classes.nested} />
             </List>
           </Collapse>
         </List>

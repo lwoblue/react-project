@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import PropTypes from 'prop-types';
+import Circle from 'react-circle';
 import {
   makeStyles,
   Accordion,
@@ -10,10 +11,8 @@ import {
   Slider,
   TextField,
 } from '@material-ui/core';
-
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { BarAxisEnable, BarSlider } from 'component/chart/bar/BarController';
-import Circle from 'react-circle';
 
 function ValueLabelComponent(props) {
   const { children, open, value } = props;
@@ -60,12 +59,28 @@ const useStyles = makeStyles((theme) => ({
       width: 200,
     },
   },
+  mgt20: {
+    marginTop: '20px',
+  },
 }));
 
 export default function BarAxis(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
-  const [circle, setCircle] = useState(0);
+  const [circle, setCircle] = useState({
+    circleTop: 0,
+    circleRight: 0,
+    circleLeft: 0,
+    circleBottom: 0,
+  });
+
+  const [textField, setTextField] = useState({
+    legendTop: 'axisTop',
+    legendRight: 'axisRight',
+    legendLeft: 'axisLeft',
+    legendBottom: 'axisBottom',
+  });
+
   const [axisTopState, setAxisTopState] = useState(false);
   const [axisTop, setAxisTop] = useState({
     tickSize: 5,
@@ -111,8 +126,35 @@ export default function BarAxis(props) {
   };
 
   const handleSliderChange = (event, newValue) => {
-    setCircle(newValue);
-    axisSliderState(newValue, 'Circle');
+    if (expanded === 'axisTop') {
+      setCircle({ ...circle, circleTop: newValue });
+    } else if (expanded === 'axisRight') {
+      setCircle({ ...circle, circleRight: newValue });
+    } else if (expanded === 'axisLeft') {
+      setCircle({ ...circle, circleLeft: newValue });
+    } else if (expanded === 'axisBottom') {
+      setCircle({ ...circle, circleBottom: newValue });
+    }
+
+    axisState(newValue, 'Circle');
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
+
+  const handleTextChange = (event) => {
+    if (expanded === 'axisTop') {
+      setTextField({ ...textField, legendTop: event.target.value });
+    } else if (expanded === 'axisRight') {
+      setTextField({ ...textField, legendRight: event.target.value });
+    } else if (expanded === 'axisLeft') {
+      setTextField({ ...textField, legendLeft: event.target.value });
+    } else if (expanded === 'axisBottom') {
+      setTextField({ ...textField, legendBottom: event.target.value });
+    }
+
+    axisState(event.target.value, 'TextField');
   };
 
   const getAxisEnable = (value) => {
@@ -159,7 +201,7 @@ export default function BarAxis(props) {
     return { default: 2, name: 'TickPadding', step: 1, min: 0, max: 50 };
   };
 
-  const axisSliderState = (value, value2) => {
+  const axisState = (value, value2) => {
     switch (expanded) {
       case 'axisTop':
         if (value2 === 'TickSize') {
@@ -180,6 +222,13 @@ export default function BarAxis(props) {
           setAxisTop({ ...axisTop, tickRotation: value });
           if (axisTopState === true) {
             props.getAxisTop({ ...axisTop, tickRotation: value });
+          } else {
+            props.getAxisTop(null);
+          }
+        } else if (value2 === 'TextField') {
+          setAxisTop({ ...axisTop, legend: value });
+          if (axisTopState === true) {
+            props.getAxisTop({ ...axisTop, legend: value });
           } else {
             props.getAxisTop(null);
           }
@@ -207,6 +256,13 @@ export default function BarAxis(props) {
           } else {
             props.getAxisRight(null);
           }
+        } else if (value2 === 'TextField') {
+          setAxisRight({ ...axisRight, legend: value });
+          if (axisRightState === true) {
+            props.getAxisRight({ ...axisRight, legend: value });
+          } else {
+            props.getAxisRight(null);
+          }
         }
         break;
       case 'axisLeft':
@@ -228,6 +284,13 @@ export default function BarAxis(props) {
           setAxisLeft({ ...axisLeft, tickRotation: value });
           if (axisLeftState === true) {
             props.getAxisLeft({ ...axisLeft, tickRotation: value });
+          } else {
+            props.getAxisLeft(null);
+          }
+        } else if (value2 === 'TextField') {
+          setAxisLeft({ ...axisLeft, legend: value });
+          if (axisLeftState === true) {
+            props.getAxisLeft({ ...axisLeft, legend: value });
           } else {
             props.getAxisLeft(null);
           }
@@ -255,6 +318,13 @@ export default function BarAxis(props) {
           } else {
             props.getAxisBottom(null);
           }
+        } else if (value2 === 'TextField') {
+          setAxisBottom({ ...axisBottom, legend: value });
+          if (axisBottomState === true) {
+            props.getAxisBottom({ ...axisBottom, legend: value });
+          } else {
+            props.getAxisBottom(null);
+          }
         }
         break;
       default:
@@ -262,9 +332,12 @@ export default function BarAxis(props) {
     }
   };
 
-  function SliderCircle() {
+  function axisContents() {
     return (
       <>
+        <BarAxisEnable getAxisEnable={getAxisEnable} />
+        <BarSlider state={axisState} info={getAxisTickSizeNum} />
+        <BarSlider state={axisState} info={getAxisTickPaddingNum} />
         <Typography id="input-slider" gutterBottom>
           Circle
         </Typography>
@@ -274,7 +347,15 @@ export default function BarAxis(props) {
           responsive={false} // Boolean: Make SVG adapt to parent size
           size="100" // String: Defines the size of the circle.
           lineWidth="25" // String: Defines the thickness of the circle's stroke.
-          progress={circle} // String: Update to change the progress and percentage.
+          progress={
+            expanded === 'axisTop'
+              ? circle.circleTop
+              : expanded === 'axisRight'
+              ? circle.circleRight
+              : expanded === 'axisLeft'
+              ? circle.circleLeft
+              : circle.circleBottom
+          } // String: Update to change the progress and percentage.
           progressColor="#e0b250" // String: Color of "progress" portion of circle.
           bgColor="#ebe7c4" // String: Color of "empty" portion of circle.
           textColor="#6b778c" // String: Color of percentage text color.
@@ -296,15 +377,29 @@ export default function BarAxis(props) {
           min={-100}
           max={100}
         />
-        <form className={classes.root} noValidate autoComplete="off">
-          <div>
-            <TextField
-              label="Size"
-              id="standard-size-small"
-              defaultValue="Small"
-              size="small"
-            />
-          </div>
+        <form
+          className={(classes.root, classes.mgt20)}
+          noValidate
+          autoComplete="off"
+          onSubmit={handleSubmit}
+        >
+          <TextField
+            id="outlined-multiline-flexible"
+            label="legend"
+            multiline
+            rowsMax={4}
+            value={
+              expanded === 'axisTop'
+                ? textField.legendTop
+                : expanded === 'axisRight'
+                ? textField.legendRight
+                : expanded === 'axisLeft'
+                ? textField.legendLeft
+                : textField.legendBottom
+            }
+            onChange={handleTextChange}
+            variant="outlined"
+          />
         </form>
       </>
     );
@@ -328,10 +423,7 @@ export default function BarAxis(props) {
           </Typography>
         </AccordionSummary>
         <AccordionDetails className={classes.db}>
-          <BarAxisEnable getAxisEnable={getAxisEnable} />
-          <BarSlider state={axisSliderState} info={getAxisTickSizeNum} />
-          <BarSlider state={axisSliderState} info={getAxisTickPaddingNum} />
-          {SliderCircle()}
+          {axisContents()}
         </AccordionDetails>
       </Accordion>
 
@@ -351,10 +443,7 @@ export default function BarAxis(props) {
           </Typography>
         </AccordionSummary>
         <AccordionDetails className={classes.db}>
-          <BarAxisEnable getAxisEnable={getAxisEnable} />
-          <BarSlider state={axisSliderState} info={getAxisTickSizeNum} />
-          <BarSlider state={axisSliderState} info={getAxisTickPaddingNum} />
-          {SliderCircle()}
+          {axisContents()}
         </AccordionDetails>
       </Accordion>
 
@@ -374,10 +463,7 @@ export default function BarAxis(props) {
           </Typography>
         </AccordionSummary>
         <AccordionDetails className={classes.db}>
-          <BarAxisEnable getAxisEnable={getAxisEnable} />
-          <BarSlider state={axisSliderState} info={getAxisTickSizeNum} />
-          <BarSlider state={axisSliderState} info={getAxisTickPaddingNum} />
-          {SliderCircle()}
+          {axisContents()}
         </AccordionDetails>
       </Accordion>
 
@@ -397,10 +483,7 @@ export default function BarAxis(props) {
           </Typography>
         </AccordionSummary>
         <AccordionDetails className={classes.db}>
-          <BarAxisEnable getAxisEnable={getAxisEnable} />
-          <BarSlider state={axisSliderState} info={getAxisTickSizeNum} />
-          <BarSlider state={axisSliderState} info={getAxisTickPaddingNum} />
-          {SliderCircle()}
+          {axisContents()}
         </AccordionDetails>
       </Accordion>
     </div>

@@ -11,21 +11,23 @@ const useStyles = makeStyles({
   },
 });
 
-export default function BarBorderColor(props) {
+export default function BarLabelTextColor(props) {
   const classes = useStyles();
-  const [initial, setInitial] = useState('#000000');
+  const [initial, setInitial] = useState(props.info().default);
   const [color, setColor] = useState('');
+
+  let name = props.info().name;
 
   const handleColor = ({ hex, rgba, r, g, b, a }) => {
     setColor(hex);
     setInitial(hex);
-    props.getBorderColor(hex);
+    props.state(hex, name);
   };
 
   return (
     <div className={classes.root}>
       <Typography id="input-slider" gutterBottom>
-        BorderColor
+        {name}
       </Typography>
       <Grid container spacing={3} alignItems="center">
         <Grid item xs>

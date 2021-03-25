@@ -7,8 +7,7 @@ import {
   BarSlider,
   BarMinMaxValue,
   BarColors,
-  BarBorderColor,
-  BarLabelTextColor,
+  BarColorInput,
   BarAxis,
 } from 'component/chart/bar/BarController';
 
@@ -249,11 +248,28 @@ const Bar = () => {
   };
 
   /**
+   * ColorInput
+   */
+  function colorInputState(value, value2) {
+    switch (value2) {
+      case 'BorderColor':
+        setBorderColor(value);
+        break;
+      case 'LabelTextColor':
+        setLabelTextColor(value);
+        break;
+      default:
+        break;
+    }
+  }
+
+  /**
    * BorderColor
    */
-  function getBorderColor(value) {
-    return setBorderColor(value);
-  }
+
+  const getBorderColorNum = () => {
+    return { default: '#000000', name: 'BorderColor' };
+  };
 
   const barBorderColor = {
     borderColor: borderColor,
@@ -262,9 +278,9 @@ const Bar = () => {
   /**
    * LabelTextColor
    */
-  function getLabelTextColor(value) {
-    return setLabelTextColor(value);
-  }
+  const getLabelTextColorNum = () => {
+    return { default: '#000000', name: 'LabelTextColor' };
+  };
 
   const barLabelTextColor = {
     labelTextColor: labelTextColor,
@@ -480,11 +496,11 @@ const Bar = () => {
       <br></br>
       <BarSlider state={sliderState} info={getBorderWidthNum} />
       <br></br>
-      <BarBorderColor getBorderColor={getBorderColor} />
+      <BarColorInput state={colorInputState} info={getBorderColorNum} />
       <br></br>
       <Typography gutterBottom>LABELS</Typography>
       <br></br>
-      <BarLabelTextColor getLabelTextColor={getLabelTextColor} />
+      <BarColorInput state={colorInputState} info={getLabelTextColorNum} />
       <br></br>
       <Typography gutterBottom>GRID & AXES</Typography>
       <br></br>

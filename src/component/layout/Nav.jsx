@@ -1,29 +1,32 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
-import { makeStyles, useTheme, createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import Button from '@material-ui/core/Button';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  makeStyles,
+  useTheme,
+  createMuiTheme,
+  Button,
+  Drawer,
+  CssBaseline,
+  AppBar,
+  Toolbar,
+  Typography,
+  Divider,
+  IconButton,
+  ListItem,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Badge,
+} from '@material-ui/core';
+
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import NavContents from './NavContents';
-import images from 'public/images/logo.png';
-import { Link as RouterLink } from 'react-router-dom';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Badge from '@material-ui/core/Badge';
 import Textsms from '@material-ui/icons/Textsms';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import NavContents from './NavContents';
 
 const drawerWidth = 240;
 
@@ -108,7 +111,7 @@ const Nav = (props) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  
+
   const isMenuOpen = Boolean(anchorEl);
 
   const menuId = 'primary-search-account-menu';
@@ -126,10 +129,8 @@ const Nav = (props) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-  const handleMenuOpen = () => {
-    
-  };
-  
+  const handleMenuOpen = () => {};
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -178,7 +179,11 @@ const Nav = (props) => {
             </Typography>
             {/* <Button color="inherit" onClick={onOpenChat}>Support</Button> */}
             <div className={classes.sectionDesktop}>
-              <IconButton aria-label="notifications" color="inherit" onClick={handleMenuOpen}> 
+              <IconButton
+                aria-label="notifications"
+                color="inherit"
+                onClick={handleMenuOpen}
+              >
                 <Badge badgeContent={0} color="secondary">
                   <ListItem component={RouterLink} to="/chat">
                     <Textsms />
@@ -193,9 +198,9 @@ const Nav = (props) => {
                 // onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                  <ListItem component={RouterLink} to="/users">
-                    <AccountCircle />
-                  </ListItem>
+                <ListItem component={RouterLink} to="/users">
+                  <AccountCircle />
+                </ListItem>
               </IconButton>
             </div>
             <Button color="inherit">Logout</Button>
@@ -212,7 +217,7 @@ const Nav = (props) => {
           }}
         >
           <div className={classes.drawerHeader}>
-            <img className={classes.mw} src={images} alt="logo" />
+            <img className={classes.mw} src={'images/logo.png'} alt="logo" />
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === 'ltr' ? (
                 <ChevronLeftIcon />

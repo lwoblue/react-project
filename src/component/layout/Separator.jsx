@@ -1,10 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Route } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
+import { Link, Typography, Breadcrumbs } from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { breadcrumbNameMap } from 'component/layout/NavContents';
 
