@@ -1,22 +1,22 @@
-import React, { useState, useCallback } from "react";
-import "./Login.css";
-import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
-import LoginService from "./LoginService";
-import LoginKakao from "./LoginKakao";
-import SignUp from "./SignUp";
-import { auth, provider } from "./../../firebase";
-import { actionTypes } from "../chat/state/reducer";
-import { useStateValue } from "../chat/state/StateProvider";
-import { useHistory } from "react-router";
-import LoginTemplate from "./LoginTemplate";
+import React, { useState, useCallback } from 'react';
+import './Login.css';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import LoginService from './LoginService';
+import LoginKakao from './LoginKakao';
+import { auth, provider } from './../../firebase';
+import { actionTypes } from '../chat/state/reducer';
+import { useStateValue } from '../chat/state/StateProvider';
+import { useHistory } from 'react-router';
+import LoginTemplate from './LoginTemplate';
+import db from '../../firebase';
 
 const Login = () => {
   const history = useHistory();
   const [state, dispatch] = useStateValue();
   const [signUp, setSignUp] = useState(false);
-  const [id, setId] = useState("");
-  const [pwd, setPwd] = useState("");
+  const [id, setId] = useState('');
+  const [pwd, setPwd] = useState('');
   const idInputHandler = useCallback((e) => {
     e.preventDefault();
     const textId = e.target.value;
@@ -27,7 +27,7 @@ const Login = () => {
     e.preventDefault();
     const textPwd = e.target.value;
     setPwd(textPwd);
-    console.log("textPwd: ", textPwd);
+    console.log('textPwd: ', textPwd);
   }, []);
 
   //   id: email -> 유효성 검사
@@ -41,20 +41,54 @@ const Login = () => {
       const validate = isEmail(id);
       if (validate) {
         // set id
-        console.log("이메일 형식입니다.");
+        console.log('이메일 형식입니다.');
       } else {
-        console.log("이메일 형식이 아닙니다.");
+        console.log('이메일 형식이 아닙니다.');
       }
       LoginService.login(id, pwd)
         .then((res) => {
+          window.localStorage.setItem('userID', id);
+          console.log('login--->', res.data);
+          dispatch({
+            type: actionTypes.SET_USER,
+            user: res.data,
+          });
           console.log(res.data);
-          history.push('/Home');
+          history.push('/home');
         })
         .catch(() => {
-          console.log("login Error!");
+          console.log('login Error!');
         });
-      setId((e.target.value = ""));
-      setPwd((e.target.value = ""));
+
+      // <firebase db 연동>
+      // db.collection('users')
+      //   .doc('IR3CFnBcoETVQpqXRYXF')
+      //   .collection('user')
+      //   .where('email', '==', id)
+      //   .where('password', '==', pwd)
+      //   .get()
+      //   .then((querySnapshot) => {
+      //     querySnapshot.forEach((doc) => {
+      //       if (doc.exists) {
+      //         console.log(doc.id, ' => ', doc.data());
+      //         window.localStorage.setItem('userID', id);
+      //         dispatch({
+      //           type: actionTypes.SET_USER,
+      //           user: doc.data(),
+      //         });
+      //         history.push('/home');
+      //       } else {
+      //         alert('존재하지 않는 사용자입니다. 회원가입해주세요.');
+      //         history.push('/signUp');
+      //       }
+      //     });
+      //   })
+      //   .catch((error) => {
+      //     console.error('login Error!', error);
+      //   });
+
+      setId((e.target.value = ''));
+      setPwd((e.target.value = ''));
     },
     [id, pwd]
   );
@@ -79,7 +113,7 @@ const Login = () => {
   const signupClick = () => {
     // setSignUp(true);
     history.push('/signUp');
-    return <LoginTemplate />
+    return <LoginTemplate />;
   };
 
   return (
@@ -112,7 +146,9 @@ const Login = () => {
               {/* <button>아이디패스워드찾기</button> */}
             </div>
           </div>
-          <button className="buttonS" onClick={loginClickHandler}>Sign In</button>
+          <button className="buttonS" onClick={loginClickHandler}>
+            Sign In
+          </button>
           <div className="login___social">
             <LoginKakao />
             <button className="buttonG" onClick={googleLoginClick}>

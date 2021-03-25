@@ -1,20 +1,21 @@
-import React, { useState, useCallback } from "react";
-import { useHistory } from "react-router-dom";
-import "./Login.css";
-import LoginService from "./LoginService";
-import AccountBoxIcon from "@material-ui/icons/AccountBox";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
-import EmailIcon from "@material-ui/icons/Email";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import React, { useState, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
+import './Login.css';
+import LoginService from './LoginService';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import EmailIcon from '@material-ui/icons/Email';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { signUp } from "../login/auth";
+import { signUp } from '../login/auth';
+import db from '../../firebase';
 
 function SignUp() {
   const history = useHistory();
-  const [email, setEmail] = useState("");
-  const [pwd, setPwd] = useState("");
-  const [userName, setUserName] = useState("");
-  const [InputStatus, setInputStatus] = useState("");
+  const [email, setEmail] = useState('');
+  const [pwd, setPwd] = useState('');
+  const [userName, setUserName] = useState('');
+  const [InputStatus, setInputStatus] = useState('');
 
   const idInputHandler = useCallback((e) => {
     e.preventDefault();
@@ -43,7 +44,7 @@ function SignUp() {
   const loginClickHandler = useCallback(
     async (e) => {
       let emailValidate = false;
-      if (InputStatus === "사용가능한 이메일입니다.") {
+      if (InputStatus === '사용가능한 이메일입니다.') {
         emailValidate = true;
       }
       if (
@@ -54,21 +55,42 @@ function SignUp() {
       ) {
         await signUp(email, pwd)
           .then((res) => {
-            console.log("check!!!!!!");
-            // console.log(res.data);
+            const user = {
+              id: res.user.uid,
+              email: res.user.email,
+              password: pwd,
+              userName: userName,
+              deleteYN: 'n',
+              photoURL:
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3SvtTRgIX1lfL2YSByB8kwoVkVYQB93It2g&usqp=CAU',
+            };
+            // <firebase db 연동>
+            // db.collection('users')
+            //   .doc('IR3CFnBcoETVQpqXRYXF')
+            //   .collection('user')
+            //   .add(user);
+
+            LoginService.signUp(email, pwd, userName)
+              .then((res) => {
+                console.log(res.data);
+              })
+              .catch(() => {
+                console.log('SignUp Error!');
+              });
+
+            alert('회원가입이 완료되었습니다.');
+            history.push('/login');
           })
           .catch((e) => {
-            console.log("SignUp Error!");
+            console.log('SignUp Error!');
             console.log(e);
           });
-        setEmail((e.target.value = ""));
-        setPwd((e.target.value = ""));
-        setUserName((e.target.value = ""));
-        alert("ok");
-        history.push("/login");
+        setEmail((e.target.value = ''));
+        setPwd((e.target.value = ''));
+        setUserName((e.target.value = ''));
       } else {
         // 빈 input 존재
-        alert("입력 양식을 채워주세요");
+        alert('입력 양식을 채워주세요');
       }
     },
     // [email, pwd, userName,history]
@@ -84,18 +106,18 @@ function SignUp() {
       LoginService.emailDuplicateCheck(email)
         .then((res) => {
           let status = res.data;
-          if (status === "true") {
-            setInputStatus("사용가능한 이메일입니다.");
+          if (status === 'true') {
+            setInputStatus('사용가능한 이메일입니다.');
           } else {
             //중복 상태입니다.
-            setInputStatus("중복된 이메일입니다.");
+            setInputStatus('중복된 이메일입니다.');
           }
         })
         .catch(() => {
-          console.log("check Duplcate ERROR!");
+          console.log('check Duplcate ERROR!');
         });
     } else {
-      setInputStatus("이메일 형식이 아닙니다.");
+      setInputStatus('이메일 형식이 아닙니다.');
     }
   };
   const goBack = () => {
@@ -106,7 +128,7 @@ function SignUp() {
     <div className="login">
       <img src="/images/logo.png" alt="" />
       <div className="login__container">
-        <div style={{ textAlign: "initial" }} onClick={goBack}>
+        <div style={{ textAlign: 'initial' }} onClick={goBack}>
           <ArrowBackIcon />
         </div>
         <div>
@@ -121,17 +143,17 @@ function SignUp() {
           </div>
           <div
             className="login__inputDuplicateChk"
-            style={{ textAlign: "end" }}
+            style={{ textAlign: 'end' }}
           >
             <span>{InputStatus}</span>
             <button
               style={{
-                border: "none",
-                backgroundColor: "#98d33a",
-                borderRadius: "4px",
-                height: "25px",
-                width: "80px",
-                marginLeft: "10px",
+                border: 'none',
+                backgroundColor: '#98d33a',
+                borderRadius: '4px',
+                height: '25px',
+                width: '80px',
+                marginLeft: '10px',
               }}
               onClick={idDuplicateCheck}
             >

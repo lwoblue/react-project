@@ -5,6 +5,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import db from '../../firebase';
+import firebase from 'firebase';
+
 class EditUserComponent extends Component {
   constructor(props) {
     super(props);
@@ -12,11 +15,12 @@ class EditUserComponent extends Component {
     this.state = {
       id: '',
       userName: '',
-      firstName: '',
-      lastName: '',
-      age: '',
-      salary: '',
-      message: null,
+      // firstName: '',
+      // lastName: '',
+      // age: '',
+      // salary: '',
+      // message: null,
+      email: '',
     };
   }
 
@@ -31,16 +35,40 @@ class EditUserComponent extends Component {
         this.setState({
           id: user.id,
           userName: user.userName,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          age: user.age,
-          salary: user.salary,
+          email: user.email,
+          userImage: user.photoURL,
         });
       })
       .catch((err) => {
         console.log('loadUser() Error!!', err);
       });
   };
+
+  // firebase db 연동
+  // loadUser = () => {
+  //   db.collection('users')
+  //     .doc('IR3CFnBcoETVQpqXRYXF')
+  //     .collection('user')
+  //     .where('email', '==', window.localStorage.getItem('userID'))
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       querySnapshot.forEach((doc) => {
+  //         let user = doc.data();
+  //         this.setState({
+  //           id: user.uid,
+  //           // age: user.age,
+  //           // salary: user.salary,
+  //           userName: user.userName,
+  //           email: user.email,
+  //           userImage: user.photoURL,
+  //         });
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log('Error getting documents: ', error);
+  //     });
+  //   // this.setState({ userImage: firebase.auth().currentUser.photoURL });
+  // };
 
   onChange = (e) => {
     this.setState({
@@ -53,18 +81,11 @@ class EditUserComponent extends Component {
 
     let user = {
       id: this.state.id,
-      password: this.state.password,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      age: this.state.age,
-      salary: this.state.salary,
+      userName: this.state.userName,
     };
 
     ApiService.editUser(user)
       .then((res) => {
-        this.setState({
-          message: user.lastName + '님 정보가 수정되었습니다.',
-        });
         this.props.history.push('/users');
       })
       .catch((err) => {
@@ -72,23 +93,65 @@ class EditUserComponent extends Component {
       });
   };
 
+  // firebase db 연동
+  // saveUser = (e) => {
+  //   e.preventDefault();
+  //   let user = {
+  //     //id: this.state.id,
+  //     userName: this.state.userName,
+  //     // password: this.state.password,
+  //     // firstName: this.state.firstName,
+  //     // lastName: this.state.lastName,
+  //     // age: this.state.age,
+  //     // salary: this.state.salary,
+  //     email: this.state.email,
+  //   };
+  //   db.collection('users')
+  //     .doc('IR3CFnBcoETVQpqXRYXF')
+  //     .collection('user')
+  //     .where('email', '==', window.localStorage.getItem('userID'))
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       console.log('Document successfully update!');
+  //       querySnapshot.forEach((doc) => {
+  //         doc.ref.update(user);
+  //       });
+  //       this.props.history.push('/users');
+  //     })
+  //     .catch((err) => {
+  //       console.log('saveUser() Error!!', err);
+  //     });
+  // };
+
   render() {
     return (
       <div>
         <Typography variant="h4" style={style}>
-          Edit User
+          Edit Personal Information
         </Typography>
         <form>
+          <img src={this.state.userImage} alt="" />
           <TextField
             type="text"
-            name="userName"
-            readOnly={true}
+            placeholder="Edit your email"
+            name="email"
             fullWidth
             margin="normal"
-            value={this.state.userName}
+            value={this.state.email}
+            readOnly={true}
           />
 
           <TextField
+            type="text"
+            placeholder="Edit your name"
+            name="userName"
+            fullWidth
+            margin="normal"
+            value={this.state.userName}
+            onChange={this.onChange}
+          />
+
+          {/* <TextField
             placeholder="Edit your first name"
             name="firstName"
             fullWidth
@@ -104,9 +167,9 @@ class EditUserComponent extends Component {
             margin="normal"
             value={this.state.lastName}
             onChange={this.onChange}
-          />
+          /> */}
 
-          <TextField
+          {/* <TextField
             type="number"
             placeholder="Edit your age"
             name="age"
@@ -124,7 +187,7 @@ class EditUserComponent extends Component {
             margin="normal"
             value={this.state.salary}
             onChange={this.onChange}
-          />
+          /> */}
 
           <Button variant="contained" color="primary" onClick={this.saveUser}>
             Save
