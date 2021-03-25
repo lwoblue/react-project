@@ -51,7 +51,8 @@ ListItemLink.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
   lists: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: '#e9e5c2',
+    // backgroundColor: theme.palette.background.paper,
     marginTop: theme.spacing(1),
   },
   nested: {
@@ -161,7 +162,6 @@ const NavContents = () => {
             </List>
           </Collapse>
         </List>
-        <Divider />
       </nav>
     </>
   );

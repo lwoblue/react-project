@@ -34,7 +34,8 @@ const goldColor = createMuiTheme({
   palette: {
     primary: {
       light: '#43a047',
-      main: '#00701a',
+      // main: '#00701a',
+      main: '#000000b8',
       contrastText: '#fcc600',
     },
   },
@@ -64,11 +65,22 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    zIndex: '1001',
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: '#e9e5c2',
   },
   drawerHeader: {
+    backgroundColor: '#e9e5c2',
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+  },
+  drawerFooter: {
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
