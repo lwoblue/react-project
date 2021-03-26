@@ -1,7 +1,21 @@
-import { React, useRef, useState } from 'react';
+import { React, useRef } from 'react';
 import Slider from 'react-slick';
-import { makeStyles, Button, createMuiTheme } from '@material-ui/core';
+import {
+  makeStyles,
+  Button,
+  createMuiTheme,
+  Grid,
+  Paper,
+} from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
+
+const items = [
+  { id: 1, url: 'images/img1.jpg' },
+  { id: 2, url: 'images/img2.jpg' },
+  { id: 3, url: 'images/img3.jpg' },
+  { id: 4, url: 'images/img4.jpg' },
+  { id: 5, url: 'images/img5.jpg' },
+];
 
 const goldColor = createMuiTheme({
   palette: {
@@ -14,7 +28,12 @@ const goldColor = createMuiTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  paper: {
+    height: 300,
+    width: '100%',
+    overflow: 'auto',
+  },
+  sliderRoot: {
     height: 260,
     width: '100%',
     paddingTop: 'calc(50px / 16 * 9)',
@@ -25,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     objectFit: 'contain',
   },
   btnDiv: {
-    textAlign: 'center',
+    // textAlign: 'center',
   },
   btnMR: {
     marginRight: '30px',
@@ -65,67 +84,47 @@ export default function AutoPlaySlick(props) {
 
   return (
     <>
-      <ThemeProvider theme={goldColor}>
-        <Slider {...settings} className={classes.root} ref={sliderRef}>
-          <div>
-            <img
-              src={'images/img1.jpg'}
-              alt="logo"
-              className={classes.imgSize}
-            />
-          </div>
-          <div>
-            <img
-              src={'images/img2.jpg'}
-              alt="logo"
-              className={classes.imgSize}
-            />
-          </div>
-          <div>
-            <img
-              src={'images/img3.jpg'}
-              alt="logo"
-              className={classes.imgSize}
-            />
-          </div>
-          <div>
-            <img
-              src={'images/img4.jpg'}
-              alt="logo"
-              className={classes.imgSize}
-            />
-          </div>
-          <div>
-            <img
-              src={'images/img5.jpg'}
-              alt="logo"
-              className={classes.imgSize}
-            />
-          </div>
-        </Slider>
+      <Grid item xs={12} sm={6}>
+        <Paper className={classes.paper}>
+          <Slider {...settings} className={classes.sliderRoot} ref={sliderRef}>
+            {items.map((item) => {
+              return (
+                <div key={item.id}>
+                  <img src={item.url} alt="logo" className={classes.imgSize} />
+                </div>
+              );
+            })}
+          </Slider>
+        </Paper>
+      </Grid>
 
-        <div className={classes.btnDiv}>
-          <Button
-            className={classes.btnMR}
-            theme={goldColor}
-            variant="contained"
-            color="primary"
-            disableElevation
-            onClick={play}
-          >
-            Play
-          </Button>
-          <Button
-            theme={goldColor}
-            variant="contained"
-            color="primary"
-            disableElevation
-            onClick={pause}
-          >
-            Pause
-          </Button>
-        </div>
-      </ThemeProvider>
+      <Grid item xs={12} sm={6}>
+        <Paper className={classes.paper}>
+          <ThemeProvider theme={goldColor}>
+            <div className={classes.btnDiv}>
+              <Button
+                className={classes.btnMR}
+                theme={goldColor}
+                variant="contained"
+                color="primary"
+                disableElevation
+                onClick={play}
+              >
+                Play
+              </Button>
+              <Button
+                theme={goldColor}
+                variant="contained"
+                color="primary"
+                disableElevation
+                onClick={pause}
+              >
+                Pause
+              </Button>
+            </div>
+          </ThemeProvider>
+        </Paper>
+      </Grid>
     </>
   );
 }

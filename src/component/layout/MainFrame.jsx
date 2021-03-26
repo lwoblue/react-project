@@ -10,7 +10,7 @@ import LoginTemplate from 'component/login/LoginTemplate';
 import { useStateValue } from 'component/chat/state/StateProvider';
 // import { useStateValue } from "../chat/state/StateProvider";
 
-const drawerWidth = 240;
+const drawerWidth = 210;
 
 const useStyles = makeStyles((theme) => ({
   wrap: {
@@ -76,38 +76,38 @@ const MainFrame = () => {
     <>
       <div className={classes.wrap}>
         <Router>
-          {!user ? (
+          {/* {!user ? (
             // <Login />
             <LoginTemplate />
-          ) : (
-            <>
-              <div className={classes.nav}>
-                <Nav appOpen={appOpen} />
-              </div>
-              <div
+          ) : ( */}
+          <>
+            <div className={classes.nav}>
+              <Nav appOpen={appOpen} />
+            </div>
+            <div
+              className={[
+                classes.separator,
+                clsx(classes.main, {
+                  [classes.mainShift]: open,
+                }),
+              ].join('  ')}
+            >
+              <Separator />
+            </div>
+            <div className={classes.content}>
+              <main
                 className={[
-                  classes.separator,
+                  classes.mp,
                   clsx(classes.main, {
                     [classes.mainShift]: open,
                   }),
                 ].join('  ')}
               >
-                <Separator />
-              </div>
-              <div className={classes.content}>
-                <main
-                  className={[
-                    classes.mp,
-                    clsx(classes.main, {
-                      [classes.mainShift]: open,
-                    }),
-                  ].join('  ')}
-                >
-                  <ContentsRoute />
-                </main>
-              </div>
-            </>
-          )}
+                <ContentsRoute />
+              </main>
+            </div>
+          </>
+          {/* )} */}
         </Router>
       </div>
     </>

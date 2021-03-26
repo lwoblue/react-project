@@ -31,7 +31,7 @@ import { auth } from './../../firebase';
 import { useStateValue } from 'component/chat/state/StateProvider';
 import { actionTypes } from 'component/chat/state/reducer';
 
-const drawerWidth = 240;
+const drawerWidth = 210;
 
 const goldColor = createMuiTheme({
   palette: {
@@ -161,19 +161,21 @@ const Nav = (props) => {
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
-  const LogoutClick = ()=>{
-    auth.signOut()
-    .then(()=>{
-      localStorage.clear();
-      dispatch({
-        type: actionTypes.SET_USER,
-        user: null,
+  const LogoutClick = () => {
+    auth
+      .signOut()
+      .then(() => {
+        localStorage.clear();
+        dispatch({
+          type: actionTypes.SET_USER,
+          user: null,
+        });
+        history.push('/login');
+      })
+      .catch((error) => {
+        // An error happened.
       });
-      history.push('/login');      
-    }).catch((error) => {
-      // An error happened.
-    });
-  }
+  };
 
   return (
     <>
@@ -233,7 +235,9 @@ const Nav = (props) => {
                 </ListItem>
               </IconButton>
             </div>
-            <Button color="inherit" onClick={LogoutClick}>Logout</Button>
+            <Button color="inherit" onClick={LogoutClick}>
+              Logout
+            </Button>
           </Toolbar>
         </AppBar>
         {renderMenu}

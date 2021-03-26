@@ -17,21 +17,12 @@ import {
   BarColorInput,
   BarAxis,
 } from 'component/chart/bar/BarController';
-import AutoPlaySlick from 'component/gallery/AutoPlaySlick';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   paper: {
     height: 300,
     width: '100%',
     overflow: 'auto',
-  },
-  item: {
-    width: '55%',
-    position: 'fixed',
-    marginLeft: '370px',
   },
   snackbarContent: {
     '& > * + *': {
@@ -488,104 +479,87 @@ const Bar = () => {
 
   return (
     <>
-      <div className={classes.root}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <Paper className={classes.paper}>{MyResponsiveBar({ data })}</Paper>
-          </Grid>
+      <Grid item xs={12} sm={6}>
+        <Paper className={classes.paper}>{MyResponsiveBar({ data })}</Paper>
+      </Grid>
 
-          <Grid item xs={12} sm={6} className={classes.gridRoot}>
-            <Paper className={classes.paper}>
-              <div className={classes.snackbarContent}>
-                <SnackbarContent
-                  className={classes.snackbarRoot}
-                  message={'BASE'}
-                />
-              </div>
-              <Box component="div" m={2}>
-                <BarSwitch state={switchState} info={groupModeInfo} />
-                <span>string optional default:'stacked'</span>
-                <Divider className={classes.mgTB} />
-                <BarSwitch state={switchState} info={layoutInfo} />
-                <span>string optional default:'vertical'</span>
-                <Divider className={classes.mgTB} />
-                <BarSwitch state={switchState} info={reverseInfo} />
-                <Divider className={classes.mgTB} />
-                <BarSlider state={sliderState} info={getMinValueNum} />
-                <Divider className={classes.mgTB} />
-                <BarSlider state={sliderState} info={getMaxValueNum} />
-                <Divider className={classes.mgTB} />
-                <BarMinMaxValue getMinMaxValue={getMinMaxValue} />
-                <Divider className={classes.mgTB} />
-                <BarSlider state={sliderState} info={getPaddingNum} />
-                <Divider className={classes.mgTB} />
-                <BarSlider state={sliderState} info={getInnerPaddingNum} />
-                <Divider className={classes.mgTB} />
-              </Box>
-              <div className={classes.snackbarContent}>
-                <SnackbarContent
-                  className={classes.snackbarRoot}
-                  message={'STYLE'}
-                />
-              </div>
-              <Box component="div" m={2}>
-                <BarColors getColors={getColors} />
-                <Divider className={classes.mgTB} />
-                <BarSlider state={sliderState} info={getBorderRadiusNum} />
-                <Divider className={classes.mgTB} />
-                <BarSlider state={sliderState} info={getBorderWidthNum} />
-                <Divider className={classes.mgTB} />
-                <BarColorInput
-                  state={colorInputState}
-                  info={getBorderColorNum}
-                />
-              </Box>
-              <div className={classes.snackbarContent}>
-                <SnackbarContent
-                  className={classes.snackbarRoot}
-                  message={'LABELS'}
-                />
-              </div>
-              <Box component="div" m={2}>
-                <BarColorInput
-                  state={colorInputState}
-                  info={getLabelTextColorNum}
-                />
-              </Box>
-              <div className={classes.snackbarContent}>
-                <SnackbarContent
-                  className={classes.snackbarRoot}
-                  message={'GRID & AXES'}
-                />
-              </div>
-              <Box component="div" m={2}>
-                <BarSwitch state={switchState} info={EnableGridXInfo} />
-                <Divider className={classes.mgTB} />
-                <BarSwitch state={switchState} info={EnableGridYInfo} />
-                <Divider className={classes.mgTB} />
-                <BarAxis
-                  className={classes.mb}
-                  getAxisTop={getAxisTop}
-                  getAxisRight={getAxisRight}
-                  getAxisLeft={getAxisLeft}
-                  getAxisBottom={getAxisBottom}
-                />
-              </Box>
-              <Divider />
-            </Paper>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Paper className={classes.paper}>
-              <AutoPlaySlick />
-            </Paper>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Paper className={classes.paper}>ddddddddddddddddddd</Paper>
-          </Grid>
-        </Grid>
-      </div>
+      <Grid item xs={12} sm={6} className={classes.gridRoot}>
+        <Paper className={classes.paper}>
+          <div className={classes.snackbarContent}>
+            <SnackbarContent
+              className={classes.snackbarRoot}
+              message={'BASE'}
+            />
+          </div>
+          <Box component="div" m={2}>
+            <BarSwitch state={switchState} info={groupModeInfo} />
+            <span>string optional default:'stacked'</span>
+            <Divider className={classes.mgTB} />
+            <BarSwitch state={switchState} info={layoutInfo} />
+            <span>string optional default:'vertical'</span>
+            <Divider className={classes.mgTB} />
+            <BarSwitch state={switchState} info={reverseInfo} />
+            <Divider className={classes.mgTB} />
+            <BarSlider state={sliderState} info={getMinValueNum} />
+            <Divider className={classes.mgTB} />
+            <BarSlider state={sliderState} info={getMaxValueNum} />
+            <Divider className={classes.mgTB} />
+            <BarMinMaxValue getMinMaxValue={getMinMaxValue} />
+            <Divider className={classes.mgTB} />
+            <BarSlider state={sliderState} info={getPaddingNum} />
+            <Divider className={classes.mgTB} />
+            <BarSlider state={sliderState} info={getInnerPaddingNum} />
+            <Divider className={classes.mgTB} />
+          </Box>
+          <div className={classes.snackbarContent}>
+            <SnackbarContent
+              className={classes.snackbarRoot}
+              message={'STYLE'}
+            />
+          </div>
+          <Box component="div" m={2}>
+            <BarColors getColors={getColors} />
+            <Divider className={classes.mgTB} />
+            <BarSlider state={sliderState} info={getBorderRadiusNum} />
+            <Divider className={classes.mgTB} />
+            <BarSlider state={sliderState} info={getBorderWidthNum} />
+            <Divider className={classes.mgTB} />
+            <BarColorInput state={colorInputState} info={getBorderColorNum} />
+          </Box>
+          <div className={classes.snackbarContent}>
+            <SnackbarContent
+              className={classes.snackbarRoot}
+              message={'LABELS'}
+            />
+          </div>
+          <Box component="div" m={2}>
+            <BarColorInput
+              state={colorInputState}
+              info={getLabelTextColorNum}
+            />
+          </Box>
+          <div className={classes.snackbarContent}>
+            <SnackbarContent
+              className={classes.snackbarRoot}
+              message={'GRID & AXES'}
+            />
+          </div>
+          <Box component="div" m={2}>
+            <BarSwitch state={switchState} info={EnableGridXInfo} />
+            <Divider className={classes.mgTB} />
+            <BarSwitch state={switchState} info={EnableGridYInfo} />
+            <Divider className={classes.mgTB} />
+            <BarAxis
+              className={classes.mb}
+              getAxisTop={getAxisTop}
+              getAxisRight={getAxisRight}
+              getAxisLeft={getAxisLeft}
+              getAxisBottom={getAxisBottom}
+            />
+          </Box>
+          <Divider />
+        </Paper>
+      </Grid>
     </>
   );
 };
