@@ -60,10 +60,9 @@ function SignUp() {
               email: res.user.email,
               password: pwd,
               userName: userName,
-              photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3SvtTRgIX1lfL2YSByB8kwoVkVYQB93It2g&usqp=CAU',
-              deleteYN: 'n',
               photoURL:
                 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3SvtTRgIX1lfL2YSByB8kwoVkVYQB93It2g&usqp=CAU',
+              deleteYN: 'n',
             };
             // <firebase db 연동>
             // db.collection('users')
