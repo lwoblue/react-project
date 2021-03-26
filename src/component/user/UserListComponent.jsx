@@ -51,7 +51,6 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  // { id: 'profile', numeric: true, disablePadding: false, label: 'Profile' },
   { id: 'email', label: 'Email' },
   { id: 'userName', label: 'User Name' },
 ];
@@ -71,10 +70,11 @@ function EnhancedTableHead(props) {
   };
 
   return (
-    <TableHead>
+    <TableHead className={classes.tableHead}>
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
+            className={classes.tableHeadText}
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
@@ -83,22 +83,26 @@ function EnhancedTableHead(props) {
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
+            className={classes.tableHeadText}
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
+              className={classes.tableHeadText}
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
-              {orderBy === headCell.id ? (
-                <span className={classes.visuallyHidden}>
+              {/* {orderBy === headCell.id ? (
+                <span
+                  className={(classes.visuallyHidden, classes.tableHeadText)}
+                >
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </span>
-              ) : null}
+              ) : null} */}
             </TableSortLabel>
           </TableCell>
         ))}
@@ -166,6 +170,13 @@ const deleteUser = (props) => {
     ApiService.deleteUser(deleteuser)
       .then((res) => {
         props.setSelected([]);
+        ApiService.fetchUsers()
+          .then((res2) => {
+            props.setRows(res2.data);
+          })
+          .catch((err) => {
+            console.log('reloadUserList() Error!!', err);
+          });
       })
       .catch((err) => {
         console.log('deleteUser Error!', err);
@@ -234,6 +245,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
   },
+
   paper: {
     width: '100%',
     marginBottom: theme.spacing(2),
@@ -252,6 +264,15 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
+  tableHead: {
+    backgroundColor: '#000000b8',
+  },
+  tableHeadText: {
+    color: '#fcc600 !important',
+    '& svg': {
+      color: '#fcc600 !important',
+    },
+  },
 }));
 
 export default function EnhancedTable() {
@@ -263,10 +284,10 @@ export default function EnhancedTable() {
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchInput, setSearchInput] = useState('');
-
   const [rows, setRows] = useState([]);
+
   useEffect(() => {
-    ApiService.fetchUsers()
+    ApiService.searchUser(searchInput)
       .then((res) => {
         setRows(res.data);
       })
@@ -283,7 +304,7 @@ export default function EnhancedTable() {
     //   .then((snapshot) => {
     //     setRows(snapshot.docs.map((doc) => doc.data()));
     //   });
-  }, [rows]);
+  }, [searchInput]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -336,9 +357,14 @@ export default function EnhancedTable() {
 
   const handleChangeSearchInput = (event) => {
     setSearchInput(event.target.value);
-    rows.filter((row) => {
-      return row.email.toLowerCase().includes(searchInput);
+    filterUserList(rows, searchInput);
+  };
+
+  const filterUserList = (userList, query) => {
+    var output = userList.filter((user) => {
+      return user.email.toLowerCase().includes(query.toLowerCase());
     });
+    setRows(output);
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
@@ -360,6 +386,7 @@ export default function EnhancedTable() {
           setSelected={setSelected}
           numSelected={selected.length}
           selectedList={selected}
+          setRows={setRows}
         />
         <TableContainer>
           <Table
@@ -377,6 +404,7 @@ export default function EnhancedTable() {
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
+
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
