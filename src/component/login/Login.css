@@ -1,14 +1,23 @@
 .login {
   height: 100vh;
-  background: #d6ecbc;
-  background: linear-gradient(to right, #8da770, #d6ecbc);
+  /* background: #d6ecbc; */
+  background-color: #f7ecbee7;
+  /* background-color: #7b9976b8; */
+  /* background-image: url("../../public/images/bgImg_black_gold.jpg"); */
+  background-size: 100%;
+  /* background: linear-gradient(to right, #f7ecbee7, rgba(255, 250, 226, 0.722)); */
+  color: #fcc600;
+  /* color:rgba(123, 153, 118, 0.722); */
   display: grid;
   place-items: center;
 }
 .login__container {
-  padding: 150px;
+  padding: 40px;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.6);
+  /* background-color: #000000b8; */
+  /* border: 1px solid rgba(123, 153, 118, 0.722); */
+  border: 1px solid #fcc600;
   border-radius: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
@@ -33,29 +42,39 @@
 }
 
 .login__container > button {
-  width: 100%;
-  height: 56px;
+  width: 70%;
+  height: 46px;
   margin-top: 10px;
   text-transform: inherit !important;
-  background-color: #98d33a !important;
+  /* background-color: rgba(123, 153, 118, 0.788) !important; */
+  background-color: #fcc600 !important;
+  
+  /* background-color: #00000083 !important; */
   color: black;
-  border: none;
+  cursor: pointer;
+  /* color: black; */
+  border: 1px solid transparent;
   border-radius: 4px;
+  font-weight: bold;
 }
 .login___social > button {
-  width: 100%;
-  height: 56px;
+  width: 70%;
+  height: 46px;
   margin-top: 10px;
   text-transform: inherit !important;
+  /* color: #fcc600; */
   color: black;
-  border: none;
+  /* color: rgba(123, 153, 118, 0.788); */
+  /* color: rgba(0, 0, 0, 0.534); */
+  /* border: 1px solid rgba(123, 153, 118, 0.788) ; */
+  border: 1px solid #fcc600 ;
   border-radius: 4px;
 }
 
 .buttonG {
   background-color: #ffffff !important;
   cursor: pointer;
-  
+  font-weight: bold;  
 }
 
 .buttonG:hover {
@@ -65,10 +84,19 @@
   box-shadow: 0 0px 15px 0 rgba(0, 0, 0, 0.2);
 }
 .login__find {
-  text-align: end;
+  margin-top: 10px;
+  font-size: 14px;
 }
+.login__find > span{
+  color: rgb(162 160 137);
+  font-weight: bold;
+}
+
 .login__find > button {
   border: none;
   background-color: rgba(255, 255, 255, 0);
-  color: #839470;
+  /* color: #839470; */
+  /* color: rgba(123, 153, 118, 0.788); */
+  color: #fcc600;
+  font-weight: bold;
 }

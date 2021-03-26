@@ -10,8 +10,12 @@ class ApiService {
     return axios.get(USER_API_BASE_URL);
   }
 
+  searchUser(keyword) {
+    return axios.get(USER_API_BASE_URL + '/' + keyword);
+  }
+
   fetchUserByID(userID) {
-    return axios.get(USER_API_BASE_URL + '/' + userID);
+    return axios.get(USER_API_BASE_URL + '/personal-information/' + userID);
   }
 
   deleteUser(userID) {
@@ -26,8 +30,8 @@ class ApiService {
     return axios.put(USER_API_BASE_URL + '/' + user.id, user);
   }
 
-  fetchGoogleUser(user){
-    return axios.post(USER_API_BASE_URL_NODE + '/loginGoogle' , user);
+  fetchGoogleUser(user) {
+    return axios.post(USER_API_BASE_URL_NODE + '/loginGoogle', user);
   }
 }
 

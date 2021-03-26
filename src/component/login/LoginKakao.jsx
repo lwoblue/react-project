@@ -87,12 +87,12 @@ const LoginKakao = () => {
 };
 
 const KaKaoBtn = styled(KaKaoLogin)`
-  width: 100%;
-  height: 56px;
-  background-color: #ffeb00;
+  width: 70% !important;
+  height: 46px;
+  /* background-color: #ffeb00; */
+  background-color: #ffeb00 !important;
   border: 1px solid transparent;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: 4px !important;
   font-weight: bold;
   text-align: center;
   cursor: pointer;
