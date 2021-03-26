@@ -18,24 +18,26 @@ function LoginGoogle() {
           type: actionTypes.SET_USER,
           user: result.user,
         });
+      }).then(()=>{
+          // users table 조회 후 없는 계정이라면 users table에 추가할것.
+          const user = {
+              email: auth.currentUser.email,
+              username: auth.currentUser.displayName,
+              photoURL:auth.currentUser.photoURL,
+              deleteYN: 'n',
+              provider: 'google'
+          };
+          ApiService.fetchGoogleUser(user)
+          .then((res)=>{ })
+          .catch(error=>{
+              console.log(error)
+          });
+          localStorage.setItem("userID", auth.currentUser.email);
       })
       .catch((error) => {
         alert(error.message);
       });
-    localStorage.setItem("userID", auth.currentUser.email);
-    // users table 조회 후 없는 계정이라면 users table에 추가할것.
-    const user = {
-        email: auth.currentUser.email,
-        username: auth.currentUser.displayName,
-        photoURL:auth.currentUser.photoURL,
-        deleteYN: 'n',
-        provider: 'google'
-    };
-    ApiService.fetchGoogleUser(user)
-    .then()
-    .catch(error=>{
-        console.log(error)
-    });
+      console.log(auth.currentUser);
   };
   return (
     <>
