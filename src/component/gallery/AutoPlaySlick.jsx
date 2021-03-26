@@ -45,7 +45,6 @@ export default function AutoPlaySlick(props) {
     // speed: 500,        // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
     autoplaySpeed: 1500, // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
     cssEase: 'linear',
-
     slide: 'div', //슬라이드 되어야 할 태그 ex) div, li
     arrows: false, // 옆으로 이동하는 화살표 표시 여부
     pauseOnHover: true, // 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
