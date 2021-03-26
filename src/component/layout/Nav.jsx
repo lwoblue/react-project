@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import { ThemeProvider } from '@material-ui/styles';
 import {
@@ -27,6 +27,9 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Textsms from '@material-ui/icons/Textsms';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NavContents from './NavContents';
+import { auth } from './../../firebase';
+import { useStateValue } from 'component/chat/state/StateProvider';
+import { actionTypes } from 'component/chat/state/reducer';
 
 const drawerWidth = 240;
 
@@ -123,6 +126,8 @@ const Nav = (props) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const history = useHistory();
+  const [state, dispatch] = useStateValue();
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -156,6 +161,19 @@ const Nav = (props) => {
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
+  const LogoutClick = ()=>{
+    auth.signOut()
+    .then(()=>{
+      localStorage.clear();
+      dispatch({
+        type: actionTypes.SET_USER,
+        user: null,
+      });
+      history.push('/login');      
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
 
   return (
     <>
@@ -215,7 +233,7 @@ const Nav = (props) => {
                 </ListItem>
               </IconButton>
             </div>
-            <Button color="inherit">Logout</Button>
+            <Button color="inherit" onClick={LogoutClick}>Logout</Button>
           </Toolbar>
         </AppBar>
         {renderMenu}

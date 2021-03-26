@@ -7,12 +7,16 @@ import Gallery from 'component/gallery/Gallery';
 import UserListComponent from 'component/user/UserListComponent';
 import AddUserComponent from 'component/user/AddUserComponent';
 import EditUserComponent from 'component/user/EditUserComponent';
+import Login from 'component/login/Login';
+import SignUp from 'component/login/SignUp';
+import LoginTemplate from 'component/login/LoginTemplate';
 
 const ContentsRoute = () => {
   return (
     <>
       <Switch>
         <Route exact path="/" component={Home} />
+        {/* <Route exact path={['/', '/login']} component={LoginTemplate} /> */}
         <Route path="/home" component={Home} />
         <Route path="/bar" component={Bar} />
         <Route path="/chat" component={ChatFrame} />
