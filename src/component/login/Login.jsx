@@ -1,23 +1,23 @@
-import React, { useState, useCallback } from 'react';
-import './Login.css';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import LoginService from './LoginService';
-import LoginKakao from './LoginKakao';
-import { auth, provider } from './../../firebase';
-import { actionTypes } from '../chat/state/reducer';
-import { useStateValue } from '../chat/state/StateProvider';
-import { useHistory } from 'react-router';
-import LoginTemplate from './LoginTemplate';
-import db from '../../firebase';
-import LoginGoogle from './LoginGoogle';
+import React, { useState, useCallback } from "react";
+import "./Login.css";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import LoginService from "./LoginService";
+import LoginKakao from "./LoginKakao";
+import { auth, provider } from "./../../firebase";
+import { actionTypes } from "../chat/state/reducer";
+import { useStateValue } from "../chat/state/StateProvider";
+import { useHistory } from "react-router";
+import LoginTemplate from "./LoginTemplate";
+import db from "../../firebase";
+import LoginGoogle from "./LoginGoogle";
 
 const Login = () => {
   const history = useHistory();
   const [state, dispatch] = useStateValue();
   const [signUp, setSignUp] = useState(false);
-  const [id, setId] = useState('');
-  const [pwd, setPwd] = useState('');
+  const [id, setId] = useState("");
+  const [pwd, setPwd] = useState("");
   const idInputHandler = useCallback((e) => {
     e.preventDefault();
     const textId = e.target.value;
@@ -41,23 +41,23 @@ const Login = () => {
       const validate = isEmail(id);
       if (validate) {
         // set id
-        console.log('이메일 형식입니다.');
+        console.log("이메일 형식입니다.");
       } else {
-        console.log('이메일 형식이 아닙니다.');
+        console.log("이메일 형식이 아닙니다.");
       }
       LoginService.login(id, pwd)
         .then((res) => {
-          window.localStorage.setItem('userID', id);
-          console.log('login--->', res.data);
+          window.localStorage.setItem("userID", id);
+          console.log("login--->", res.data);
           dispatch({
             type: actionTypes.SET_USER,
             user: res.data,
           });
           console.log(res.data);
-          history.push('/home');
+          history.push("/home");
         })
         .catch(() => {
-          console.log('login Error!');
+          console.log("login Error!");
         });
 
       // <firebase db 연동>
@@ -87,21 +87,21 @@ const Login = () => {
       //     console.error('login Error!', error);
       //   });
 
-      setId((e.target.value = ''));
-      setPwd((e.target.value = ''));
+      setId((e.target.value = ""));
+      setPwd((e.target.value = ""));
     },
     [id, pwd]
   );
   const signupClick = () => {
     // setSignUp(true);
-    history.push('/signUp');
+    history.push("/signUp");
     return <LoginTemplate />;
   };
 
   return (
     <>
       <div className="login">
-        <img src="/images/logo.png" alt="" />
+        {/* <img src="/images/logo.png" alt="" /> */}
         <div className="login__container">
           <div>
             {/* id */}
@@ -123,17 +123,18 @@ const Login = () => {
                 onChange={pwdInputHandler}
               />
             </div>
-            <div className="login__find">
-              <button onClick={signupClick}>회원가입</button>
-              {/* <button>아이디패스워드찾기</button> */}
-            </div>
           </div>
           <button className="buttonS" onClick={loginClickHandler}>
             Sign In
           </button>
           <div className="login___social">
             <LoginKakao />
-            <LoginGoogle/>
+            <LoginGoogle />
+          </div>
+          <div className="login__find">
+            <span>Not a member?  </span>
+            <button onClick={signupClick}>Sign up now!</button>
+            {/* <button>아이디패스워드찾기</button> */}
           </div>
         </div>
       </div>
