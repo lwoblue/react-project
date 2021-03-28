@@ -28,9 +28,13 @@ const Separator = () => {
                 const to = `/${pathnames.slice(0, index + 1).join('/')}`;
 
                 return last ? (
-                  <Typography color="textPrimary" key={to}>
-                    {breadcrumbNameMap(to)}
-                  </Typography>
+                  to === '/home' ? (
+                    ''
+                  ) : (
+                    <Typography color="textPrimary" key={to}>
+                      {breadcrumbNameMap(to)}
+                    </Typography>
+                  )
                 ) : (
                   <LinkRouter color="inherit" to={to} key={to}>
                     {breadcrumbNameMap(to)}

@@ -32,7 +32,8 @@ ValueLabelComponent.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '350px',
+    maxWidth: '400px',
+    margin: 0,
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid rgb(0 0 0 / 15%)',
   },
   circleStyle: {
-    width: '60%',
+    width: '58%',
     marginLeft: '10px',
   },
   legendInput: {

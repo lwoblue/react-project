@@ -1,28 +1,26 @@
 /* eslint-disable no-nested-ternary */
-import { React, useState } from 'react';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   makeStyles,
   List,
   ListItem,
-  Collapse,
   ListItemText,
   ListItemIcon,
 } from '@material-ui/core';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
-import Divider from '@material-ui/core/Divider';
 
 export function breadcrumbNameMap(to) {
   // const candidate = { '/bar': 'Bar', '/line': 'Line', '/pie': 'Pie' };
   const candidate = {
-    '/bar': 'Bar',
-    '/chat': 'Talk',
+    '/home': 'Home',
+    '/chat': 'Chat',
     '/users': 'UserList',
     '/gallery': 'Gallery',
-    '/personal-information': 'Personal Information',
+    '/profile': 'Profile',
   };
   return candidate[to];
 }
@@ -62,49 +60,25 @@ const useStyles = makeStyles((theme) => ({
 
 const NavContents = () => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [open1, setOpen1] = useState(false);
-  const [open2, setOpen2] = useState(false);
-  const [open3, setOpen3] = useState(false);
-  const [open4, setOpen4] = useState(false);
+  // 트리 형식
+  // const [open, setOpen] = React.useState(true);
 
-  const handleClick = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-  const handleClick1 = () => {
-    setOpen1((prevOpen) => !prevOpen);
-  };
-
-  const handleClick2 = () => {
-    setOpen2((prevOpen) => !prevOpen);
-  };
-
-  const handleClick3 = () => {
-    setOpen3((prevOpen) => !prevOpen);
-  };
-
-  const handleClick4 = () => {
-    setOpen4((prevOpen) => !prevOpen);
-  };
+  // const handleClick = () => {
+  //   setOpen(!open);
+  // };
 
   return (
     <>
       <nav className={classes.lists} aria-label="mailbox folders">
         <List>
-          <ListItem button open={open} onClick={handleClick}>
-            <ListItemIcon>
-              <EqualizerIcon />
-            </ListItemIcon>
-            <ListItemText primary="chart" />
-          </ListItem>
+          <ListItemLink to="/home" title={'home'} />
+          <ListItemLink to="/chat" title={'chat'} />
+          <ListItemLink to="/users" title={'users'} />
+          <ListItemLink to="/gallery" title={'gallery'} />
+          <ListItemLink to="/profile" title={'profile'} />
 
-          <Collapse component="li" in={open} timeout="auto" unmountOnExit>
-            <List disablePadding>
-              <ListItemLink to="/bar" className={classes.nested} />
-            </List>
-          </Collapse>
-
-          <ListItem button open={open1} onClick={handleClick1}>
+          {/* 트리 형식 */}
+          {/* <ListItem button open={open1} onClick={handleClick1}>
             <ListItemIcon>
               <EqualizerIcon />
             </ListItemIcon>
@@ -119,48 +93,7 @@ const NavContents = () => {
                 id={'DVWjjfbmPMGni08saFJA'}
               />
             </List>
-          </Collapse>
-
-          {/* admin 카테고리 추가*/}
-          <ListItem button open={open2} onClick={handleClick2}>
-            <ListItemIcon>
-              <EqualizerIcon />
-            </ListItemIcon>
-            <ListItemText primary="admin" />
-          </ListItem>
-
-          <Collapse component="li" in={open2} timeout="auto" unmountOnExit>
-            <List disablePadding>
-              <ListItemLink to="/users" className={classes.nested} />
-            </List>
-          </Collapse>
-
-          <ListItem button open={open3} onClick={handleClick3}>
-            <ListItemIcon>
-              <EqualizerIcon />
-            </ListItemIcon>
-            <ListItemText primary="gallery" />
-          </ListItem>
-          <Collapse component="li" in={open3} timeout="auto" unmountOnExit>
-            <List disablePadding>
-              <ListItemLink to="/gallery" className={classes.nested} />
-            </List>
-          </Collapse>
-
-          <ListItem button open={open4} onClick={handleClick4}>
-            <ListItemIcon>
-              <EqualizerIcon />
-            </ListItemIcon>
-            <ListItemText primary="user" />
-          </ListItem>
-          <Collapse component="li" in={open4} timeout="auto" unmountOnExit>
-            <List disablePadding>
-              <ListItemLink
-                to="/personal-information"
-                className={classes.nested}
-              />
-            </List>
-          </Collapse>
+          </Collapse> */}
         </List>
       </nav>
     </>

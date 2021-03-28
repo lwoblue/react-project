@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Login from 'component/login/Login';
 import clsx from 'clsx';
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   wrap: {
     height: '100%',
     width: `100%`,
-    position: 'absolute',
+    position: 'relative',
     overflow: 'hidden',
   },
   nav: {
@@ -59,22 +59,14 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginLeft: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(9) + 1,
-    },
+    marginLeft: 0,
   },
 }));
 
 const MainFrame = () => {
   const classes = useStyles();
-  const [open, setOpen] = useState(true);
-  const [width, setWidth] = useState(60);
+  const [open, setOpen] = React.useState(false);
   const [{ user }, dispatch] = useStateValue();
-
-  const navWidthValue = (state) => {
-    setWidth(width);
-  };
 
   const appOpen = (drOpen) => {
     setOpen(drOpen);
@@ -90,7 +82,7 @@ const MainFrame = () => {
           ) : ( */}
           <>
             <div className={classes.nav}>
-              <Nav navWidthValue={navWidthValue} appOpen={appOpen} />
+              <Nav appOpen={appOpen} />
             </div>
             <div
               className={[

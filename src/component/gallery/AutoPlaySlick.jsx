@@ -6,6 +6,9 @@ import {
   createMuiTheme,
   Grid,
   Paper,
+  SnackbarContent,
+  Box,
+  Divider,
 } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 
@@ -49,6 +52,21 @@ const useStyles = makeStyles((theme) => ({
   btnMR: {
     marginRight: '30px',
   },
+  snackbarContent: {
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
+  snackbarRoot: {
+    color: '#fcc600',
+    backgroundColor: '#000000b8',
+    minWidth: 'auto',
+    width: '100%',
+  },
+  mgTB: {
+    marginTop: '20px',
+    marginBottom: '20px',
+  },
 }));
 
 export default function AutoPlaySlick(props) {
@@ -56,9 +74,9 @@ export default function AutoPlaySlick(props) {
   const classes = useStyles();
 
   const settings = {
-    dots: false, // 스크롤바 아래 점으로 페이지네이션 여부
+    dots: true, // 스크롤바 아래 점으로 페이지네이션 여부
     infinite: true, // 무한 반복 옵션
-    slidesToShow: 2, // 한 화면에 보여질 컨텐츠 개수
+    slidesToShow: 3, // 한 화면에 보여질 컨텐츠 개수
     slidesToScroll: 1, // 스크롤 한번에 움직일 컨텐츠 개수
     autoplay: true, // 자동 스크롤 사용 여부
     // speed: 500,        // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
@@ -101,7 +119,13 @@ export default function AutoPlaySlick(props) {
       <Grid item xs={12} sm={6}>
         <Paper className={classes.paper}>
           <ThemeProvider theme={goldColor}>
-            <div className={classes.btnDiv}>
+            <div className={classes.snackbarContent}>
+              <SnackbarContent
+                className={classes.snackbarRoot}
+                message={'Setting'}
+              />
+            </div>
+            <Box component="div" m={2}>
               <Button
                 className={classes.btnMR}
                 theme={goldColor}
@@ -121,7 +145,27 @@ export default function AutoPlaySlick(props) {
               >
                 Pause
               </Button>
-            </div>
+              <Divider className={classes.mgTB} />
+              <Button
+                className={classes.btnMR}
+                theme={goldColor}
+                variant="contained"
+                color="primary"
+                disableElevation
+                onClick={play}
+              >
+                Downlode
+              </Button>
+              <Button
+                theme={goldColor}
+                variant="contained"
+                color="primary"
+                disableElevation
+                onClick={pause}
+              >
+                Uplode
+              </Button>
+            </Box>
           </ThemeProvider>
         </Paper>
       </Grid>

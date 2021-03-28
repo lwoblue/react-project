@@ -36,7 +36,7 @@ const PrettoSlider = withStyles({
 
 const useStyles = makeStyles({
   root: {
-    width: 300,
+    maxWidth: 500,
     marginTop: '20px',
     marginBottom: '20px',
   },
