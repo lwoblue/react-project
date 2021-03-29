@@ -1,9 +1,10 @@
+import Login from 'component/login/Login';
+import SignUp from 'component/login/SignUp';
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Login from './Login';
-import SignUp from './SignUp';
 
-function LoginTemplate() {
+
+function LoginRoute() {
   return (
     <div>
       {/* <Router> */}
@@ -16,4 +17,4 @@ function LoginTemplate() {
   );
 }
 
-export default LoginTemplate;
+export default LoginRoute;

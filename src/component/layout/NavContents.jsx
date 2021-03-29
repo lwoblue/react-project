@@ -9,14 +9,16 @@ import {
   ListItemText,
   ListItemIcon,
 } from '@material-ui/core';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
+import RecentActorsIcon from '@material-ui/icons/RecentActors';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
+import ChatIcon from '@material-ui/icons/Chat';
+import HomeIcon from '@material-ui/icons/Home';
 
 export function breadcrumbNameMap(to) {
   // const candidate = { '/bar': 'Bar', '/line': 'Line', '/pie': 'Pie' };
   const candidate = {
-    '/home': 'Home',
+    '/': 'Home',
     '/chat': 'Chat',
     '/users': 'UserList',
     '/gallery': 'Gallery',
@@ -33,10 +35,19 @@ function ListItemLink(props) {
     <li>
       <ListItem button component={RouterLink} to={to} {...other}>
         <ListItemIcon>
-          <EqualizerIcon />
+          {primary === 'Home' ? (
+            <HomeIcon />
+          ) : primary === 'Chat' ? (
+            <ChatIcon />
+          ) : primary === 'UserList' ? (
+            <RecentActorsIcon />
+          ) : primary === 'Gallery' ? (
+            <PhotoLibraryIcon />
+          ) : (
+            <AssignmentIndIcon />
+          )}
         </ListItemIcon>
         <ListItemText primary={primary} />
-        {open != null ? open ? <ExpandLess /> : <ExpandMore /> : null}
       </ListItem>
     </li>
   );
@@ -71,7 +82,7 @@ const NavContents = () => {
     <>
       <nav className={classes.lists} aria-label="mailbox folders">
         <List>
-          <ListItemLink to="/home" title={'home'} />
+          <ListItemLink to="/" title={'home'} />
           <ListItemLink to="/chat" title={'chat'} />
           <ListItemLink to="/users" title={'users'} />
           <ListItemLink to="/gallery" title={'gallery'} />

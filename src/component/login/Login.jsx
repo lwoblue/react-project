@@ -8,9 +8,9 @@ import { auth, provider } from './../../firebase';
 import { actionTypes } from '../chat/state/reducer';
 import { useStateValue } from '../chat/state/StateProvider';
 import { useHistory } from 'react-router';
-import LoginTemplate from './LoginTemplate';
 import db from '../../firebase';
 import LoginGoogle from './LoginGoogle';
+import LoginRoute from 'component/route/LoginRoute';
 
 const Login = () => {
   useEffect(() => {
@@ -20,8 +20,8 @@ const Login = () => {
   const history = useHistory();
   const [state, dispatch] = useStateValue();
   const [signUp, setSignUp] = useState(false);
-  const [id, setId] = useState("");
-  const [pwd, setPwd] = useState("");
+  const [id, setId] = useState('');
+  const [pwd, setPwd] = useState('');
   const idInputHandler = useCallback((e) => {
     e.preventDefault();
     const textId = e.target.value;
@@ -118,8 +118,8 @@ const Login = () => {
   );
   const signupClick = () => {
     // setSignUp(true);
-    history.push("/signUp");
-    return <LoginTemplate />;
+    history.push('/signUp');
+    return <LoginRoute />;
   };
 
   return (
@@ -130,16 +130,20 @@ const Login = () => {
           <div>
             {/* id */}
             <div className="login__input">
-              <AccountBoxIcon />
+              <div className="icon_input">
+                <AccountBoxIcon />
+              </div>
               <input
                 value={id}
-                placeholder="Enter your Email"
+                placeholder={`Enter your Email`}
                 onChange={idInputHandler}
-              />
+              ></input>
             </div>
             {/* pwd */}
             <div className="login__input">
-              <VpnKeyIcon />
+              <div className="icon_input">
+                <VpnKeyIcon />
+              </div>
               <input
                 type="password"
                 value={pwd}
@@ -148,17 +152,19 @@ const Login = () => {
               />
             </div>
           </div>
-          <button className="buttonS" onClick={loginClickHandler}>
-            Sign In
-          </button>
-          <div className="login___social">
-            <LoginKakao />
-            <LoginGoogle />
-          </div>
-          <div className="login__find">
-            <span>Not a member?  </span>
-            <button onClick={signupClick}>Sign up now!</button>
-            {/* <button>아이디패스워드찾기</button> */}
+          <div className="buttons">
+            <button className="buttonS" onClick={loginClickHandler}>
+              Sign In
+            </button>
+            <div className="login___social">
+              <LoginKakao />
+              <LoginGoogle />
+            </div>
+            <div className="login__find">
+              <span>Not a member? </span>
+              <button onClick={signupClick}>Sign up now!</button>
+              {/* <button>아이디패스워드찾기</button> */}
+            </div>
           </div>
         </div>
       </div>

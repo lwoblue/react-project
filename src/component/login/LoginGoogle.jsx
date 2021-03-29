@@ -13,7 +13,7 @@ function LoginGoogle() {
     auth
       .signInWithPopup(provider)
       .then((result) => {
-        history.push('/home');
+        history.push('/');
         dispatch({
           type: actionTypes.SET_USER,
           user: result.user,
