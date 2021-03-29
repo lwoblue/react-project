@@ -126,7 +126,7 @@ function SignUp() {
 
   return (
     <div className="signUp">
-      <img src="/images/logo.png" alt="" />
+      {/* <img src="/images/logo.png" alt="" /> */}
       <div className="signUp__container">
         <div className="signUp__form">
         <div className="icon_back" onClick={goBack}>
@@ -150,8 +150,7 @@ function SignUp() {
             <button
               style={{
                 border: "none",
-                // backgroundColor: "#fcc600",
-                backgroundColor: "#fae791",
+                backgroundColor: "#fadc59",
                 borderRadius: "4px",
                 height: "25px",
                 width: "80px",

@@ -8,9 +8,9 @@ import { auth, provider } from "./../../firebase";
 import { actionTypes } from "../chat/state/reducer";
 import { useStateValue } from "../chat/state/StateProvider";
 import { useHistory } from "react-router";
-import LoginTemplate from "./LoginTemplate";
 import db from "../../firebase";
 import LoginGoogle from "./LoginGoogle";
+import LoginRoute from "component/route/LoginRoute";
 
 const Login = () => {
   useEffect(() => {
@@ -119,7 +119,7 @@ const Login = () => {
   const signupClick = () => {
     // setSignUp(true);
     history.push("/signUp");
-    return <LoginTemplate />;
+    return <LoginRoute />;
   };
 
   return (

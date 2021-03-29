@@ -21,6 +21,7 @@
   width: 90%;
   border: 1px solid #fcc600;
   margin-top: 10px;
+  border-radius: 4px;
 }
 .login__input > div {
   display: flex;
