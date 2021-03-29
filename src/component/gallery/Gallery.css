@@ -20,6 +20,7 @@
 }
 
 .move-button {
+  min-width: 80px;
   width: 100rem;
   border: 1px solid coral;
   background-color: #fff;
