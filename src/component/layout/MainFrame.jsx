@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   wrap: {
     height: '100%',
     width: `100%`,
-    position: 'relative',
+    position: 'absolute',
     overflow: 'hidden',
   },
   nav: {
@@ -84,7 +84,6 @@ const MainFrame = () => {
       <div className={classes.wrap}>
         <Router>
           {!user ? (
-            // <Login />
             <LoginRoute />
           ) : (
             <>
@@ -104,7 +103,7 @@ const MainFrame = () => {
               <div className={classes.content}>
                 <main
                   className={[
-                    classes.separator,
+                    classes.mp,
                     clsx(classes.main, {
                       [classes.mainShift]: open,
                     }),

@@ -99,7 +99,7 @@ const Login = () => {
                     displayName: res.data.userName,
                   });
                 }
-                history.push('/');
+                history.push('/home');
               }
               setId((e.target.value = ''));
               setPwd((e.target.value = ''));
