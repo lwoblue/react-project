@@ -7,7 +7,6 @@ import {
   useTheme,
   createMuiTheme,
   fade,
-  Button,
   Drawer,
   CssBaseline,
   AppBar,
@@ -16,19 +15,14 @@ import {
   Divider,
   IconButton,
   ListItem,
-  ListItemIcon,
   ListItemText,
   Menu,
-  MenuItem,
-  Badge,
   InputBase,
 } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ListIcon from '@material-ui/icons/List';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -262,7 +256,7 @@ const Nav = (props) => {
         <ListItemText primary={'Profile'} />
       </ListItem>
 
-      <ListItem button component={RouterLink} onClick={handleMenuCloseLogout}>
+      <ListItem button onClick={handleMenuCloseLogout}>
         <ListItemText primary={'Logout'} />
       </ListItem>
     </Menu>
@@ -297,7 +291,7 @@ const Nav = (props) => {
         </IconButton>
         <ListItemText primary={'Profile'} />
       </ListItem>
-      <ListItem button component={RouterLink} onClick={LogoutClick}>
+      <ListItem button onClick={LogoutClick}>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <ExitToAppIcon />
         </IconButton>

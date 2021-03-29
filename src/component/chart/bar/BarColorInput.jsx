@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function BarLabelTextColor(props) {
+export default function BarColorInput(props) {
   const classes = useStyles();
   const [initial, setInitial] = useState(props.info().default);
   const [color, setColor] = useState('');
@@ -27,7 +27,7 @@ export default function BarLabelTextColor(props) {
   return (
     <div className={classes.root}>
       <Typography id="input-slider" gutterBottom>
-        {name}
+        {/* {name} */}
       </Typography>
       <Grid container spacing={3} alignItems="center">
         <Grid item xs>

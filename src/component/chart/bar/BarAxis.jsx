@@ -10,6 +10,7 @@ import {
   Tooltip,
   Slider,
   TextField,
+  Divider,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { BarAxisEnable, BarSlider } from 'component/chart/bar/BarController';
@@ -62,6 +63,13 @@ const useStyles = makeStyles((theme) => ({
   },
   mgt20: {
     marginTop: '20px',
+  },
+  mgT: {
+    marginTop: 0,
+  },
+  mgTB: {
+    marginTop: '15px',
+    marginBottom: '15px',
   },
 }));
 
@@ -336,12 +344,25 @@ export default function BarAxis(props) {
   function axisContents() {
     return (
       <>
+        <h5 className={classes.mgT}>AxisEnable</h5>
+        <span>optional</span>
         <BarAxisEnable getAxisEnable={getAxisEnable} />
-        <BarSlider state={axisState} info={getAxisTickSizeNum} />
-        <BarSlider state={axisState} info={getAxisTickPaddingNum} />
-        <Typography id="input-slider" gutterBottom>
-          Circle
+        <Typography paragraph>
+          enable axis, it's not an actual prop (demo only)
         </Typography>
+        <Divider className={classes.mgTB} />
+        <h5 className={classes.mgT}>AxisTickSize</h5>
+        <span>number optional</span>
+        <BarSlider state={axisState} info={getAxisTickSizeNum} />
+        <Typography paragraph>axis tick size</Typography>
+        <Divider className={classes.mgTB} />
+        <h5 className={classes.mgT}>AxisTickPadding</h5>
+        <span>number optional</span>
+        <BarSlider state={axisState} info={getAxisTickPaddingNum} />
+        <Typography paragraph>axis tick padding</Typography>
+        <Divider className={classes.mgTB} />
+        <h5 className={classes.mgT}>Circle</h5>
+        <span>number optional</span>
         <Circle
           animate={true} // Boolean: Animated/Static progress
           animationDuration="0.5s" // String: Length of animation
@@ -378,6 +399,8 @@ export default function BarAxis(props) {
           min={-100}
           max={100}
         />
+        <Divider className={classes.mgTB} />
+        <h5 className={classes.mgT}>Legend</h5>
         <form
           className={(classes.root, classes.mgt20)}
           noValidate
@@ -385,7 +408,6 @@ export default function BarAxis(props) {
           onSubmit={handleSubmit}
         >
           <TextField
-            id="outlined-multiline-flexible"
             label="legend"
             multiline
             rowsMax={4}
