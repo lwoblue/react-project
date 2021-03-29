@@ -242,9 +242,14 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     '& .Mui-selected': {
-      backgroundColor: '#fff7d8',
+      backgroundColor: '#fef9e4',
       '& svg > path': {
         fill: '#fcc600',
+      },
+    },
+    '& .MuiTableRow-hover': {
+      '&:hover': {
+        backgroundColor: '#f4ebc6',
       },
     },
   },
@@ -286,6 +291,7 @@ const useStyles = makeStyles((theme) => ({
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
+    paddingTop: '5px',
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
