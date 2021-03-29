@@ -1,13 +1,12 @@
 import { React, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import Login from 'component/login/Login';
 import clsx from 'clsx';
 import Nav from './Nav';
 import ContentsRoute from 'component/route/ContentsRoute';
 import Separator from './Separator';
 import { makeStyles } from '@material-ui/core/styles';
-import LoginTemplate from 'component/login/LoginTemplate';
 import { useStateValue } from 'component/chat/state/StateProvider';
+import LoginRoute from 'component/route/LoginRoute';
 // import { useStateValue } from "../chat/state/StateProvider";
 
 const drawerWidth = 240;
@@ -85,8 +84,7 @@ const MainFrame = () => {
       <div className={classes.wrap}>
         <Router>
           {!user ? (
-            // <Login />
-            <LoginTemplate />
+            <LoginRoute />
           ) : (
             <>
               <div className={classes.nav}>

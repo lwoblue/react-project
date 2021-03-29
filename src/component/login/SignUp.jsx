@@ -1,21 +1,21 @@
-import React, { useState, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
-import './Login.css';
-import LoginService from './LoginService';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import EmailIcon from '@material-ui/icons/Email';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import React, { useState, useCallback } from "react";
+import { useHistory } from "react-router-dom";
+import "./SignUp.css";
+import LoginService from "./LoginService";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import EmailIcon from "@material-ui/icons/Email";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
-import { signUp } from '../login/auth';
-import db from '../../firebase';
+import { signUp } from "../login/auth";
+import db from "../../firebase";
 
 function SignUp() {
   const history = useHistory();
-  const [email, setEmail] = useState('');
-  const [pwd, setPwd] = useState('');
-  const [userName, setUserName] = useState('');
-  const [InputStatus, setInputStatus] = useState('');
+  const [email, setEmail] = useState("");
+  const [pwd, setPwd] = useState("");
+  const [userName, setUserName] = useState("");
+  const [InputStatus, setInputStatus] = useState("");
 
   const idInputHandler = useCallback((e) => {
     e.preventDefault();
@@ -44,7 +44,7 @@ function SignUp() {
   const loginClickHandler = useCallback(
     async (e) => {
       let emailValidate = false;
-      if (InputStatus === '사용가능한 이메일입니다.') {
+      if (InputStatus === "사용가능한 이메일입니다.") {
         emailValidate = true;
       }
       if (
@@ -61,8 +61,8 @@ function SignUp() {
               password: pwd,
               userName: userName,
               photoURL:
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3SvtTRgIX1lfL2YSByB8kwoVkVYQB93It2g&usqp=CAU',
-              deleteYN: 'n',
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3SvtTRgIX1lfL2YSByB8kwoVkVYQB93It2g&usqp=CAU",
+              deleteYN: "n",
             };
             // <firebase db 연동>
             // db.collection('users')
@@ -75,22 +75,22 @@ function SignUp() {
                 console.log(res.data);
               })
               .catch(() => {
-                console.log('SignUp Error!');
+                console.log("SignUp Error!");
               });
 
-            alert('회원가입이 완료되었습니다.');
-            history.push('/login');
+            alert("회원가입이 완료되었습니다.");
+            history.push("/login");
           })
           .catch((e) => {
-            console.log('SignUp Error!');
+            console.log("SignUp Error!");
             console.log(e);
           });
-        setEmail((e.target.value = ''));
-        setPwd((e.target.value = ''));
-        setUserName((e.target.value = ''));
+        setEmail((e.target.value = ""));
+        setPwd((e.target.value = ""));
+        setUserName((e.target.value = ""));
       } else {
         // 빈 input 존재
-        alert('입력 양식을 채워주세요');
+        alert("입력 양식을 채워주세요");
       }
     },
     // [email, pwd, userName,history]
@@ -106,18 +106,18 @@ function SignUp() {
       LoginService.emailDuplicateCheck(email)
         .then((res) => {
           let status = res.data;
-          if (status === 'true') {
-            setInputStatus('사용가능한 이메일입니다.');
+          if (status === "true") {
+            setInputStatus("사용가능한 이메일입니다.");
           } else {
             //중복 상태입니다.
-            setInputStatus('중복된 이메일입니다.');
+            setInputStatus("중복된 이메일입니다.");
           }
         })
         .catch(() => {
-          console.log('check Duplcate ERROR!');
+          console.log("check Duplcate ERROR!");
         });
     } else {
-      setInputStatus('이메일 형식이 아닙니다.');
+      setInputStatus("이메일 형식이 아닙니다.");
     }
   };
   const goBack = () => {
@@ -125,15 +125,16 @@ function SignUp() {
   };
 
   return (
-    <div className="login">
-      <img src="/images/logo.png" alt="" />
-      <div className="login__container">
-        <div style={{ textAlign: 'initial' }} onClick={goBack}>
+    <div className="signUp">
+      {/* <img src="/images/logo.png" alt="" /> */}
+      <div className="signUp__container">
+        <div className="signUp__form">
+        <div className="icon_back" onClick={goBack}>
           <ArrowBackIcon />
         </div>
         <div>
           {/* id */}
-          <div className="login__input">
+          <div className="signUp__input">
             <EmailIcon />
             <input
               value={email}
@@ -142,18 +143,18 @@ function SignUp() {
             />
           </div>
           <div
-            className="login__inputDuplicateChk"
-            style={{ textAlign: 'end' }}
+            className="signUp__inputDuplicateChk"
+            style={{ textAlign: "end" }}
           >
-            <span>{InputStatus}</span>
+            <span style={{ color: "#d1a504" }}>{InputStatus}</span>
             <button
               style={{
-                border: 'none',
-                backgroundColor: '#98d33a',
-                borderRadius: '4px',
-                height: '25px',
-                width: '80px',
-                marginLeft: '10px',
+                border: "none",
+                backgroundColor: "#fadc59",
+                borderRadius: "4px",
+                height: "25px",
+                width: "80px",
+                marginLeft: "10px",
               }}
               onClick={idDuplicateCheck}
             >
@@ -161,7 +162,7 @@ function SignUp() {
             </button>
           </div>
           {/* name */}
-          <div className="login__input">
+          <div className="signUp__input">
             <AccountBoxIcon />
             <input
               value={userName}
@@ -170,7 +171,7 @@ function SignUp() {
             />
           </div>
           {/* pwd */}
-          <div className="login__input">
+          <div className="signUp__input">
             <VpnKeyIcon />
             <input
               type="password"
@@ -179,6 +180,7 @@ function SignUp() {
               onChange={pwdInputHandler}
             />
           </div>
+        </div>
         </div>
         <button onClick={loginClickHandler}>Sign Up</button>
       </div>
