@@ -152,7 +152,6 @@ const Login = () => {
               />
             </div>
           </div>
-          
           <div className="buttons">
             <button className="buttonS" onClick={loginClickHandler}>
               Sign In
