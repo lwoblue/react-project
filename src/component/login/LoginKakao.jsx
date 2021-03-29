@@ -87,7 +87,7 @@ const LoginKakao = () => {
 };
 
 const KaKaoBtn = styled(KaKaoLogin)`
-  width: 70% !important;
+  width: 90% !important;
   height: 46px;
   /* background-color: #ffeb00; */
   background-color: #ffeb00 !important;
