@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   wrap: {
     height: '100%',
     width: `100%`,
-    position: 'absolute',
+    position: 'relative',
     overflow: 'hidden',
   },
   nav: {
