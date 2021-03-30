@@ -77,7 +77,7 @@ export default function BarSlider(props) {
   return (
     <div className={classes.root}>
       <Typography id="input-slider" gutterBottom>
-        {name}
+        {/* {name} */}
       </Typography>
       <Grid container spacing={3} alignItems="center">
         <Grid item xs>

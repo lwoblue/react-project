@@ -2,73 +2,65 @@
   height: 100vh;
   /* background: #d6ecbc; */
   background-color: #f7ecbee7;
-  /* background-color: #7b9976b8; */
   /* background-image: url("../../public/images/bgImg_black_gold.jpg"); */
   background-size: 100%;
-  /* background: linear-gradient(to right, #f7ecbee7, rgba(255, 250, 226, 0.722)); */
   color: #fcc600;
-  /* color:rgba(123, 153, 118, 0.722); */
   display: grid;
   place-items: center;
 }
 .login__container {
-  padding: 40px;
-  text-align: center;
+  padding: 70px;
+  text-align: -webkit-center;
   background-color: rgba(255, 255, 255, 0.6);
-  /* background-color: #000000b8; */
-  /* border: 1px solid rgba(123, 153, 118, 0.722); */
   border: 1px solid #fcc600;
   border-radius: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
-/* img {
-  object-fit: contain;
-  height: 100px;
-  margin-bottom: 40px;
-} */
 .login__input {
-  width: 100%;
+  display: flex;
+  width: 90%;
+  border: 1px solid #fcc600;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+.login__input > div {
   display: flex;
   align-items: center;
-  margin: 20px;
+  width: 90%;
+  height: 56px;
+  border-radius: 4px 0px 0px 4px ;
+  background-color:#ffffff;
+  padding-left:5px;
+  padding-right:5px;
 }
 .login__input > input {
   border: none;
-  border-radius: 4px;
-  margin-left: 20px;
-  padding-left: 20px;
+  border-radius: 0px 4px 4px 0px ;
   height: 56px;
-  width: 80%;
+  /* width: 80%; */
 }
 
-.login__container > button {
-  width: 70%;
+.login___social > button {
+  width: 90%;
   height: 46px;
   margin-top: 10px;
   text-transform: inherit !important;
-  /* background-color: rgba(123, 153, 118, 0.788) !important; */
+  color: black;
+  border: 1px solid #fcc600 ;
+  border-radius: 4px;
+}
+
+.buttonS {
+  width: 90%;
+  height: 46px;
+  margin-top: 10px;
+  text-transform: inherit !important;
   background-color: #fcc600 !important;
-  
-  /* background-color: #00000083 !important; */
   color: black;
   cursor: pointer;
-  /* color: black; */
   border: 1px solid transparent;
   border-radius: 4px;
   font-weight: bold;
-}
-.login___social > button {
-  width: 70%;
-  height: 46px;
-  margin-top: 10px;
-  text-transform: inherit !important;
-  /* color: #fcc600; */
-  color: black;
-  /* color: rgba(123, 153, 118, 0.788); */
-  /* color: rgba(0, 0, 0, 0.534); */
-  /* border: 1px solid rgba(123, 153, 118, 0.788) ; */
-  border: 1px solid #fcc600 ;
-  border-radius: 4px;
 }
 
 .buttonG {
@@ -95,8 +87,6 @@
 .login__find > button {
   border: none;
   background-color: rgba(255, 255, 255, 0);
-  /* color: #839470; */
-  /* color: rgba(123, 153, 118, 0.788); */
   color: #fcc600;
   font-weight: bold;
 }

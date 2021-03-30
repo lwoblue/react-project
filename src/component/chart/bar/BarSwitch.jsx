@@ -29,7 +29,7 @@ export default function BarSwitch(props) {
               color="primary"
             />
           }
-          label={name}
+          // label={name}
         />
       </FormGroup>
     </>
