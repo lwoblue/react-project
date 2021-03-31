@@ -9,7 +9,7 @@ var cors = require("cors"); // cors
 // Firebase setup
 // var firebase = require('firebase');
 // Initialize Firebasee App with
-// var config = require("./firebaseConfig.json");
+// var config = require("./configKey/firebaseConfig.json");
 // firebase.initializeApp(config);
 
 // MySQL setting
@@ -26,7 +26,7 @@ var con = mysql.createConnection({
 var admin = require("firebase-admin");
 // you should manually put your serviceAccountKey.json in the same folder app.js
 // is located at.
-var serviceAccount = require("./serviceAccountKey.json");
+var serviceAccount = require("./configKey/serviceAccountKey.json");
 
 // Initialize FirebaseApp with service-account.json
 admin.initializeApp({

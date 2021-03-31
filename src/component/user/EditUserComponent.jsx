@@ -3,7 +3,7 @@ import ApiService from "api/ApiService";
 import { useHistory } from "react-router";
 
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,28 +16,63 @@ import firebase from "firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // flexGrow: 1,
+    flexGrow: 1,
     width: "100%",
     display: "flex",
     justifyContent: "center",
-    flexWrap: "wrap",
-    
+    flexFlow: "row",
   },
-  paper: {
-    padding: theme.spacing(2),
+  style_box: {
+    // border: "1px solid #f3eb9f",
+    background: "rgba(255, 255, 255, 0.438)",
     width: "100%",
-    textAlign: "center",
-    flexDirection: "row",
-    color: theme.palette.text.secondary,
-  },
-  row:{
     display: "flex",
-    flexDirection: "row",
+    flexWrap: "wrap",
+    padding: "50px",
+    borderRadius: "5px",
+    marginTop: "10px",
+  },
+  row: {
+    display: "flex",
     alignItems: "center",
-
+    "& button":{
+      padding: "10px",
+      marginLeft:"20px",
+      borderRadius: "10px",
+      border: "1px rgba(37, 34, 34, 0.575)",
+      backgroundColor: "rgba(65, 61, 61, 0.466)",
+      color: "#fcc600",
+    }
+  },
+  row_btn: {
+    display: "flex",
+    // float: "right",
+    marginTop: "20px",
+    justifyContent: "center",
+    "& button": {
+      padding: "15px 25px 15px 25px",
+      borderRadius: "10px",
+      border: "1px rgba(37, 34, 34, 0.575)",
+      backgroundColor: "rgba(37, 34, 34, 0.575)",
+      color: "#fcc600",
+    },
   },
   style_img: {
-    width: "250px",
+    minWidth: "250px",
+    minHeight: "250px",
+  },
+
+  style_form: {
+    width: "65%",
+    minHeight: "250px",
+    minWidth: "250px",
+    padding: "20px",
+    "& input": {
+      marginLeft: "10px",
+    },
+    "& svg": {
+      marginRight: "10px",
+    },
   },
 }));
 const EditUserComponent = () => {
@@ -149,17 +184,17 @@ const EditUserComponent = () => {
     <div>
       {/* <Grid container spacing={1}> */}
       {/* <Typography variant="h4" style={style}> */}
-      <div className={classes.root} container spacing={1} item xs={12}>
+      {/* <div className={classes.root} container spacing={1} item xs={12}>
         <Typography variant="h4">
-          Edit Personal Information
+          Profile
         </Typography>
-      </div>
-      <div className={classes.root}>
-        <div className={classes.paper}>
-          <img className={classes.style_img} src={userImage} alt="" />
-        </div>
-        <div className={classes.paper}>
-          <div >
+      </div> */}
+      {/* [activeClass, data.klass, "main-class"].join(' ') */}
+      <div className={[classes.root, classes.style_box].join(" ")}>
+        <img className={classes.style_img} src={userImage} alt="" />
+
+        <div className={classes.style_form}>
+          <div>
             <div className={classes.row}>
               <EmailIcon />
               <TextField
@@ -195,18 +230,15 @@ const EditUserComponent = () => {
                 value={photoURL}
                 onChange={onChangePhotoURL}
               />
+              <button>upload</button>
             </div>
-
-            <Button
-              style={{ float: "right" }}
-              variant="contained"
-              color="primary"
-              onClick={saveUser}
-            >
-              Save
-            </Button>
           </div>
         </div>
+      </div>
+      <div className={classes.row_btn}>
+        <button variant="contained" onClick={saveUser}>
+          Save
+        </button>
       </div>
     </div>
   );

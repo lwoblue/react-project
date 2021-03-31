@@ -7,9 +7,8 @@
 
 # node - testfolder
 # dependencies
-/server/node_modules
-/server/firebaseConfig.json
-/server/serviceAccountKey.json
+/configKey
+
 
 # testing
 /coverage
