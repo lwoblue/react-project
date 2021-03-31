@@ -84,7 +84,7 @@ export default function BarMinMaxValue(props) {
   return (
     <div className={classes.root}>
       <div className={classes.margin} />
-      <Typography gutterBottom>MinMaxValue</Typography>
+      {/* <Typography gutterBottom>MinMaxValue</Typography> */}
 
       <Grid container spacing={2} alignItems="center">
         <Grid item>

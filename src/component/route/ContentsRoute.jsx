@@ -12,7 +12,6 @@ const ContentsRoute = () => {
     <>
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/home" component={Home} />
         <Route path="/chat" component={ChatFrame} />
         <Route path="/gallery" component={Gallery} />
         <Route path="/users" component={UserListComponent} />

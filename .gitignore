@@ -5,6 +5,12 @@
 /.pnp
 .pnp.js
 
+# node - testfolder
+# dependencies
+/server/node_modules
+/server/firebaseConfig.json
+/server/serviceAccountKey.json
+
 # testing
 /coverage
 

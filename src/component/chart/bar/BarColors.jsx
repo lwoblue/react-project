@@ -1,7 +1,6 @@
 import { React, useState } from 'react';
 import {
   makeStyles,
-  InputLabel,
   MenuItem,
   FormControl,
   Select,
@@ -45,7 +44,7 @@ export default function BarColors(props) {
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="grouped-select">Color</InputLabel>
+        {/* <InputLabel htmlFor="grouped-select">Color</InputLabel> */}
         <Select
           defaultValue="nivo"
           id="grouped-select"

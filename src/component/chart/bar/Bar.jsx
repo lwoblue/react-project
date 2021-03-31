@@ -8,6 +8,7 @@ import {
   Divider,
   SnackbarContent,
   Box,
+  Typography,
 } from '@material-ui/core';
 import {
   BarSwitch,
@@ -38,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
   mgTB: {
     marginTop: '15px',
     marginBottom: '15px',
+  },
+  mgT: {
+    marginTop: 0,
   },
   gridRoot: {
     display: 'flex',
@@ -492,23 +496,52 @@ const Bar = () => {
             />
           </div>
           <Box component="div" m={2}>
-            <BarSwitch state={switchState} info={groupModeInfo} />
+            <h5 className={classes.mgT}>GroupMode</h5>
             <span>string optional default:'stacked'</span>
+            <BarSwitch state={switchState} info={groupModeInfo} />
+            <Typography paragraph>How to group bars</Typography>
+
             <Divider className={classes.mgTB} />
-            <BarSwitch state={switchState} info={layoutInfo} />
+
+            <h5 className={classes.mgT}>Layout</h5>
             <span>string optional default:'vertical'</span>
+            <BarSwitch state={switchState} info={layoutInfo} />
+            <Typography paragraph>How to display bars</Typography>
             <Divider className={classes.mgTB} />
+            <h5 className={classes.mgT}>Reverse</h5>
+            <span>boolean optional default:false</span>
             <BarSwitch state={switchState} info={reverseInfo} />
+            <Typography paragraph>
+              Reverse bars, starts on top instead of bottom for vertical layout
+              and right instead of left for horizontal one.
+            </Typography>
             <Divider className={classes.mgTB} />
+            <h5 className={classes.mgT}>MinValue</h5>
+            <span>number | string optional default:'auto'</span>
             <BarSlider state={sliderState} info={getMinValueNum} />
+            <Typography paragraph>Minimum value</Typography>
             <Divider className={classes.mgTB} />
+            <h5 className={classes.mgT}>MaxValue</h5>
+            <span>number | string optional default:'auto'</span>
             <BarSlider state={sliderState} info={getMaxValueNum} />
+            <Typography paragraph>Maximum value</Typography>
             <Divider className={classes.mgTB} />
+            <h5 className={classes.mgT}>MinMaxValue</h5>
+            <span>number | string optional default:'auto'</span>
             <BarMinMaxValue getMinMaxValue={getMinMaxValue} />
+            <Typography paragraph>Minimum & Maximum value</Typography>
             <Divider className={classes.mgTB} />
+            <h5 className={classes.mgT}>Padding</h5>
+            <Typography paragraph>number optional default:0.1</Typography>
             <BarSlider state={sliderState} info={getPaddingNum} />
+            <Typography paragraph>Padding between each bar (ratio)</Typography>
             <Divider className={classes.mgTB} />
+            <h5 className={classes.mgT}>InnerPadding</h5>
+            <span>number optional default:1</span>
             <BarSlider state={sliderState} info={getInnerPaddingNum} />
+            <Typography paragraph>
+              Padding between grouped/stacked bars
+            </Typography>
             <Divider className={classes.mgTB} />
           </Box>
           <div className={classes.snackbarContent}>
@@ -518,13 +551,29 @@ const Bar = () => {
             />
           </div>
           <Box component="div" m={2}>
+            <h5 className={classes.mgT}>Color</h5>
+            <span>
+              string | Function | string[]optionaldefault: 'scheme':'nivo'
+            </span>
             <BarColors getColors={getColors} />
+            <Typography paragraph>Defines color range</Typography>
             <Divider className={classes.mgTB} />
+            <h5 className={classes.mgT}>BorderRadius</h5>
+            <span>number optional default:0</span>
             <BarSlider state={sliderState} info={getBorderRadiusNum} />
+            <Typography paragraph>Rectangle border radius</Typography>
             <Divider className={classes.mgTB} />
+            <h5 className={classes.mgT}>BorderWidth</h5>
+            <span>number optional default:0</span>
             <BarSlider state={sliderState} info={getBorderWidthNum} />
+            <Typography paragraph>Width of bar border</Typography>
             <Divider className={classes.mgTB} />
+            <h5 className={classes.mgT}>BorderColor</h5>
+            <span>
+              string | object | Functionoptionaldefault:'from':'color'
+            </span>
             <BarColorInput state={colorInputState} info={getBorderColorNum} />
+            <Typography paragraph>Method to compute border color</Typography>
           </Box>
           <div className={classes.snackbarContent}>
             <SnackbarContent
@@ -533,10 +582,15 @@ const Bar = () => {
             />
           </div>
           <Box component="div" m={2}>
+            <h5 className={classes.mgT}>LabelTextColor</h5>
+            <span>string | object | Function optional default:'theme'</span>
             <BarColorInput
               state={colorInputState}
               info={getLabelTextColorNum}
             />
+            <Typography paragraph>
+              Defines how to compute label text color
+            </Typography>
           </Box>
           <div className={classes.snackbarContent}>
             <SnackbarContent
@@ -545,10 +599,18 @@ const Bar = () => {
             />
           </div>
           <Box component="div" m={2}>
+            <h5 className={classes.mgT}>EnableGridX</h5>
+            <span>boolean optional default:false</span>
             <BarSwitch state={switchState} info={EnableGridXInfo} />
+            <Typography paragraph>Enable/disable x grid</Typography>
             <Divider className={classes.mgTB} />
+            <h5 className={classes.mgT}>EnableGridY</h5>
+            <span>boolean optional default:true</span>
             <BarSwitch state={switchState} info={EnableGridYInfo} />
+            <Typography paragraph> Enable/disable y grid</Typography>
             <Divider className={classes.mgTB} />
+            <h5 className={classes.mgT}>Axis</h5>
+            <span>accordion & tick rotation</span>
             <BarAxis
               className={classes.mb}
               getAxisTop={getAxisTop}
