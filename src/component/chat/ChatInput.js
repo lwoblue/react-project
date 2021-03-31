@@ -1,13 +1,11 @@
 import React, { useRef, useState, useCallback } from 'react';
-import db from '../../firebase';
+import db, { auth } from '../../firebase';
 import Picker from 'emoji-picker-react';
-import { useStateValue } from '../chat/state/StateProvider';
 import './ChatInput.css';
 import firebase from 'firebase';
 
 const ChatInput = ({ channelName, channelId }) => {
   const [input, setInput] = useState('');
-  const [{ user }] = useStateValue();
   const emojiDiv = useRef(null);
   const [blEmoji, setBlEmoji] = useState(false);
   const onChange = useCallback((e) => {
@@ -21,8 +19,8 @@ const ChatInput = ({ channelName, channelId }) => {
       db.collection('rooms').doc(channelId).collection('messages').add({
         message: input,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        user: user.displayName,
-        userImage: user.photoURL,
+        user: auth.currentUser.displayName,
+        userImage: auth.currentUser.photoURL,
       });
     }
     setBlEmoji(false);

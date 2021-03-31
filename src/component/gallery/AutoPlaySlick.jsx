@@ -1,5 +1,6 @@
-import { React, useRef } from 'react';
+import React,{ useRef} from 'react';
 import Slider from 'react-slick';
+import Modal from '@material-ui/core/Modal';
 import {
   makeStyles,
   Button,
@@ -11,6 +12,7 @@ import {
   Divider,
 } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
+import { red } from '@material-ui/core/colors';
 
 const items = [
   { id: 1, url: 'images/img1.jpg' },
@@ -67,11 +69,30 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '20px',
     marginBottom: '20px',
   },
+  modalBody: {
+    position: 'absolute',
+    width: '50%',
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+  }
 }));
 
 export default function AutoPlaySlick(props) {
   const sliderRef = useRef(Slider);
   const classes = useStyles();
+  const [imagePath, setImagePath] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+
+  const body = (
+    <div className={classes.modalBody}>
+      <img src={imagePath} alt="images" width="100%"/>
+    </div>
+  );
 
   const settings = {
     dots: true, // 스크롤바 아래 점으로 페이지네이션 여부
@@ -107,9 +128,13 @@ export default function AutoPlaySlick(props) {
           <Slider {...settings} className={classes.sliderRoot} ref={sliderRef}>
             {items.map((item) => {
               return (
-                <div key={item.id}>
-                  <img src={item.url} alt="logo" className={classes.imgSize} />
-                </div>
+                  <div key={item.id} onDoubleClick={
+                    ()=>{    
+                      setOpen(true);
+                      setImagePath(item.url);
+                  }}>
+                    <img src={item.url} alt="logo" className={classes.imgSize}/>
+                  </div>
               );
             })}
           </Slider>
@@ -169,6 +194,17 @@ export default function AutoPlaySlick(props) {
           </ThemeProvider>
         </Paper>
       </Grid>
+      <Modal
+        open={open}
+        onClose={()=>{
+          setOpen(false);
+        }}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+      {body}
+      </Modal>
+      
     </>
   );
 }
