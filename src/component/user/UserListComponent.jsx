@@ -24,6 +24,8 @@ import ApiService from 'api/ApiService';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles';
+import XLSX from 'xlsx';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 // import db from '../../firebase';
 
@@ -138,6 +140,21 @@ const useToolbarStyles = makeStyles((theme) => ({
   },
 }));
 
+const download = (props) => {
+  console.log('props.selectedList-->', props.selectedList);
+  console.log(typeof props.selectedList);
+  console.log('Object.entries-->', Object.entries(props.selectedList));
+
+  // 방법1 - XLSX 라이브러리
+  const wb = XLSX.utils.book_new();
+  const dataWS = XLSX.utils.json_to_sheet(Object.entries(props.selectedList));
+  XLSX.utils.book_append_sheet(wb, dataWS, 'UserList');
+  XLSX.writeFile(wb, 'UserList.xlsx');
+
+  // 방법2 - JAVA
+  // ApiService.download(JSON.stringify(props.selectedList));
+};
+
 // <firebase db 연동>
 // const deleteUser = (props) => {
 //   let user = {
@@ -212,16 +229,28 @@ const EnhancedTableToolbar = (props) => {
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton
-            aria-label="delete"
-            onClick={() => {
-              deleteUser(props);
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
+        <>
+          <Tooltip title="Download UserList">
+            <IconButton
+              aria-label="download"
+              onClick={() => {
+                download(props);
+              }}
+            >
+              <GetAppIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <IconButton
+              aria-label="delete"
+              onClick={() => {
+                deleteUser(props);
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        </>
       ) : (
         <Tooltip title="Filter list">
           <IconButton aria-label="filter list">
