@@ -1,7 +1,6 @@
-"use strict";
-
 // import necessary modules
 const express = require("express");
+const router = express.Router();
 const bodyParser = require("body-parser");
 const request = require("request-promise");
 var cors = require("cors"); // cors
@@ -9,7 +8,7 @@ var cors = require("cors"); // cors
 // Firebase setup
 // var firebase = require('firebase');
 // Initialize Firebasee App with
-// var config = require("./firebaseConfig.json");
+// var config = require("../../firebaseConfig.json");
 // firebase.initializeApp(config);
 
 // MySQL setting
@@ -26,7 +25,7 @@ var con = mysql.createConnection({
 var admin = require("firebase-admin");
 // you should manually put your serviceAccountKey.json in the same folder app.js
 // is located at.
-var serviceAccount = require("./serviceAccountKey.json");
+var serviceAccount = require("../../serviceAccountKey.json");
 
 // Initialize FirebaseApp with service-account.json
 admin.initializeApp({
@@ -123,24 +122,22 @@ function createFirebaseToken(kakaoAccessToken, uid, email, name, photoURL) {
   );
 }
 
-// create an express app and use json body parser
-const app = express();
 // 특정 url에대한 cors allow
 const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true,
 };
 // app.use(cors());
-app.use(cors(corsOptions));
-app.use(bodyParser.json());
+router.use(cors(corsOptions));
+router.use(bodyParser.json());
 
 // default root url to test if the server is up
-app.get("/", (req, res) =>
+router.get("/", (req, res) =>
   res.status(200).send("KakaoLoginServer for Firebase is up and running!")
 );
 
 // actual endpoint that creates a firebase token with Kakao access token
-app.post("/users/verifyToken", (req, res) => {
+router.post("/users/verifyToken", (req, res) => {
   //   const token = req.body.access_token;
   console.log(req.headers.authorization);
   const token = req.headers.authorization;
@@ -168,7 +165,7 @@ app.post("/users/verifyToken", (req, res) => {
   );
 });
 
-app.post("/users/loginGoogle", (req, res) => {
+router.post("/users/loginGoogle", (req, res) => {
   console.log("here in!!!!");
   console.log(req.body);
   // put data in mySql DB
@@ -186,7 +183,7 @@ app.post("/users/loginGoogle", (req, res) => {
         // insert data
         // random string pwd
         var randPwd = Math.random().toString(36).substr(2, 11);
-        var sql = `INSERT INTO users ( email, userName, photoURL, deleteYN ,provider,password) VALUES (?,?,?, 'n','Google',?)`;
+        var sql = `INSERT INTO users ( email, userName, photoURL, deleteYN ,provider,password,logdate) VALUES (?,?,?, 'n','Google',?,sysdate())`;
         var params = [req.body.email,req.body.username,req.body.photoURL,randPwd,];
         con.query(sql, params, function (err, result) {
           if (err) throw err;
@@ -195,7 +192,7 @@ app.post("/users/loginGoogle", (req, res) => {
       }else{
         console.log("yes data");
         // update data (photoURL userName)
-        var sql_update = `UPDATE users SET photoURL= (?), userName=(?) WHERE id=(?)`;
+        var sql_update = `UPDATE users SET photoURL= (?), userName=(?), logdate=sysdate() WHERE id=(?)`;
         console.log(result_check[0].id);
         var params = [req.body.photoURL,req.body.username,result_check[0].id];
         con.query(sql_update, params, function (err, result) {
@@ -207,10 +204,4 @@ app.post("/users/loginGoogle", (req, res) => {
   });
 });
 
-// Start the server
-const server = app.listen(process.env.PORT || "8090", () => {
-  console.log(
-    "KakaoLoginServer for Firebase listening on port %s",
-    server.address().port
-  );
-});
+module.exports = router;

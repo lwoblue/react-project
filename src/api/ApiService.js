@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // const USER_API_BASE_URL = "http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline"
-//const USER_API_BASE_URL = 'http://192.168.0.41:8080/users';
-const USER_API_BASE_URL = 'http://localhost:8080/users';
+const USER_API_BASE_URL = 'http://192.168.0.18:8080/users';
+//const USER_API_BASE_URL = 'http://localhost:8080/users';
 const USER_API_BASE_URL_NODE = 'http://localhost:8090/users';
 
 class ApiService {
