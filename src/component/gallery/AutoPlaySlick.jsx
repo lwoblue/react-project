@@ -87,6 +87,7 @@ export default function AutoPlaySlick(props) {
   const classes = useStyles();
   const [imagePath, setImagePath] = React.useState(null);
   const [open, setOpen] = React.useState(false);
+  const [upOpen, setUpOpen] = React.useState(false);
 
   const body = (
     <div className={classes.modalBody}>
@@ -121,14 +122,27 @@ export default function AutoPlaySlick(props) {
     sliderRef.current.slickPause();
   };
 
+  const upload = (e) => {
+    console.log(e.target.files[0]);
+    setUpOpen(true);
+  };
+  const onClickClose = (e) => {
+    setUpOpen(false);
+  };
+  
+
+  const download = (e) => {
+    console.log(e.target.files[0]);
+  };
+
   return (
     <>
       <Grid item xs={12} sm={6}>
         <Paper className={classes.paper}>
           <Slider {...settings} className={classes.sliderRoot} ref={sliderRef}>
-            {items.map((item) => {
+            {items.map((item, i) => {
               return (
-                  <div key={item.id} onDoubleClick={
+                  <div key={`img${i}`} onDoubleClick={
                     ()=>{    
                       setOpen(true);
                       setImagePath(item.url);
@@ -177,7 +191,7 @@ export default function AutoPlaySlick(props) {
                 variant="contained"
                 color="primary"
                 disableElevation
-                onClick={play}
+                onClick={download}
               >
                 Downlode
               </Button>
@@ -186,10 +200,22 @@ export default function AutoPlaySlick(props) {
                 variant="contained"
                 color="primary"
                 disableElevation
-                onClick={pause}
+                onClick={upload}
               >
                 Uplode
               </Button>
+              <form id="fileForm" style={{
+                display: upOpen?'':'none'
+              }}>
+                  <h3>React Multiple File Upload</h3>
+                  <div className="form-group">
+                      <input type="file" multiple/>
+                  </div>
+                  <div className="form-group">
+                      <button className="btn btn-primary" type="submit">Upload</button>
+                  </div>
+                  <button type="button" onClick={onClickClose}>닫기</button>
+              </form>
             </Box>
           </ThemeProvider>
         </Paper>
