@@ -123,13 +123,11 @@ export default function AutoPlaySlick(props) {
   };
 
   const upload = (e) => {
-    console.log(e.target.files[0]);
     setUpOpen(true);
   };
   const onClickClose = (e) => {
     setUpOpen(false);
   };
-  
 
   const download = (e) => {
     console.log(e.target.files[0]);
