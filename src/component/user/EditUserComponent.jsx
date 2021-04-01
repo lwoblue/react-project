@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     // float: "right",
     marginTop: "20px",
-    justifyContent: "center",r2627rut
+    justifyContent: "center",
     "& button": {
       padding: "15px 25px 15px 25px",
       borderRadius: "10px",
