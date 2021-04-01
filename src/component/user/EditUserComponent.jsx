@@ -13,6 +13,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import db from "../../firebase";
 import firebase from "firebase";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,31 +36,33 @@ const useStyles = makeStyles((theme) => ({
   row: {
     display: "flex",
     alignItems: "center",
-    "& button":{
+    "& button": {
       padding: "10px",
-      marginLeft:"20px",
+      marginLeft: "20px",
       borderRadius: "10px",
       border: "1px rgba(37, 34, 34, 0.575)",
       backgroundColor: "rgba(65, 61, 61, 0.466)",
       color: "#fcc600",
-    }
+    },
   },
   row_btn: {
     display: "flex",
     // float: "right",
     marginTop: "20px",
-    justifyContent: "center",
+    justifyContent: "center",r2627rut
     "& button": {
       padding: "15px 25px 15px 25px",
       borderRadius: "10px",
       border: "1px rgba(37, 34, 34, 0.575)",
       backgroundColor: "rgba(37, 34, 34, 0.575)",
       color: "#fcc600",
+      // float: "right",
     },
   },
   style_img: {
     minWidth: "250px",
     minHeight: "250px",
+    borderRadius: "20px",
   },
 
   style_form: {
@@ -81,6 +84,7 @@ const EditUserComponent = () => {
   const [email, setEmail] = useState("");
   const [userImage, setUserImage] = useState("");
   const [photoURL, setPhotoURL] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
   const history = useHistory();
 
   useEffect(() => {
@@ -148,6 +152,9 @@ const EditUserComponent = () => {
     e.preventDefault();
     setPhotoURL(e.target.value);
   };
+  const onChangePhotoUpload = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
   const classes = useStyles();
 
   // firebase db 연동
@@ -179,6 +186,24 @@ const EditUserComponent = () => {
   //       console.log('saveUser() Error!!', err);
   //     });
   // };
+  const onClickUpload = async (e) => {
+    e.preventDefault();
+    console.log(selectedFile);
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+    await ApiService.fetchImage(formData,config)
+      .then((res) => {
+        alert("성공");
+      })
+      .catch((err) => {
+        alert("실패");
+      });
+  };
 
   return (
     <div>
@@ -219,18 +244,15 @@ const EditUserComponent = () => {
                 onChange={onChangeUserName}
               />
             </div>
+            
             <div className={classes.row}>
               <PermMediaIcon />
-              <TextField
-                type="text"
-                placeholder="Upload your Image file"
-                name="userName"
-                fullWidth
-                margin="normal"
-                value={photoURL}
-                onChange={onChangePhotoURL}
+              <input
+                type="file"
+                name="file"
+                onChange={onChangePhotoUpload}
               />
-              <button>upload</button>
+              <button onClick={onClickUpload}>upload</button>
             </div>
           </div>
         </div>

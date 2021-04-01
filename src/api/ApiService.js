@@ -33,6 +33,9 @@ class ApiService {
   fetchGoogleUser(user) {
     return axios.post(USER_API_BASE_URL_NODE + '/loginGoogle', user);
   }
+  fetchImage(file,config){
+    return axios.post(USER_API_BASE_URL+'/photo/upload',file,config);
+  }
 }
 
 export default new ApiService();
