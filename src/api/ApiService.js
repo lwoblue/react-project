@@ -33,6 +33,10 @@ class ApiService {
   fetchGoogleUser(user) {
     return axios.post(USER_API_BASE_URL_NODE + '/loginGoogle', user);
   }
+
+  download(userList) {
+    return axios.post(USER_API_BASE_URL + '/users', userList);
+  }
 }
 
 export default new ApiService();
