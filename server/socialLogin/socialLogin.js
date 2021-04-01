@@ -8,7 +8,7 @@ var cors = require("cors"); // cors
 // Firebase setup
 // var firebase = require('firebase');
 // Initialize Firebasee App with
-// var config = require("../../firebaseConfig.json");
+// var config = require("./../../configKey/firebaseConfig.json");
 // firebase.initializeApp(config);
 
 // MySQL setting
@@ -25,7 +25,7 @@ var con = mysql.createConnection({
 var admin = require("firebase-admin");
 // you should manually put your serviceAccountKey.json in the same folder app.js
 // is located at.
-var serviceAccount = require("../../serviceAccountKey.json");
+var serviceAccount = require("./../../configKey/serviceAccountKey.json");
 
 // Initialize FirebaseApp with service-account.json
 admin.initializeApp({
@@ -54,9 +54,6 @@ function updateOrCreateUser(userId, email, displayName, photoURL) {
   } else {
     updateParams["displayName"] = email;
   }
-  if (photoURL) {
-    updateParams["photoURL"] = photoURL;
-  }
   console.log(updateParams);
   // TODO: local DB user profile, userName update
   con.connect(function (err) {
@@ -70,9 +67,9 @@ function updateOrCreateUser(userId, email, displayName, photoURL) {
       console.log("1 record selected");
       // if user DB exist
       if(result_idx.length == 1){
-        var sql_update = `UPDATE users SET photoURL= (?), userName=(?) WHERE id=(?)`;
+        var sql_update = `UPDATE users SET userName=(?) WHERE id=(?)`;
         console.log(result_idx[0].id);
-        var params = [updateParams["photoURL"],updateParams["displayName"],result_idx[0].id];
+        var params = [updateParams["displayName"],result_idx[0].id];
         con.query(sql_update, params, function (err, result) {
           if (err) throw err;
           console.log("1 record updated");
@@ -192,9 +189,9 @@ router.post("/users/loginGoogle", (req, res) => {
       }else{
         console.log("yes data");
         // update data (photoURL userName)
-        var sql_update = `UPDATE users SET photoURL= (?), userName=(?), logdate=sysdate() WHERE id=(?)`;
+        var sql_update = `UPDATE users SET userName=(?) WHERE id=(?)`;
         console.log(result_check[0].id);
-        var params = [req.body.photoURL,req.body.username,result_check[0].id];
+        var params = [req.body.username,result_check[0].id];
         con.query(sql_update, params, function (err, result) {
           if (err) throw err;
           console.log("1 record updated");

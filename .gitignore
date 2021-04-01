@@ -7,6 +7,12 @@ firebaseConfig.json
 .pnp.js
 serviceAccountKey.json
 
+# node - testfolder
+# dependencies
+/configKey
+/server/upload
+
+
 # testing
 /coverage
 

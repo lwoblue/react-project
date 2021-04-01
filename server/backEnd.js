@@ -3,7 +3,7 @@
 // import necessary modules
 const express = require("express");
 
-const socialLogin = require("./server/socialLogin/socialLogin");
+const socialLogin = require("./socialLogin/socialLogin");
 
 // create an express app and use json body parser
 const app = express();
