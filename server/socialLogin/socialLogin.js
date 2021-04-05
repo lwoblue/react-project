@@ -2,8 +2,9 @@
 const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
-const request = require("request-promise");
+// const request = require("request-promise");
 var cors = require("cors"); // cors
+var con = require("./../database/db_mysql");
 
 // Firebase setup
 // var firebase = require('firebase');
@@ -12,14 +13,14 @@ var cors = require("cors"); // cors
 // firebase.initializeApp(config);
 
 // MySQL setting
-var mysql = require("mysql2");
+// var mysql = require("mysql2");
 
-var con = mysql.createConnection({
-  host: "192.168.0.18",
-  user: "solomon",
-  password: "admin",
-  database: "react", // database name
-});
+// var con = mysql.createConnection({
+//   host: "192.168.0.18",
+//   user: "solomon",
+//   password: "admin",
+//   database: "react", // database name
+// });
 
 // Firesvase admin setup
 var admin = require("firebase-admin");
@@ -66,7 +67,7 @@ function updateOrCreateUser(userId, email, displayName, photoURL) {
       if (err) throw err;
       console.log("1 record selected");
       // if user DB exist
-      if(result_idx.length == 1){
+      if(result_idx.length === 1){
         var sql_update = `UPDATE users SET userName=(?) WHERE id=(?)`;
         console.log(result_idx[0].id);
         var params = [updateParams["displayName"],result_idx[0].id];
@@ -134,7 +135,7 @@ router.get("/", (req, res) =>
 );
 
 // actual endpoint that creates a firebase token with Kakao access token
-router.post("/users/verifyToken", (req, res) => {
+router.post("/verifyToken", (req, res) => {
   //   const token = req.body.access_token;
   console.log(req.headers.authorization);
   const token = req.headers.authorization;
@@ -162,7 +163,7 @@ router.post("/users/verifyToken", (req, res) => {
   );
 });
 
-router.post("/users/loginGoogle", (req, res) => {
+router.post("/loginGoogle", (req, res) => {
   console.log("here in!!!!");
   console.log(req.body);
   // put data in mySql DB
@@ -175,13 +176,13 @@ router.post("/users/loginGoogle", (req, res) => {
     con.query(sql_check, params, function (err, result_check) {
       if (err) throw err;
       console.log("1 record selected:",result_check);
-      if(result_check.length == 0){
+      if(result_check.length === 0){
         console.log("no data");
         // insert data
         // random string pwd
         var randPwd = Math.random().toString(36).substr(2, 11);
         var sql = `INSERT INTO users ( email, userName, photoURL, deleteYN ,provider,password,logdate) VALUES (?,?,?, 'n','Google',?,sysdate())`;
-        var params = [req.body.email,req.body.username,req.body.photoURL,randPwd,];
+        params = [req.body.email,req.body.username,req.body.photoURL,randPwd,];
         con.query(sql, params, function (err, result) {
           if (err) throw err;
           console.log("1 record inserted");
@@ -191,7 +192,7 @@ router.post("/users/loginGoogle", (req, res) => {
         // update data (photoURL userName)
         var sql_update = `UPDATE users SET userName=(?) WHERE id=(?)`;
         console.log(result_check[0].id);
-        var params = [req.body.username,result_check[0].id];
+        params = [req.body.username,result_check[0].id];
         con.query(sql_update, params, function (err, result) {
           if (err) throw err;
           console.log("1 record updated");

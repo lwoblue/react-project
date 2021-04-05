@@ -12,6 +12,7 @@ const ChatInput = ({ channelName, channelId }) => {
     setInput(e.target.value);
   }, []);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const sendMessage = useCallback((e) => {
     e.preventDefault();
     if (!input) return;

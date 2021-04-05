@@ -12,7 +12,8 @@ import {
   Divider,
 } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
-import { red } from '@material-ui/core/colors';
+
+import ImageUploadComponent from '../imageUpload/ImageUploadComponent';
 
 const items = [
   { id: 1, url: 'images/img1.jpg' },
@@ -88,6 +89,8 @@ export default function AutoPlaySlick(props) {
   const [imagePath, setImagePath] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [upOpen, setUpOpen] = React.useState(false);
+  const [downOpen, setDownOpen] = React.useState(false);
+  
 
   const body = (
     <div className={classes.modalBody}>
@@ -125,12 +128,9 @@ export default function AutoPlaySlick(props) {
   const upload = (e) => {
     setUpOpen(true);
   };
-  const onClickClose = (e) => {
-    setUpOpen(false);
-  };
 
   const download = (e) => {
-    console.log(e.target.files[0]);
+    setDownOpen(true);
   };
 
   return (
@@ -191,7 +191,7 @@ export default function AutoPlaySlick(props) {
                 disableElevation
                 onClick={download}
               >
-                Downlode
+                Download
               </Button>
               <Button
                 theme={goldColor}
@@ -202,18 +202,8 @@ export default function AutoPlaySlick(props) {
               >
                 Uplode
               </Button>
-              <form id="fileForm" style={{
-                display: upOpen?'':'none'
-              }}>
-                  <h3>React Multiple File Upload</h3>
-                  <div className="form-group">
-                      <input type="file" multiple/>
-                  </div>
-                  <div className="form-group">
-                      <button className="btn btn-primary" type="submit">Upload</button>
-                  </div>
-                  <button type="button" onClick={onClickClose}>닫기</button>
-              </form>
+              <ImageUploadComponent setUpOpen={setUpOpen} style={{display: upOpen?'':'none'}}/>
+              <ImageUploadComponent setDownOpen={setDownOpen} style={{display: downOpen?'':'none'}}/>
             </Box>
           </ThemeProvider>
         </Paper>

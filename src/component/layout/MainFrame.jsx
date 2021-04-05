@@ -69,7 +69,7 @@ const MainFrame = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
   const [width, setWidth] = useState(60);
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user }] = useStateValue();
 
   const navWidthValue = (state) => {
     setWidth(width);
