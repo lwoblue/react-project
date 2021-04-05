@@ -24,10 +24,10 @@ import ApiService from 'api/ApiService';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles';
-import XLSX from 'xlsx';
-import GetAppIcon from '@material-ui/icons/GetApp';
-
-// import db from '../../firebase';
+import { useHistory } from 'react-router';
+import DetailMessage from './DetailMessageComponent';
+import CreateMessage from './CreateMessageComponent';
+import Button from '@material-ui/core/Button';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -56,8 +56,11 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'email', label: 'Email' },
-  { id: 'userName', label: 'User Name' },
+  { id: 'uuid', label: 'No' },
+  { id: 'sender', label: 'Sender' },
+  { id: 'title', label: 'Title' },
+  { id: 'content', label: 'Content' },
+  { id: 'date', label: 'Date' },
 ];
 
 function EnhancedTableHead(props) {
@@ -138,43 +141,12 @@ const useToolbarStyles = makeStyles((theme) => ({
   },
 }));
 
-const download = (props) => {
-  const wb = XLSX.utils.book_new();
-  const dataWS = XLSX.utils.json_to_sheet(props.selectedList22);
-  XLSX.utils.book_append_sheet(wb, dataWS, 'UserList');
-  XLSX.writeFile(wb, 'UserList.xlsx');
-};
-
-// <firebase db 연동>
-// const deleteUser = (props) => {
-//   let user = {
-//     deleteYN: 'y',
-//   };
-//   props.selectedList.forEach((deleteuser) => {
-//     db.collection('users')
-//       .doc('IR3CFnBcoETVQpqXRYXF')
-//       .collection('user')
-//       .where('email', '==', deleteuser)
-//       .get()
-//       .then((querySnapshot) => {
-//         console.log('Document successfully delete!');
-//         querySnapshot.forEach((doc) => {
-//           doc.ref.update(user);
-//         });
-//         props.setSelected([]);
-//       })
-//       .catch((err) => {
-//         console.log('deleteUser Error!!', err);
-//       });
-//   });
-// };
-
-const deleteUser = (props) => {
-  props.selectedList.forEach((deleteuser) => {
-    ApiService.deleteUser(deleteuser)
+const deleteMessage = (props) => {
+  props.selectedList.forEach((message) => {
+    ApiService.deleteMessage(message)
       .then((res) => {
         props.setSelected([]);
-        ApiService.fetchUsers()
+        ApiService.messageList()
           .then((res2) => {
             props.setRows(res2.data);
           })
@@ -214,27 +186,17 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          User List
+          Message List
         </Typography>
       )}
 
       {numSelected > 0 ? (
         <>
-          <Tooltip title="Download UserList">
-            <IconButton
-              aria-label="download"
-              onClick={() => {
-                download(props);
-              }}
-            >
-              <GetAppIcon />
-            </IconButton>
-          </Tooltip>
           <Tooltip title="Delete">
             <IconButton
               aria-label="delete"
               onClick={() => {
-                deleteUser(props);
+                deleteMessage(props);
               }}
             >
               <DeleteIcon />
@@ -353,32 +315,22 @@ export default function EnhancedTable() {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
-  const [selected22, setSelected22] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchInput, setSearchInput] = useState('');
   const [rows, setRows] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
-    ApiService.searchUser(searchInput)
+    ApiService.messageList(window.localStorage.getItem('userID'))
       .then((res) => {
         setRows(res.data);
       })
       .catch((err) => {
-        console.log('reloadUserList() Error!!', err);
+        console.log('reloadMessageList() Error!!', err);
       });
-
-    // <firebase db 연동>
-    // db.collection('users')
-    //   .doc('IR3CFnBcoETVQpqXRYXF')
-    //   .collection('user')
-    //   .where('deleteYN', '==', 'n')
-    //   .get()
-    //   .then((snapshot) => {
-    //     setRows(snapshot.docs.map((doc) => doc.data()));
-    //   });
-  }, [searchInput]);
+  }, []);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -388,52 +340,32 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.email);
+      const newSelecteds = rows.map((n) => n.uuid);
       setSelected(newSelecteds);
-
-      const newSelecteds22 = rows.map((v) => ({
-        Email: v.email,
-        UserName: v.userName,
-      }));
-      setSelected22(newSelecteds22);
-
       return;
     }
     setSelected([]);
-    setSelected22([]);
   };
 
   const handleClick = useCallback(
-    (event, email, userName) => {
-      const selectedIndex = selected.indexOf(email);
+    (event, uuid) => {
+      const selectedIndex = selected.indexOf(uuid);
       let newSelected = [];
-      let newSelected22 = [];
       if (selectedIndex === -1) {
-        newSelected = newSelected.concat(selected, email);
-        newSelected22 = newSelected22.concat(selected22, {
-          Email: email,
-          UserName: userName,
-        });
+        newSelected = newSelected.concat(selected, uuid);
       } else if (selectedIndex === 0) {
         newSelected = newSelected.concat(selected.slice(1));
-        newSelected22 = newSelected22.concat(selected22.slice(1));
       } else if (selectedIndex === selected.length - 1) {
         newSelected = newSelected.concat(selected.slice(0, -1));
-        newSelected22 = newSelected22.concat(selected22.slice(0, -1));
       } else if (selectedIndex > 0) {
         newSelected = newSelected.concat(
           selected.slice(0, selectedIndex),
           selected.slice(selectedIndex + 1)
         );
-        newSelected22 = newSelected22.concat(
-          selected22.slice(0, selectedIndex),
-          selected22.slice(selectedIndex + 1)
-        );
       }
       setSelected(newSelected);
-      setSelected22(newSelected22);
     },
-    [selected, selected22]
+    [selected]
   );
 
   const handleChangePage = (event, newPage) => {
@@ -451,12 +383,12 @@ export default function EnhancedTable() {
 
   const handleChangeSearchInput = (event) => {
     setSearchInput(event.target.value);
-    filterUserList(rows, searchInput);
+    filterMessageList(rows, searchInput);
   };
 
-  const filterUserList = (userList, query) => {
-    var output = userList.filter((user) => {
-      return user.email.toLowerCase().includes(query.toLowerCase());
+  const filterMessageList = (messageList, query) => {
+    var output = messageList.filter((message) => {
+      return message.title.toLowerCase().includes(query.toLowerCase());
     });
     setRows(output);
   };
@@ -465,6 +397,16 @@ export default function EnhancedTable() {
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+  const handleClickDetailMessage = (row) => {
+    history.push(`detail-message/${row.uuid}`);
+    return <DetailMessage />;
+  };
+
+  const handleClickCreateMessage = (row) => {
+    history.push(`create-message`);
+    return <CreateMessage />;
+  };
 
   return (
     <div className={classes.root}>
@@ -482,13 +424,15 @@ export default function EnhancedTable() {
             inputProps={{ 'aria-label': 'search' }}
             onChange={handleChangeSearchInput}
           />
+          <Button variant="outlined" onClick={() => handleClickCreateMessage()}>
+            메일 작성하기
+          </Button>
         </div>
 
         <EnhancedTableToolbar
           setSelected={setSelected}
           numSelected={selected.length}
           selectedList={selected}
-          selectedList22={selected22}
           setRows={setRows}
         />
         <TableContainer>
@@ -512,19 +456,17 @@ export default function EnhancedTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.email);
+                  const isItemSelected = isSelected(row.uuid);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) =>
-                        handleClick(event, row.email, row.userName)
-                      }
+                      onClick={(event) => handleClick(event, row.uuid)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.email}
+                      key={row.uuid}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -533,8 +475,13 @@ export default function EnhancedTable() {
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
-                      <TableCell>{row.email}</TableCell>
-                      <TableCell>{row.userName}</TableCell>
+                      <TableCell>{row.uuid}</TableCell>
+                      <TableCell>{row.sender}</TableCell>
+                      <TableCell onClick={() => handleClickDetailMessage(row)}>
+                        {row.title}
+                      </TableCell>
+                      <TableCell>{row.content}</TableCell>
+                      <TableCell>{row.date}</TableCell>
                     </TableRow>
                   );
                 })}

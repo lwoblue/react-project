@@ -6,6 +6,9 @@ import Gallery from 'component/gallery/Gallery';
 import UserListComponent from 'component/user/UserListComponent';
 import AddUserComponent from 'component/user/AddUserComponent';
 import EditUserComponent from 'component/user/EditUserComponent';
+import MessageListComponent from 'component/message/MessageListComponent';
+import DetailMessageComponent from 'component/message/DetailMessageComponent';
+import CreateMessageComponent from 'component/message/CreateMessageComponent';
 
 const ContentsRoute = () => {
   return (
@@ -18,6 +21,12 @@ const ContentsRoute = () => {
         <Route path="/add-user" component={AddUserComponent} />
         <Route path="/edit-user" component={EditUserComponent} />
         <Route path="/profile" component={EditUserComponent} />
+        <Route path="/message" component={MessageListComponent} />
+        <Route
+          path="/detail-message/:uuid"
+          component={DetailMessageComponent}
+        />
+        <Route path="/create-message" component={CreateMessageComponent} />
       </Switch>
     </>
   );

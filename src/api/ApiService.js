@@ -3,6 +3,7 @@ import axios from 'axios';
 // const USER_API_BASE_URL = "http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline"
 // const USER_API_BASE_URL = 'http://192.168.0.18:8080/users';
 const USER_API_BASE_URL = 'http://localhost:8080/users';
+const USER_API_BASE_URL_MSG = 'http://localhost:8080/message';
 const USER_API_BASE_URL_NODE = 'http://localhost:8090/users';
 
 class ApiService {
@@ -33,12 +34,25 @@ class ApiService {
   fetchGoogleUser(user) {
     return axios.post(USER_API_BASE_URL_NODE + '/loginGoogle', user);
   }
-  fetchImage(file,config){
-    return axios.post(USER_API_BASE_URL+'/photo/upload',file,config);
+
+  fetchImage(file, config) {
+    return axios.post(USER_API_BASE_URL + '/photo/upload', file, config);
   }
 
-  download(userList) {
-    return axios.post(USER_API_BASE_URL + '/users', userList);
+  messageList(userId) {
+    return axios.get(USER_API_BASE_URL_MSG + '/' + userId);
+  }
+
+  detailMessage(uuid) {
+    return axios.get(USER_API_BASE_URL_MSG + '/detail/' + uuid);
+  }
+
+  deleteMessage(uuid) {
+    return axios.delete(USER_API_BASE_URL_MSG + '/' + uuid);
+  }
+
+  sendMessage(message) {
+    return axios.post(USER_API_BASE_URL_MSG, message);
   }
 }
 
