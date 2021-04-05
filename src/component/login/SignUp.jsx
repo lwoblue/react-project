@@ -8,7 +8,7 @@ import EmailIcon from "@material-ui/icons/Email";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 import { signUp } from "../login/auth";
-import db from "../../firebase";
+// import db from "../../firebase";
 
 function SignUp() {
   const history = useHistory();
@@ -29,6 +29,7 @@ function SignUp() {
     setPwd(textPwd);
   }, []);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const userNameInputHandler = useCallback((e) => {
     e.preventDefault();
     const textName = e.target.value;
@@ -37,7 +38,7 @@ function SignUp() {
 
   //   id: email -> 유효성 검사
   const isEmail = (text) => {
-    const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    const regExp = /^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     return regExp.test(text); // 형식에 맞는 경우 true 리턴
   };
 
@@ -55,15 +56,15 @@ function SignUp() {
       ) {
         await signUp(email, pwd)
           .then((res) => {
-            const user = {
-              id: res.user.uid,
-              email: res.user.email,
-              password: pwd,
-              userName: userName,
-              photoURL:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3SvtTRgIX1lfL2YSByB8kwoVkVYQB93It2g&usqp=CAU",
-              deleteYN: "n",
-            };
+            // const user = {
+            //   id: res.user.uid,
+            //   email: res.user.email,
+            //   password: pwd,
+            //   userName: userName,
+            //   photoURL:
+            //     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3SvtTRgIX1lfL2YSByB8kwoVkVYQB93It2g&usqp=CAU",
+            //   deleteYN: "n",
+            // };
             // <firebase db 연동>
             // db.collection('users')
             //   .doc('IR3CFnBcoETVQpqXRYXF')
@@ -94,7 +95,7 @@ function SignUp() {
       }
     },
     // [email, pwd, userName,history]
-    [email, pwd, userName]
+    [InputStatus, email, history, pwd, userName]
   );
 
   const idDuplicateCheck = (e) => {

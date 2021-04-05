@@ -4,11 +4,11 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import LoginService from './LoginService';
 import LoginKakao from './LoginKakao';
-import { auth, provider } from './../../firebase';
+import { auth} from './../../firebase';
 import { actionTypes } from '../chat/state/reducer';
 import { useStateValue } from '../chat/state/StateProvider';
 import { useHistory } from 'react-router';
-import db from '../../firebase';
+// import db from '../../firebase';
 import LoginGoogle from './LoginGoogle';
 import LoginRoute from 'component/route/LoginRoute';
 
@@ -18,8 +18,8 @@ const Login = () => {
   }, []);
   // localStorage.removeItem('userID');
   const history = useHistory();
-  const [state, dispatch] = useStateValue();
-  const [signUp, setSignUp] = useState(false);
+  const [,dispatch] = useStateValue();
+  // const [signUp, setSignUp] = useState(false);
   const [id, setId] = useState('');
   const [pwd, setPwd] = useState('');
   const idInputHandler = useCallback((e) => {
@@ -36,7 +36,7 @@ const Login = () => {
 
   //   id: email -> 유효성 검사
   const isEmail = (text) => {
-    const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    const regExp = /^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     return regExp.test(text); // 형식에 맞는 경우 true 리턴
   };
 
@@ -114,7 +114,7 @@ const Login = () => {
         alert('로그인정보를 입력해주세요');
       }
     },
-    [id, pwd]
+    [dispatch, history, id, pwd]
   );
   const signupClick = () => {
     // setSignUp(true);

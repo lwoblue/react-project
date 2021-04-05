@@ -180,7 +180,7 @@ const Nav = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const history = useHistory();
-  const [state, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);

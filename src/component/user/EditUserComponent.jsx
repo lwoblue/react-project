@@ -4,16 +4,16 @@ import { useHistory } from "react-router";
 
 import TextField from "@material-ui/core/TextField";
 // import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import { Grid } from "@material-ui/core";
+// import Typography from "@material-ui/core/Typography";
+// import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import EmailIcon from "@material-ui/icons/Email";
 import PermMediaIcon from "@material-ui/icons/PermMedia";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
-import db from "../../firebase";
-import firebase from "firebase";
-import axios from "axios";
+// import db from "../../firebase";
+// import firebase from "firebase";
+// import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -83,9 +83,9 @@ const EditUserComponent = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [userImage, setUserImage] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const history = useHistory();
+  const setPhotoURL = "";
 
   useEffect(() => {
     ApiService.fetchUserByID(window.localStorage.getItem("userID"))
@@ -148,10 +148,11 @@ const EditUserComponent = () => {
         console.log("saveUser() Error!!", err);
       });
   };
-  const onChangePhotoURL = (e) => {
-    e.preventDefault();
-    setPhotoURL(e.target.value);
-  };
+  // const onChangePhotoURL = (e) => {
+  //   e.preventDefault();
+  //   setPhotoURL(e.target.value);
+  // };
+
   const onChangePhotoUpload = (e) => {
     setSelectedFile(e.target.files[0]);
   };

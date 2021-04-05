@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   makeStyles,
   Slider,
-  Typography,
+  // Typography,
   Tooltip,
   Grid,
   Input,

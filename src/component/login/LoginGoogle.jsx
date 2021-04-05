@@ -3,12 +3,12 @@ import { useHistory } from 'react-router';
 import { auth, provider } from './../../firebase';
 import { actionTypes } from '../chat/state/reducer';
 import { useStateValue } from '../chat/state/StateProvider';
-import axios from 'axios';
+// import axios from 'axios';
 import ApiService from 'api/ApiService';
 
 function LoginGoogle() {
   const history = useHistory();
-  const [state, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
   const googleLoginClick = () => {
     auth
       .signInWithPopup(provider)

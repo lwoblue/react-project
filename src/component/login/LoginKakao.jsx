@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import KaKaoLogin from 'react-kakao-login';
-import { createFirebaseToken, updateOrCreateUser } from './auth';
+// import { createFirebaseToken, updateOrCreateUser } from './auth';
 import { auth } from './../../firebase';
 import { actionTypes } from '../chat/state/reducer';
 import { useStateValue } from '../chat/state/StateProvider';
-import axios from 'axios';
+// import axios from 'axios';
 
 // interface State {
 //     data: any;
@@ -15,14 +16,14 @@ const LOGIN_API_BASE_URL = 'http://localhost:8090/users';
 // const { Kakao } = window;
 const LoginKakao = () => {
   const history = useHistory();
-  const [state, dispatch] = useStateValue();
-  const [uid, setUid] = useState('');
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [photoURL, setPhotoURL] = useState('');
+  const [, dispatch] = useStateValue();
+  // const [uid, setUid] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [name, setName] = useState('');
+  // const [photoURL, setPhotoURL] = useState('');
 
   const responseKaKao = (res) => {
-    let access_token = res.response.access_token;
+    // let access_token = res.response.access_token;
     let uid = `kakao:${res.profile.id}`;
     let email = res.profile.kakao_account.email;
     let name = res.profile.properties.nickname;
@@ -61,8 +62,8 @@ const LoginKakao = () => {
         }, alert('로그인 성공하였습니다'));
       })
       .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        // var errorCode = error.code;
+        // var errorMessage = error.message;
       });
   };
 
