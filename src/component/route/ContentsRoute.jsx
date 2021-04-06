@@ -24,11 +24,14 @@ const ContentsRoute = () => {
         <Route path="/message">
           <Switch>
             <Route exact path="/message/" component={MessageListComponent} />
+            <Route
+              exact
+              path="/message/send"
+              component={CreateMessageComponent}
+            />
+            <Route path="/message/:uuid" component={DetailMessageComponent} />
           </Switch>
-          <Route path="/message/:uuid" component={DetailMessageComponent} />
         </Route>
-
-        <Route path="/create-message" component={CreateMessageComponent} />
       </Switch>
     </>
   );

@@ -405,7 +405,7 @@ export default function EnhancedTable() {
   };
 
   const handleClickCreateMessage = () => {
-    history.push(`create-message`);
+    history.push(`/message/send`);
     return <CreateMessage />;
   };
 
