@@ -47,8 +47,10 @@ class ApiService {
 
   deleteMessage(uuid) {
     return axios.delete(USER_API_BASE_URL_MSG + '/' + uuid);
-  fetchImage(file,config){
-    return axios.post(USER_API_BASE_URL+'/profile/upload',file,config);
+  }
+
+  fetchImage(file, config) {
+    return axios.post(USER_API_BASE_URL + '/profile/upload', file, config);
   }
 
   sendMessage(message) {
