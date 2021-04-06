@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from "react";
 import ApiService from "api/ApiService";
 import { useHistory } from "react-router";
-
 import TextField from "@material-ui/core/TextField";
-// import Button from "@material-ui/core/Button";
-// import Typography from "@material-ui/core/Typography";
-// import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import EmailIcon from "@material-ui/icons/Email";
 import PermMediaIcon from "@material-ui/icons/PermMedia";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-
-// import db from "../../firebase";
-// import firebase from "firebase";
-// import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,7 +53,9 @@ const useStyles = makeStyles((theme) => ({
   },
   style_img: {
     minWidth: "250px",
+    maxWidth: "250px",
     minHeight: "250px",
+    maxHeight: "250px",
     borderRadius: "20px",
   },
 
@@ -77,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
       marginRight: "10px",
     },
   },
+
 }));
 const EditUserComponent = () => {
   const [id, setId] = useState(null);
@@ -85,7 +80,6 @@ const EditUserComponent = () => {
   const [userImage, setUserImage] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const history = useHistory();
-  const setPhotoURL = "";
 
   useEffect(() => {
     ApiService.fetchUserByID(window.localStorage.getItem("userID"))
@@ -95,39 +89,19 @@ const EditUserComponent = () => {
         setUserName(user.userName);
         setEmail(user.email);
         // setUserImage(user.photoURL);
-        setPhotoURL(user.photoURL);
+        ApiService.fetchFirstImage(user.id).then((res)=>{
+          console.log(res);
+          if(res.data.message === "photoURL"){
+            setUserImage(res.data.photoURL);
+          }else{
+            setUserImage(`data:image/jpg;base64,${res.data.imageFile}`);
+          }
+        });
       })
       .catch((err) => {
         console.log("loadUser() Error!!", err);
       });
   });
-
-  // firebase db 연동
-  // loadUser = () => {
-  //   db.collection('users')
-  //     .doc('IR3CFnBcoETVQpqXRYXF')
-  //     .collection('user')
-  //     .where('email', '==', window.localStorage.getItem('userID'))
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       querySnapshot.forEach((doc) => {
-  //         let user = doc.data();
-  //         this.setState({
-  //           id: user.uid,
-  //           // age: user.age,
-  //           // salary: user.salary,
-  //           userName: user.userName,
-  //           email: user.email,
-  //           userImage: user.photoURL,
-  //         });
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log('Error getting documents: ', error);
-  //     });
-  //   // this.setState({ userImage: firebase.auth().currentUser.photoURL });
-  // };
-
   const onChangeUserName = (e) => {
     setUserName(e.target.value);
   };
@@ -148,48 +122,13 @@ const EditUserComponent = () => {
         console.log("saveUser() Error!!", err);
       });
   };
-  // const onChangePhotoURL = (e) => {
-  //   e.preventDefault();
-  //   setPhotoURL(e.target.value);
-  // };
 
   const onChangePhotoUpload = (e) => {
     setSelectedFile(e.target.files[0]);
   };
   const classes = useStyles();
-
-  // firebase db 연동
-  // saveUser = (e) => {
-  //   e.preventDefault();
-  //   let user = {
-  //     //id: this.state.id,
-  //     userName: this.state.userName,
-  //     // password: this.state.password,
-  //     // firstName: this.state.firstName,
-  //     // lastName: this.state.lastName,
-  //     // age: this.state.age,
-  //     // salary: this.state.salary,
-  //     email: this.state.email,
-  //   };
-  //   db.collection('users')
-  //     .doc('IR3CFnBcoETVQpqXRYXF')
-  //     .collection('user')
-  //     .where('email', '==', window.localStorage.getItem('userID'))
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       console.log('Document successfully update!');
-  //       querySnapshot.forEach((doc) => {
-  //         doc.ref.update(user);
-  //       });
-  //       this.props.history.push('/users');
-  //     })
-  //     .catch((err) => {
-  //       console.log('saveUser() Error!!', err);
-  //     });
-  // };
   const onClickUpload = async (e) => {
     e.preventDefault();
-    console.log(selectedFile);
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("userId", id);
@@ -210,17 +149,8 @@ const EditUserComponent = () => {
 
   return (
     <div>
-      {/* <Grid container spacing={1}> */}
-      {/* <Typography variant="h4" style={style}> */}
-      {/* <div className={classes.root} container spacing={1} item xs={12}>
-        <Typography variant="h4">
-          Profile
-        </Typography>
-      </div> */}
-      {/* [activeClass, data.klass, "main-class"].join(' ') */}
       <div className={[classes.root, classes.style_box].join(" ")}>
         <img className={classes.style_img} src={userImage} alt="" />
-
         <div className={classes.style_form}>
           <div>
             <div className={classes.row}>

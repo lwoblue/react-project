@@ -4,7 +4,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import LoginService from './LoginService';
 import LoginKakao from './LoginKakao';
-import { auth} from './../../firebase';
+import { auth } from './../../firebase';
 import { actionTypes } from '../chat/state/reducer';
 import { useStateValue } from '../chat/state/StateProvider';
 import { useHistory } from 'react-router';
@@ -18,7 +18,7 @@ const Login = () => {
   }, []);
   // localStorage.removeItem('userID');
   const history = useHistory();
-  const [,dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
   // const [signUp, setSignUp] = useState(false);
   const [id, setId] = useState('');
   const [pwd, setPwd] = useState('');
@@ -99,7 +99,7 @@ const Login = () => {
                     displayName: res.data.userName,
                   });
                 }
-                history.push('/home');
+                history.push('/');
               }
               setId((e.target.value = ''));
               setPwd((e.target.value = ''));

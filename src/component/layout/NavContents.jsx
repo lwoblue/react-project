@@ -17,7 +17,6 @@ import HomeIcon from '@material-ui/icons/Home';
 import MailIcon from '@material-ui/icons/Mail';
 
 export function breadcrumbNameMap(to) {
-  // const candidate = { '/bar': 'Bar', '/line': 'Line', '/pie': 'Pie' };
   const candidate = {
     '/': 'Home',
     '/chat': 'Chat',
@@ -25,7 +24,6 @@ export function breadcrumbNameMap(to) {
     '/gallery': 'Gallery',
     '/profile': 'Profile',
     '/message': 'Message',
-    '/message/detail': 'Detail',
   };
   return candidate[to];
 }
