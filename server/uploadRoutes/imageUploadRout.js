@@ -45,11 +45,22 @@ router.post(`/upload-images`, upload.array('imgCollection', 6), (req, res, next)
         let fileData = {};
         fileData = {
             filename: req.files[i].filename,
-            orgFilename: req.files[i].orgFilename,
+            orgFilename: req.files[i].originalname,
             filePath: url + '/public/images/slide-img/',
         }
-        console.log(next);
-        console.log(fileData);
+        /*
+        fieldname: 'imgCollection',
+        originalname: 'Capture001.png',
+        encoding: '7bit',
+        mimetype: 'image/png',
+        destination: './src/public/images/slide-img',
+        filename: '5eac107b-4e1a-48b7-b3ee-f94a94ec9575-capture001.png',
+        path: 'src\\public\\images\\slide-img\\5eac107b-4e1a-48b7-b3ee-f94a94ec9575-capture001.png',
+        size: 398007
+        */
+
+        console.log(`files[${i}]`);
+        console.log(req.files[i]);
         // reqFiles.push(url + '/public/images/slide-img/' + req.files[i].filename);
         // reqFiles.push(url + '/public/images/slide-img/' + req.files[i].orgFilename);
     }
