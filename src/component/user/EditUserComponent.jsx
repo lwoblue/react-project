@@ -94,7 +94,7 @@ const EditUserComponent = () => {
         setId(user.id);
         setUserName(user.userName);
         setEmail(user.email);
-        setUserImage(user.photoURL);
+        // setUserImage(user.photoURL);
         setPhotoURL(user.photoURL);
       })
       .catch((err) => {
@@ -192,6 +192,7 @@ const EditUserComponent = () => {
     console.log(selectedFile);
     const formData = new FormData();
     formData.append("file", selectedFile);
+    formData.append("userId", id);
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -199,6 +200,7 @@ const EditUserComponent = () => {
     };
     await ApiService.fetchImage(formData,config)
       .then((res) => {
+        setUserImage(`data:image/jpg;base64,${res.data.imageFile}`);
         alert("성공");
       })
       .catch((err) => {
