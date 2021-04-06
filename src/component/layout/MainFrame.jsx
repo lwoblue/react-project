@@ -83,37 +83,37 @@ const MainFrame = () => {
     <>
       <div className={classes.wrap}>
         <Router>
-          {!user ? (
+          {/* {!user ? (
             <LoginRoute />
-          ) : (
-            <>
-              <div className={classes.nav}>
-                <Nav navWidthValue={navWidthValue} appOpen={appOpen} />
-              </div>
-              <div
+          ) : ( */}
+          <>
+            <div className={classes.nav}>
+              <Nav navWidthValue={navWidthValue} appOpen={appOpen} />
+            </div>
+            <div
+              className={[
+                classes.separator,
+                clsx(classes.main, {
+                  [classes.mainShift]: open,
+                }),
+              ].join('  ')}
+            >
+              <Separator />
+            </div>
+            <div className={classes.content}>
+              <main
                 className={[
-                  classes.separator,
+                  classes.mp,
                   clsx(classes.main, {
                     [classes.mainShift]: open,
                   }),
                 ].join('  ')}
               >
-                <Separator />
-              </div>
-              <div className={classes.content}>
-                <main
-                  className={[
-                    classes.mp,
-                    clsx(classes.main, {
-                      [classes.mainShift]: open,
-                    }),
-                  ].join('  ')}
-                >
-                  <ContentsRoute />
-                </main>
-              </div>
-            </>
-          )}
+                <ContentsRoute />
+              </main>
+            </div>
+          </>
+          {/* )} */}
         </Router>
       </div>
     </>

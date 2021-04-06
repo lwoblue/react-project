@@ -28,6 +28,7 @@ import { useHistory } from 'react-router';
 import DetailMessage from './DetailMessageComponent';
 import CreateMessage from './CreateMessageComponent';
 import Button from '@material-ui/core/Button';
+import { breadcrumbNameMap } from 'component/layout/NavContents';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -399,7 +400,7 @@ export default function EnhancedTable() {
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const handleClickDetailMessage = (row) => {
-    history.push(`detail-message/${row.uuid}`);
+    history.push(`/message/${row.uuid}`);
     return <DetailMessage />;
   };
 

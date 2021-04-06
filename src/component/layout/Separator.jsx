@@ -30,6 +30,10 @@ const Separator = () => {
                 return last ? (
                   to === '/home' ? (
                     ''
+                  ) : pathnames[0] === 'message' && pathnames.length === 2 ? (
+                    <Typography color="textPrimary" key={to}>
+                      Detail
+                    </Typography>
                   ) : (
                     <Typography color="textPrimary" key={to}>
                       {breadcrumbNameMap(to)}
