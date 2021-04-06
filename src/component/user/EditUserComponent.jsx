@@ -88,7 +88,6 @@ const EditUserComponent = () => {
   const [userImage, setUserImage] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const history = useHistory();
-  const setPhotoURL = "";
 
   useEffect(() => {
     ApiService.fetchUserByID(window.localStorage.getItem("userID"))
@@ -98,7 +97,14 @@ const EditUserComponent = () => {
         setUserName(user.userName);
         setEmail(user.email);
         // setUserImage(user.photoURL);
-        setPhotoURL(user.photoURL);
+        ApiService.fetchFirstImage(user.id).then((res)=>{
+          console.log(res);
+          if(res.data.message === "photoURL"){
+            setUserImage(res.data.photoURL);
+          }else{
+            setUserImage(`data:image/jpg;base64,${res.data.imageFile}`);
+          }
+        });
       })
       .catch((err) => {
         console.log("loadUser() Error!!", err);
@@ -160,36 +166,6 @@ const EditUserComponent = () => {
     setSelectedFile(e.target.files[0]);
   };
   const classes = useStyles();
-
-  // firebase db 연동
-  // saveUser = (e) => {
-  //   e.preventDefault();
-  //   let user = {
-  //     //id: this.state.id,
-  //     userName: this.state.userName,
-  //     // password: this.state.password,
-  //     // firstName: this.state.firstName,
-  //     // lastName: this.state.lastName,
-  //     // age: this.state.age,
-  //     // salary: this.state.salary,
-  //     email: this.state.email,
-  //   };
-  //   db.collection('users')
-  //     .doc('IR3CFnBcoETVQpqXRYXF')
-  //     .collection('user')
-  //     .where('email', '==', window.localStorage.getItem('userID'))
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       console.log('Document successfully update!');
-  //       querySnapshot.forEach((doc) => {
-  //         doc.ref.update(user);
-  //       });
-  //       this.props.history.push('/users');
-  //     })
-  //     .catch((err) => {
-  //       console.log('saveUser() Error!!', err);
-  //     });
-  // };
   const onClickUpload = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -209,24 +185,11 @@ const EditUserComponent = () => {
         alert("실패");
       });
   };
-  const onChangeImg = (data)=>{
-    // setUserImage(data);
-  }
 
   return (
     <div>
-      {/* <Grid container spacing={1}> */}
-      {/* <Typography variant="h4" style={style}> */}
-      {/* <div className={classes.root} container spacing={1} item xs={12}>
-        <Typography variant="h4">
-          Profile
-        </Typography>
-      </div> */}
-      {/* [activeClass, data.klass, "main-class"].join(' ') */}
       <div className={[classes.root, classes.style_box].join(" ")}>
-        {/* <img className={classes.style_img} src={userImage} alt="" onChange={onChangeImg}/> */}
-        <img className={classes.style_img} src={userImage} alt="" onChange={onChangeImg}/>
-        {/* {userImage} */}
+        <img className={classes.style_img} src={userImage} alt="" />
         <div className={classes.style_form}>
           <div>
             <div className={classes.row}>
