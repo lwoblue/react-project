@@ -61,7 +61,9 @@ const useStyles = makeStyles((theme) => ({
   },
   style_img: {
     minWidth: "250px",
+    maxWidth: "250px",
     minHeight: "250px",
+    maxHeight: "250px",
     borderRadius: "20px",
   },
 
@@ -77,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
       marginRight: "10px",
     },
   },
+
 }));
 const EditUserComponent = () => {
   const [id, setId] = useState(null);
@@ -94,8 +97,10 @@ const EditUserComponent = () => {
         setId(user.id);
         setUserName(user.userName);
         setEmail(user.email);
-        setUserImage(user.photoURL);
-        setPhotoURL(user.photoURL);
+        // setUserImage(user.photoURL);
+        // setPhotoURL(user.photoURL);
+      }).then(()=>{
+        // ApiService
       })
       .catch((err) => {
         console.log("loadUser() Error!!", err);
@@ -188,9 +193,12 @@ const EditUserComponent = () => {
   // };
   const onClickUpload = async (e) => {
     e.preventDefault();
-    console.log(selectedFile);
     const formData = new FormData();
     formData.append("file", selectedFile);
+    formData.append("userId", id);
+    // const previewUrl = URL.createObjectURL(formData.get("file"));
+    // console.log(previewUrl);
+    // setUserImage(previewUrl);
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -198,12 +206,19 @@ const EditUserComponent = () => {
     };
     await ApiService.fetchImage(formData,config)
       .then((res) => {
+        console.log(res);
+        console.log(res.data);
+        setUserImage(res.data.imageFile);
+        
         alert("성공");
       })
       .catch((err) => {
         alert("실패");
       });
   };
+  const onChangeImg = (data)=>{
+    // setUserImage(data);
+  }
 
   return (
     <div>
@@ -216,8 +231,9 @@ const EditUserComponent = () => {
       </div> */}
       {/* [activeClass, data.klass, "main-class"].join(' ') */}
       <div className={[classes.root, classes.style_box].join(" ")}>
-        <img className={classes.style_img} src={userImage} alt="" />
-
+        {/* <img className={classes.style_img} src={userImage} alt="" onChange={onChangeImg}/> */}
+        <img className={classes.style_img} src={userImage} alt="" onChange={onChangeImg}/>
+        {/* {userImage} */}
         <div className={classes.style_form}>
           <div>
             <div className={classes.row}>
