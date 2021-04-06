@@ -28,7 +28,6 @@ import { useHistory } from 'react-router';
 import DetailMessage from './DetailMessageComponent';
 import CreateMessage from './CreateMessageComponent';
 import Button from '@material-ui/core/Button';
-import { breadcrumbNameMap } from 'component/layout/NavContents';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -60,7 +59,6 @@ const headCells = [
   { id: 'uuid', label: 'No' },
   { id: 'sender', label: 'Sender' },
   { id: 'title', label: 'Title' },
-  { id: 'content', label: 'Content' },
   { id: 'date', label: 'Date' },
 ];
 
@@ -94,7 +92,7 @@ function EnhancedTableHead(props) {
           <TableCell
             className={classes.tableHeadText}
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align="center"
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -235,7 +233,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-
   paper: {
     width: '100%',
     marginBottom: theme.spacing(2),
@@ -308,6 +305,9 @@ const useStyles = makeStyles((theme) => ({
         visibility: 'hidden',
       },
     },
+  },
+  cell: {
+    textAlign: 'center',
   },
 }));
 
@@ -425,9 +425,6 @@ export default function EnhancedTable() {
             inputProps={{ 'aria-label': 'search' }}
             onChange={handleChangeSearchInput}
           />
-          <Button variant="outlined" onClick={() => handleClickCreateMessage()}>
-            메일 작성하기
-          </Button>
         </div>
 
         <EnhancedTableToolbar
@@ -476,13 +473,17 @@ export default function EnhancedTable() {
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
-                      <TableCell>{row.uuid}</TableCell>
-                      <TableCell>{row.sender}</TableCell>
-                      <TableCell onClick={() => handleClickDetailMessage(row)}>
+                      <TableCell className={classes.cell}>{row.uuid}</TableCell>
+                      <TableCell className={classes.cell}>
+                        {row.sender}
+                      </TableCell>
+                      <TableCell
+                        className={classes.cell}
+                        onClick={() => handleClickDetailMessage(row)}
+                      >
                         {row.title}
                       </TableCell>
-                      <TableCell>{row.content}</TableCell>
-                      <TableCell>{row.date}</TableCell>
+                      <TableCell className={classes.cell}>{row.date}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -509,6 +510,9 @@ export default function EnhancedTable() {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
+      <Button variant="outlined" onClick={() => handleClickCreateMessage()}>
+        메일 쓰기
+      </Button>
     </div>
   );
 }
