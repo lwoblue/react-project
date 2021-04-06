@@ -1,4 +1,4 @@
-import React,{ useRef} from 'react';
+import React,{ useRef, useEffect} from 'react';
 import Slider from 'react-slick';
 import Modal from '@material-ui/core/Modal';
 import {
@@ -12,16 +12,8 @@ import {
   Divider,
 } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
-
+import MainSlideService from '../../api/MainSlideService'
 import ImageUploadComponent from '../imageUpload/ImageUploadComponent';
-
-const items = [
-  { id: 1, url: 'images/img1.jpg' },
-  { id: 2, url: 'images/img2.jpg' },
-  { id: 3, url: 'images/img3.jpg' },
-  { id: 4, url: 'images/img4.jpg' },
-  { id: 5, url: 'images/img5.jpg' },
-];
 
 const goldColor = createMuiTheme({
   palette: {
@@ -91,10 +83,43 @@ export default function AutoPlaySlick(props) {
   const [upOpen, setUpOpen] = React.useState(false);
   const [downOpen, setDownOpen] = React.useState(false);
   
+  const [items,setItems] = React.useState([
+    { id: 1, url: 'images/img1.jpg' },
+    { id: 2, url: 'images/img2.jpg' },
+    { id: 3, url: 'images/img3.jpg' },
+    { id: 4, url: 'images/img4.jpg' },
+    { id: 5, url: 'images/img5.jpg' },
+  ]);
 
-  const body = (
+  useEffect(() => {
+    let imageList = MainSlideService.slideImageList();
+    let arrItem = [];
+    if(imageList.length > 0){
+      imageList.resultData.map((v)=>{
+        return (
+          arrItem.push({id: v.REQ_SEQ, url: `data:image/${v.FILE_TYPE};base64,${v.FILE_DATA}`})
+        )
+      });
+      setItems(arrItem);
+    }
+  }, [setItems]);
+
+  const imgViewBody = (
     <div className={classes.modalBody}>
       <img src={imagePath} alt="images" width="100%"/>
+    </div>
+  );
+
+
+  const upLoadBody = (
+    <div className={classes.modalBody}>
+      <ImageUploadComponent setUpOpen={setUpOpen}/>
+    </div>
+  );
+
+  const downLoadBody = (
+    <div className={classes.modalBody}>
+      <ImageUploadComponent setDownOpen={setDownOpen}/>
     </div>
   );
 
@@ -140,7 +165,7 @@ export default function AutoPlaySlick(props) {
           <Slider {...settings} className={classes.sliderRoot} ref={sliderRef}>
             {items.map((item, i) => {
               return (
-                  <div key={`img${i}`} onDoubleClick={
+                  <div key={`img${item.id}`} onDoubleClick={
                     ()=>{    
                       setOpen(true);
                       setImagePath(item.url);
@@ -202,8 +227,7 @@ export default function AutoPlaySlick(props) {
               >
                 Uplode
               </Button>
-              <ImageUploadComponent setUpOpen={setUpOpen} style={{display: upOpen?'':'none'}}/>
-              <ImageUploadComponent setDownOpen={setDownOpen} style={{display: downOpen?'':'none'}}/>
+              
             </Box>
           </ThemeProvider>
         </Paper>
@@ -216,9 +240,28 @@ export default function AutoPlaySlick(props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-      {body}
+      {imgViewBody}
       </Modal>
-      
+      <Modal
+        open={upOpen}
+        onClose={()=>{
+          setUpOpen(false);
+        }}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+      {upLoadBody}
+      </Modal>
+      <Modal
+        open={downOpen}
+        onClose={()=>{
+          setDownOpen(false);
+        }}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+      {downLoadBody}
+      </Modal>
     </>
   );
 }

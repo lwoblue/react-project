@@ -1,12 +1,32 @@
 import React, {memo, useState} from 'react';
 import Axios from 'axios';
+import { Button, makeStyles} from '@material-ui/core';
 
-const ImageUploadComponent = memo((props)=>{
+const useStyles = makeStyles((theme) => ({
+    uploadDiv: {
+        height: `200px`,
+        width: '100%',
+        overflow: 'auto',
+        display: 'flex',
+    },
+    fileList: {
+        height: `30px`,
+        verticalAlign: 'middle',
+        padding: `5px`,
+        backgroundColor: '#dfdfdf',
+        marginTop: '10px',
+        border: '1px solid #dbabac'
+    }
+}));
+const ImageUploadComponent = memo((props)=>{ 
+    const classes = useStyles();
     const [imgCollection, setImgCollection] = useState('');
+    const [fileList, setFileList] = useState('');
     let USER_API_BASE_URL = 'http://localhost:8090';
 
     const onFileChange = (e) => {
         setImgCollection(e.target.files);
+        setFileList();
     }
 
     const onSubmit = (e) => {
@@ -23,19 +43,23 @@ const ImageUploadComponent = memo((props)=>{
     }
 
     return (
-        <div className="container">
-            <div className="row">
-                <form onSubmit={onSubmit}>
-                    <div className="form-group">
-                        <input type="file" name="imgCollection" onChange={onFileChange} multiple />
+        <div >
+            <form onSubmit={onSubmit} className={classes.uploadDiv}>
+                <div className="form-group">
+                    <input type="file" name="imgCollection" onChange={onFileChange} multiple />
+                    <div>
+                        <ul>
+                            {fileList}
+                        </ul>
                     </div>
-                    <div className="form-group">
-                        <button className="btn btn-primary" type="submit">Upload</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div>
+                    <Button variant="contained" type="button" onClick={onSubmit}>Upload</Button>
+                </div>
+            </form>
         </div>
     )
  });
 
  export default ImageUploadComponent;
+ 
