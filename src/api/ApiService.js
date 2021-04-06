@@ -35,10 +35,6 @@ class ApiService {
     return axios.post(USER_API_BASE_URL_NODE + '/loginGoogle', user);
   }
 
-  fetchImage(file, config) {
-    return axios.post(USER_API_BASE_URL + '/photo/upload', file, config);
-  }
-
   messageList(recipient, searchInput) {
     return axios.post(USER_API_BASE_URL_MSG + '/' + recipient, {
       searchInput: searchInput,
@@ -51,6 +47,8 @@ class ApiService {
 
   deleteMessage(uuid) {
     return axios.delete(USER_API_BASE_URL_MSG + '/' + uuid);
+  fetchImage(file,config){
+    return axios.post(USER_API_BASE_URL+'/profile/upload',file,config);
   }
 
   sendMessage(message) {
