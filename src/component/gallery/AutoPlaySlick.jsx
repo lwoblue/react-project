@@ -81,27 +81,28 @@ export default function AutoPlaySlick(props) {
   const [imagePath, setImagePath] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [upOpen, setUpOpen] = React.useState(false);
-  const [downOpen, setDownOpen] = React.useState(false);
+  // const [downOpen, setDownOpen] = React.useState(false);
   
   const [items,setItems] = React.useState([
-    { id: 1, url: 'images/img1.jpg' },
-    { id: 2, url: 'images/img2.jpg' },
-    { id: 3, url: 'images/img3.jpg' },
-    { id: 4, url: 'images/img4.jpg' },
-    { id: 5, url: 'images/img5.jpg' },
   ]);
 
-  useEffect(() => {
-    let imageList = MainSlideService.slideImageList();
-    let arrItem = [];
-    if(imageList.length > 0){
-      imageList.resultData.map((v)=>{
-        return (
-          arrItem.push({id: v.REQ_SEQ, url: `data:image/${v.FILE_TYPE};base64,${v.FILE_DATA}`})
-        )
-      });
-      setItems(arrItem);
-    }
+  useEffect(async () => {
+    MainSlideService.slideImageList().then((res) => {
+
+      const imageList = res.data.resultData.resultData;
+      var arrItem = [];
+      if(imageList.length > 0){
+        imageList.map((v)=>{  
+            arrItem.push({id: v.REQ_SEQ, url: `data:image/${v.FILE_TYPE};base64,${v.FILE_DATA}`})
+        });
+        setItems(arrItem);
+      }
+      console.log(arrItem);
+    })
+    .catch((err) => {
+      alert("실패");
+    });
+
   }, [setItems]);
 
   const imgViewBody = (
@@ -113,15 +114,15 @@ export default function AutoPlaySlick(props) {
 
   const upLoadBody = (
     <div className={classes.modalBody}>
-      <ImageUploadComponent setUpOpen={setUpOpen}/>
+      <ImageUploadComponent setUpOpen={setUpOpen} setItems={setItems}/>
     </div>
   );
 
-  const downLoadBody = (
-    <div className={classes.modalBody}>
-      <ImageUploadComponent setDownOpen={setDownOpen}/>
-    </div>
-  );
+  // const downLoadBody = (
+  //   <div className={classes.modalBody}>
+  //     <ImageUploadComponent setDownOpen={setDownOpen}/>
+  //   </div>
+  // );
 
   const settings = {
     dots: true, // 스크롤바 아래 점으로 페이지네이션 여부
@@ -155,7 +156,7 @@ export default function AutoPlaySlick(props) {
   };
 
   const download = (e) => {
-    setDownOpen(true);
+    // setDownOpen(true);
   };
 
   return (
@@ -252,7 +253,7 @@ export default function AutoPlaySlick(props) {
       >
       {upLoadBody}
       </Modal>
-      <Modal
+      {/* <Modal
         open={downOpen}
         onClose={()=>{
           setDownOpen(false);
@@ -261,7 +262,7 @@ export default function AutoPlaySlick(props) {
         aria-describedby="simple-modal-description"
       >
       {downLoadBody}
-      </Modal>
+      </Modal> */}
     </>
   );
 }

@@ -13,6 +13,7 @@
 /server/upload
 
 /src/public/images/slide-img/*.png
+/src/public/images/slide-img/*.jpg
 
 # testing
 /coverage

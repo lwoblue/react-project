@@ -2,6 +2,8 @@ import React, {memo, useState} from 'react';
 import Axios from 'axios';
 import { Button, makeStyles} from '@material-ui/core';
 
+import MainSlideService from '../../api/MainSlideService';
+
 const useStyles = makeStyles((theme) => ({
     uploadDiv: {
         height: `200px`,
@@ -22,29 +24,42 @@ const ImageUploadComponent = memo((props)=>{
     const classes = useStyles();
     const [imgCollection, setImgCollection] = useState('');
     const [fileList, setFileList] = useState('');
-    let USER_API_BASE_URL = 'http://localhost:8090';
 
     const onFileChange = (e) => {
         setImgCollection(e.target.files);
         setFileList();
     }
 
-    const onSubmit = (e) => {
-        e.preventDefault()
-
-        var formData = new FormData();
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        const config = {
+            headers: {
+            "content-type": "multipart/form-data",
+            },
+        };
+        const formData = new FormData();
         for (const key of Object.keys(imgCollection)) {
-            formData.append('imgCollection', imgCollection[key])
+            if(imgCollection[key].size > 2097152){
+                alert("파일 크기는 2MB를 넘을 수 없습니다.");
+                return false;
+            }
+            console.log(imgCollection[key]);
+            formData.append('file', imgCollection[key])
         }
-        Axios.post(`${USER_API_BASE_URL}/api/upload-images`, formData, {
-        }).then(res => {
-            console.log(res.data)
+        
+        await MainSlideService.uploadImage(formData,config)
+        .then((res) => {
+            console.log(res.data.resultData);
         })
+        .catch((err) => {
+            alert("실패");
+        });
+
     }
 
     return (
         <div >
-            <form onSubmit={onSubmit} className={classes.uploadDiv}>
+            <form className={classes.uploadDiv}>
                 <div className="form-group">
                     <input type="file" name="imgCollection" onChange={onFileChange} multiple />
                     <div>
