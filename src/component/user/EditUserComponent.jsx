@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from "react";
 import ApiService from "api/ApiService";
 import { useHistory } from "react-router";
-
 import TextField from "@material-ui/core/TextField";
-// import Button from "@material-ui/core/Button";
-// import Typography from "@material-ui/core/Typography";
-// import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import EmailIcon from "@material-ui/icons/Email";
 import PermMediaIcon from "@material-ui/icons/PermMedia";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-
-// import db from "../../firebase";
-// import firebase from "firebase";
-// import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -110,33 +102,6 @@ const EditUserComponent = () => {
         console.log("loadUser() Error!!", err);
       });
   });
-
-  // firebase db 연동
-  // loadUser = () => {
-  //   db.collection('users')
-  //     .doc('IR3CFnBcoETVQpqXRYXF')
-  //     .collection('user')
-  //     .where('email', '==', window.localStorage.getItem('userID'))
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       querySnapshot.forEach((doc) => {
-  //         let user = doc.data();
-  //         this.setState({
-  //           id: user.uid,
-  //           // age: user.age,
-  //           // salary: user.salary,
-  //           userName: user.userName,
-  //           email: user.email,
-  //           userImage: user.photoURL,
-  //         });
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log('Error getting documents: ', error);
-  //     });
-  //   // this.setState({ userImage: firebase.auth().currentUser.photoURL });
-  // };
-
   const onChangeUserName = (e) => {
     setUserName(e.target.value);
   };
@@ -157,10 +122,6 @@ const EditUserComponent = () => {
         console.log("saveUser() Error!!", err);
       });
   };
-  // const onChangePhotoURL = (e) => {
-  //   e.preventDefault();
-  //   setPhotoURL(e.target.value);
-  // };
 
   const onChangePhotoUpload = (e) => {
     setSelectedFile(e.target.files[0]);
