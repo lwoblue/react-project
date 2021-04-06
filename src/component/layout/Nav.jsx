@@ -26,6 +26,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import MailIcon from '@material-ui/icons/Mail';
 import Textsms from '@material-ui/icons/Textsms';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NavContents from './NavContents';
@@ -256,6 +257,15 @@ const Nav = (props) => {
         <ListItemText primary={'Profile'} />
       </ListItem>
 
+      <ListItem
+        button
+        component={RouterLink}
+        to={'/message'}
+        onClick={handleMenuClose}
+      >
+        <ListItemText primary={'Message'} />
+      </ListItem>
+
       <ListItem button onClick={handleMenuCloseLogout}>
         <ListItemText primary={'Logout'} />
       </ListItem>
@@ -290,6 +300,12 @@ const Nav = (props) => {
           <AccountCircle />
         </IconButton>
         <ListItemText primary={'Profile'} />
+      </ListItem>
+      <ListItem button component={RouterLink} to={'/message'}>
+        <IconButton aria-label="show 4 new mails" color="inherit">
+          <MailIcon />
+        </IconButton>
+        <ListItemText primary={'Message'} />
       </ListItem>
       <ListItem button onClick={LogoutClick}>
         <IconButton aria-label="show 4 new mails" color="inherit">

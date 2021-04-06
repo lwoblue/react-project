@@ -14,6 +14,7 @@ import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 import ChatIcon from '@material-ui/icons/Chat';
 import HomeIcon from '@material-ui/icons/Home';
+import MailIcon from '@material-ui/icons/Mail';
 
 export function breadcrumbNameMap(to) {
   // const candidate = { '/bar': 'Bar', '/line': 'Line', '/pie': 'Pie' };
@@ -23,6 +24,8 @@ export function breadcrumbNameMap(to) {
     '/users': 'UserList',
     '/gallery': 'Gallery',
     '/profile': 'Profile',
+    '/message': 'Message',
+    '/message/detail': 'Detail',
   };
   return candidate[to];
 }
@@ -43,8 +46,10 @@ function ListItemLink(props) {
             <RecentActorsIcon />
           ) : primary === 'Gallery' ? (
             <PhotoLibraryIcon />
-          ) : (
+          ) : primary === 'Profile' ? (
             <AssignmentIndIcon />
+          ) : (
+            <MailIcon />
           )}
         </ListItemIcon>
         <ListItemText primary={primary} />
@@ -87,6 +92,7 @@ const NavContents = () => {
           <ListItemLink to="/users" title={'users'} />
           <ListItemLink to="/gallery" title={'gallery'} />
           <ListItemLink to="/profile" title={'profile'} />
+          <ListItemLink to="/message" title={'message'} />
 
           {/* 트리 형식 */}
           {/* <ListItem button open={open1} onClick={handleClick1}>

@@ -14,6 +14,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     flexFlow: 'row',
   },
+  style_box: {
+    background: 'rgba(255, 255, 255, 0.438)',
+    width: '100%',
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: '50px',
+    borderRadius: '5px',
+    marginTop: '10px',
+  },
   row_btn: {
     display: 'flex',
     marginTop: '20px',
@@ -76,7 +85,7 @@ const CreateMessageComponent = () => {
       <div>
         <ArrowBackIcon onClick={goBack} />
       </div>
-      <div className={classes.root}>
+      <div className={[classes.root, classes.style_box].join(' ')}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <TextField

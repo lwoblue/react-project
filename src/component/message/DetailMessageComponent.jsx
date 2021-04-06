@@ -14,6 +14,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     flexFlow: 'row',
   },
+  style_box: {
+    background: 'rgba(255, 255, 255, 0.438)',
+    width: '100%',
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: '50px',
+    borderRadius: '5px',
+    marginTop: '10px',
+  },
   row_btn: {
     display: 'flex',
     marginTop: '20px',
@@ -29,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 const DetailMessageComponent = ({ match }) => {
   const history = useHistory();
-  const [uuid, setUuid] = useState(null);
   const [sender, setSender] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -39,7 +47,6 @@ const DetailMessageComponent = ({ match }) => {
     ApiService.detailMessage(match.params.uuid)
       .then((res) => {
         let message = res.data;
-        setUuid(message.uuid);
         setSender(message.sender);
         setTitle(message.title);
         setContent(message.content);
@@ -61,7 +68,7 @@ const DetailMessageComponent = ({ match }) => {
       <div>
         <ArrowBackIcon onClick={goBack} />
       </div>
-      <div className={classes.root}>
+      <div className={[classes.root, classes.style_box].join(' ')}>
         <Grid container spacing={3}>
           <Grid item xs={6}>
             <TextField
