@@ -18,6 +18,10 @@ class ApiService {
     return axios.get(USER_API_BASE_URL + '/personal-information/' + userID);
   }
 
+  selectUserByName(userName) {
+    return axios.get(USER_API_BASE_URL + '/personal-image/' + userName);
+  }
+
   deleteUser(userID) {
     return axios.delete(USER_API_BASE_URL + '/' + userID);
   }

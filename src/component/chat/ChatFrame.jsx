@@ -35,6 +35,7 @@ const ChatFrame = memo(() => {
       );
     }
   }, [roomId]);
+  
 
   return (
     <>

@@ -30,8 +30,8 @@ const Chat = memo(({roomId, roomDetails, setRoomDetails, roomMessages, setRoomMe
                 <Message
                 message={message}
                 timestamp={timestamp}
-                user={user}
-                userImage={userImage} />
+                user={user}/>
+                // userImage={userImage} />
             ))}
         </div>
         <div className="chat-input">

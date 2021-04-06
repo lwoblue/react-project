@@ -90,7 +90,6 @@ const EditUserComponent = () => {
         setEmail(user.email);
         // setUserImage(user.photoURL);
         ApiService.fetchFirstImage(user.id).then((res)=>{
-          console.log(res);
           if(res.data.message === "photoURL"){
             setUserImage(res.data.photoURL);
           }else{
