@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const CreateMessageComponent = ({ match }) => {
+const CreateMessageComponent = () => {
   const sender = window.localStorage.getItem('userID');
   const [recipient, setRecipient] = useState('');
   const [title, setTitle] = useState('');
@@ -82,7 +82,7 @@ const CreateMessageComponent = ({ match }) => {
             <TextField
               label="Recipient"
               type="text"
-              name="sender"
+              name="recipient"
               fullWidth
               margin="normal"
               onChange={onChangeRecipient}

@@ -39,8 +39,10 @@ class ApiService {
     return axios.post(USER_API_BASE_URL + '/photo/upload', file, config);
   }
 
-  messageList(userId) {
-    return axios.get(USER_API_BASE_URL_MSG + '/' + userId);
+  messageList(recipient, searchInput) {
+    return axios.post(USER_API_BASE_URL_MSG + '/' + recipient, {
+      searchInput: searchInput,
+    });
   }
 
   detailMessage(uuid) {

@@ -146,7 +146,7 @@ const deleteMessage = (props) => {
     ApiService.deleteMessage(message)
       .then((res) => {
         props.setSelected([]);
-        ApiService.messageList()
+        ApiService.messageList(window.localStorage.getItem('userID'), '')
           .then((res2) => {
             props.setRows(res2.data);
           })
@@ -323,14 +323,14 @@ export default function EnhancedTable() {
   const history = useHistory();
 
   useEffect(() => {
-    ApiService.messageList(window.localStorage.getItem('userID'))
+    ApiService.messageList(window.localStorage.getItem('userID'), searchInput)
       .then((res) => {
         setRows(res.data);
       })
       .catch((err) => {
         console.log('reloadMessageList() Error!!', err);
       });
-  }, []);
+  }, [searchInput]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -403,7 +403,7 @@ export default function EnhancedTable() {
     return <DetailMessage />;
   };
 
-  const handleClickCreateMessage = (row) => {
+  const handleClickCreateMessage = () => {
     history.push(`create-message`);
     return <CreateMessage />;
   };
