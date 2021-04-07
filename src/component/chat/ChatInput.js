@@ -37,7 +37,7 @@ const ChatInput = ({ channelName, channelId }) => {
         message: input,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         user: auth.currentUser.displayName,
-        userImage: auth.currentUser.photoURL,
+        userImage: userImage,
       });
     }
     setBlEmoji(false);
