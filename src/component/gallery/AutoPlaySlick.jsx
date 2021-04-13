@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AutoPlaySlick(props) {
-  const sliderRef = useRef(Slider);
+  const sliderRef = useRef(null);
   const classes = useStyles();
   const [imagePath, setImagePath] = React.useState(null);
   const [open, setOpen] = React.useState(false);
@@ -98,15 +98,14 @@ export default function AutoPlaySlick(props) {
     }).then(res => {
         const tmpfileArray = res.data.data;
         if(tmpfileArray.length > 0){
-          for(let idx = 0; idx < tmpfileArray.length; idx++){
-              fileArray.push({id:(idx+1), url: `images/slide-img/${tmpfileArray[idx].fileName}`})
+          for(var idx = 0; idx < tmpfileArray.length; idx++){
+            var tmpArray = {id:(idx+1), url: `http://localhost:3000/images/slide-img/${tmpfileArray[idx].fileName}`};
+            fileArray.push(tmpArray);
           }
         }
+        // existsSync: 파일이나 폴더가 존재하는 파악
+        if(fileArray.length > 0) setItems(fileArray); 
     });
-    // existsSync: 파일이나 폴더가 존재하는 파악
-    console.log([fileArray])
-    console.log([fileArray].length)
-    if([fileArray].length > 0) setItems([fileArray]); 
   }, []);
 
   const imgViewBody = (
@@ -167,15 +166,16 @@ export default function AutoPlaySlick(props) {
       <Grid item xs={12} sm={6}>
         <Paper className={classes.paper}>
           <Slider {...settings} className={classes.sliderRoot} ref={sliderRef}>
-            {items.map((item, i) => {
+            {
+            items.map((item, i) => {
               return (
-                  <div key={`img${item.id}`} onDoubleClick={
+                  <div className="imgdiv" key={`img${item.id}`} onDoubleClick={
                     ()=>{    
                       setOpen(true);
                       setImagePath(item.url);
                     }}
                   >
-                    <img src={item.url} alt="logo" className={classes.imgSize}/>
+                    <img src={item.url} alt="logo" className={classes.imgSize} key={item.id}/>
                   </div>
               );
             })}
@@ -213,7 +213,7 @@ export default function AutoPlaySlick(props) {
                 Pause
               </Button>
               <Divider className={classes.mgTB} />
-              {/* <Button
+             {/*  <Button
                 className={classes.btnMR}
                 theme={goldColor}
                 variant="contained"
@@ -222,7 +222,7 @@ export default function AutoPlaySlick(props) {
                 onClick={download}
               >
                 Download
-              </Button>
+              </Button> */}
               <Button
                 theme={goldColor}
                 variant="contained"
@@ -231,7 +231,7 @@ export default function AutoPlaySlick(props) {
                 onClick={upload}
               >
                 Uplode
-              </Button> */}
+              </Button>
             </Box>
           </ThemeProvider>
         </Paper>

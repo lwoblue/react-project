@@ -2,8 +2,6 @@ import React, {memo, useState} from 'react';
 import Axios from 'axios';
 import { Button, makeStyles} from '@material-ui/core';
 
-import MainSlideService from '../../api/MainSlideService';
-
 const useStyles = makeStyles((theme) => ({
     uploadDiv: {
         height: `200px`,
@@ -47,14 +45,14 @@ const ImageUploadComponent = memo((props)=>{
         
         Axios.post(`${USER_API_BASE_URL}/api/upload-images`, formData, {
         }).then(res => {
-            if(res.data.data){
-                let fileArray = [];
-                res.data.data.map((v,i)=>{
-                    return(
-                        fileArray.push({id:(i+1), url: `images/slide-img/${v.fileName}`})
-                    )
-                });
-                setItems([fileArray]);
+            const tmpfileArray = res.data.data;
+            if(tmpfileArray.length > 0){
+                const fileArray = [];
+                for(let idx = 0; idx < tmpfileArray.length; idx++){
+                    let tmpArray = {id:(idx+1), url: `http://localhost:3000/images/slide-img/${tmpfileArray[idx].fileName}`};
+                    fileArray.push(tmpArray);
+                }
+                setItems(fileArray);
             }
         });
     }
