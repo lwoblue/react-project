@@ -259,7 +259,7 @@ export default function AutoPlaySlick(props) {
       >
       {upLoadBody}
       </Modal>
-      <Modal
+      {/* <Modal
         open={downOpen}
         onClose={()=>{
           setDownOpen(false);
@@ -268,7 +268,7 @@ export default function AutoPlaySlick(props) {
         aria-describedby="simple-modal-description"
       >
       {downLoadBody}
-      </Modal>
+      </Modal> */}
     </>
   );
 }

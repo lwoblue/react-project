@@ -2,6 +2,8 @@ import React, {memo, useState} from 'react';
 import Axios from 'axios';
 import { Button, makeStyles} from '@material-ui/core';
 
+import MainSlideService from '../../api/MainSlideService';
+
 const useStyles = makeStyles((theme) => ({
     uploadDiv: {
         height: `200px`,
