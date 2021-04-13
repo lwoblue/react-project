@@ -1,4 +1,4 @@
-import React,{ useRef, useEffect} from 'react';
+import React, { useRef, useEffect } from 'react';
 import Slider from 'react-slick';
 import Modal from '@material-ui/core/Modal';
 import {
@@ -12,7 +12,6 @@ import {
   Divider,
 } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
-// import MainSlideService from '../../api/MainSlideService'
 import ImageUploadComponent from '../imageUpload/ImageUploadComponent';
 import Axios from 'axios';
 
@@ -73,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-  }
+  },
 }));
 
 export default function AutoPlaySlick(props) {
@@ -112,10 +111,9 @@ export default function AutoPlaySlick(props) {
 
   const imgViewBody = (
     <div className={classes.modalBody}>
-      <img src={imagePath} alt="images" width="100%"/>
+      <img src={imagePath} alt="images" width="100%" />
     </div>
   );
-
 
   const upLoadBody = (
     <div className={classes.modalBody}>
@@ -215,7 +213,7 @@ export default function AutoPlaySlick(props) {
                 Pause
               </Button>
               <Divider className={classes.mgTB} />
-              <Button
+              {/* <Button
                 className={classes.btnMR}
                 theme={goldColor}
                 variant="contained"
@@ -233,35 +231,34 @@ export default function AutoPlaySlick(props) {
                 onClick={upload}
               >
                 Uplode
-              </Button>
-              
+              </Button> */}
             </Box>
           </ThemeProvider>
         </Paper>
       </Grid>
       <Modal
         open={open}
-        onClose={()=>{
+        onClose={() => {
           setOpen(false);
         }}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-      {imgViewBody}
+        {imgViewBody}
       </Modal>
       <Modal
         open={upOpen}
-        onClose={()=>{
+        onClose={() => {
           setUpOpen(false);
         }}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-      {upLoadBody}
+        {upLoadBody}
       </Modal>
       {/* <Modal
         open={downOpen}
-        onClose={()=>{
+        onClose={() => {
           setDownOpen(false);
         }}
         aria-labelledby="simple-modal-title"
