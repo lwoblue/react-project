@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const multer = require("multer");
 const uuidv4 = require('uuid/v4');
-// const fs = require("fs");
+const path = require('path');
+const fs = require('fs');
 
 var con = require("./../database/db_mysql");
-
 const DIR = './src/public/images/slide-img';
 
 const storage = multer.diskStorage({
@@ -22,15 +22,36 @@ const storage = multer.diskStorage({
   }
 });
 
-var upload = multer({
+const deleteFolderRecursive = (path) => {
+  let count = 0;
+  // existsSync: 파일이나 폴더가 존재하는 파악
+  if (fs.existsSync(path)) {               
+     // readdirSync(path): 디렉토리 안의 파일의 이름을 배열로 반환
+    fs.readdirSync(path).forEach((file, index)=>{  
+      var curPath = path + "/" + file;
+      if (fs.lstatSync(curPath).isDirectory()) { // lstatSync: stat값을 반환함, isDirectory(): 디렉토리인지 파악
+        //deleteFolderRecursive(curPath);          // 재귀(reCurse)
+      } else {                                              // delete file
+        fs.unlinkSync(curPath);                     // unlinkSync: 파일 삭제
+      }
+      count++;
+    });
+    //fs.rmdirSync(path);                              // rmdirSync: 폴더 삭제
+  }else{
+    fs.mkdirSync(path);
+  }
+  return count;
+};
+
+const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-      if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg") {
-          cb(null, true);
-      } else {
-          cb(null, false);
-          return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-      }
+    if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg") {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+    }
   }
 });
 
@@ -38,47 +59,80 @@ router.get(`/`, (req, res) =>
   res.status(200).send("upload for Mysql is running!")
 );
 
-router.post(`/upload-images`, upload.array('imgCollection', 6), (req, res, next) => {
-    // const reqFiles = [];
-    const url = req.protocol + '://' + req.get('host')
-    for (var i = 0; i < req.files.length; i++) {
-        let fileData = {};
-        fileData = {
-            filename: req.files[i].filename,
-            orgFilename: req.files[i].originalname,
-            filePath: url + '/public/images/slide-img/',
-        }
-        /*
-        fieldname: 'imgCollection',
-        originalname: 'Capture001.png',
-        encoding: '7bit',
-        mimetype: 'image/png',
-        destination: './src/public/images/slide-img',
-        filename: '5eac107b-4e1a-48b7-b3ee-f94a94ec9575-capture001.png',
-        path: 'src\\public\\images\\slide-img\\5eac107b-4e1a-48b7-b3ee-f94a94ec9575-capture001.png',
-        size: 398007
-        */
 
-        console.log(`files[${i}]`);
-        console.log(req.files[i]);
-        // reqFiles.push(url + '/public/images/slide-img/' + req.files[i].filename);
-        // reqFiles.push(url + '/public/images/slide-img/' + req.files[i].orgFilename);
-    }
-
-    con.connect(function (err) {
-        if (err) throw err;
-
-        console.log("Connected!");
-        // get user primarykey id
-        // update data (photoURL userName)
-        con.query(`select sysdate() as conn_date from dual`,function(err, result_idx){
-          if (err) throw err;
-          console.log("1 record selected");
-          // if user DB exist
-          if(result_idx.length === 1){
-            console.log(result_idx);
-          }
-        });
+router.post(`/read-images`, (req, res) => {
+  const fileArray = [];
+  // existsSync: 파일이나 폴더가 존재하는 파악
+  if (fs.existsSync(DIR)) {               
+     // readdirSync(path): 디렉토리 안의 파일의 이름을 배열로 반환
+    fs.readdirSync(DIR).forEach((file, index)=>{  
+      fileArray.push({fileName: file});
     });
+    //fs.rmdirSync(path);                              // rmdirSync: 폴더 삭제
+  }
+  res.status(200).send({data: fileArray});
+});
+
+
+router.post(`/clear-images`, (req, res) => {
+  const cnt = deleteFolderRecursive(DIR);
+  if(cnt > 0){
+    let sql = "DELETE FROM SLIDE ; ";
+    console.log("Delete!");
+    // get user primarykey id
+    // update data (photoURL userName)
+    con.query(sql, function(err, result_idx){
+      if (err) throw err;
+      // if user DB exist
+      console.log("Number of records Deleted: " + result_idx.affectedRows);
+    });
+  }
+  res.status(200).send("delete");
+  console.log(`clear-images`);
+});
+
+router.post(`/upload-images`, upload.array('img-files'), (req, res, next) => {
+
+     // const reqFiles = [];
+    const fileArray = [];
+    console.log(`router`);
+    for (var i = 0; i < req.files.length; i++) {
+        let fileData = [];
+        fileData = [
+            req.files[i].filename,
+            req.files[i].originalname,
+            path.extname(req.files[i].originalname),
+            req.files[i].destination,
+            req.files[i].size,
+            req.files[i].mimetype
+        ];
+        fileArray.push(fileData);
+    }
+     
+    con.connect(function (err) {
+     if (err) throw err;
+     let sql = "INSERT INTO SLIDE (";
+         sql += "FILE_NAME, FILE_ORG_NAME, FILE_TYPE, FILE_PATH, FILE_SIZE, FILE_MIME_TYPE";
+         sql += ") VALUES ? ";
+         sql += " ;";
+      // get user primarykey id
+      // update data (photoURL userName)
+      con.query(sql,[fileArray], function(err, result_idx){
+      if (err) throw err;
+      // if user DB exist
+      console.log("Number of records inserted: " + result_idx.affectedRows);
+
+      const resArray = [];
+      // existsSync: 파일이나 폴더가 존재하는 파악
+      if (fs.existsSync(DIR)) {               
+        // readdirSync(path): 디렉토리 안의 파일의 이름을 배열로 반환
+        fs.readdirSync(DIR).forEach((file, index)=>{  
+          resArray.push({fileName: file});
+        });
+      }
+      res.status(200).send({data: resArray});
+     });
+   });
+   
 })
 module.exports = router;

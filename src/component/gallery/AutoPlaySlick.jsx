@@ -12,8 +12,9 @@ import {
   Divider,
 } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
-import MainSlideService from '../../api/MainSlideService'
+// import MainSlideService from '../../api/MainSlideService'
 import ImageUploadComponent from '../imageUpload/ImageUploadComponent';
+import Axios from 'axios';
 
 const goldColor = createMuiTheme({
   palette: {
@@ -82,27 +83,32 @@ export default function AutoPlaySlick(props) {
   const [open, setOpen] = React.useState(false);
   const [upOpen, setUpOpen] = React.useState(false);
   const [downOpen, setDownOpen] = React.useState(false);
-  
-  const [items,setItems] = React.useState([
+  const defaultImages = [
     { id: 1, url: 'images/img1.jpg' },
     { id: 2, url: 'images/img2.jpg' },
     { id: 3, url: 'images/img3.jpg' },
     { id: 4, url: 'images/img4.jpg' },
     { id: 5, url: 'images/img5.jpg' },
-  ]);
+  ]
+  const [items,setItems] = React.useState(defaultImages);
 
   useEffect(() => {
-    let imageList = MainSlideService.slideImageList();
-    let arrItem = [];
-    if(imageList.length > 0){
-      imageList.resultData.map((v)=>{
-        return (
-          arrItem.push({id: v.REQ_SEQ, url: `data:image/${v.FILE_TYPE};base64,${v.FILE_DATA}`})
-        )
-      });
-      setItems(arrItem);
-    }
-  }, [setItems]);
+    let USER_API_BASE_URL = 'http://localhost:8090';
+    const fileArray = [];
+    Axios.post(`${USER_API_BASE_URL}/api/read-images`, {
+    }).then(res => {
+        const tmpfileArray = res.data.data;
+        if(tmpfileArray.length > 0){
+          for(let idx = 0; idx < tmpfileArray.length; idx++){
+              fileArray.push({id:(idx+1), url: `images/slide-img/${tmpfileArray[idx].fileName}`})
+          }
+        }
+    });
+    // existsSync: 파일이나 폴더가 존재하는 파악
+    console.log([fileArray])
+    console.log([fileArray].length)
+    if([fileArray].length > 0) setItems([fileArray]); 
+  }, []);
 
   const imgViewBody = (
     <div className={classes.modalBody}>
@@ -113,13 +119,13 @@ export default function AutoPlaySlick(props) {
 
   const upLoadBody = (
     <div className={classes.modalBody}>
-      <ImageUploadComponent setUpOpen={setUpOpen}/>
+      <ImageUploadComponent setUpOpen={setUpOpen} setItems={setItems}/>
     </div>
   );
 
   const downLoadBody = (
     <div className={classes.modalBody}>
-      <ImageUploadComponent setDownOpen={setDownOpen}/>
+      <ImageUploadComponent setDownOpen={setDownOpen} setItems={setItems}/>
     </div>
   );
 
@@ -169,7 +175,8 @@ export default function AutoPlaySlick(props) {
                     ()=>{    
                       setOpen(true);
                       setImagePath(item.url);
-                  }}>
+                    }}
+                  >
                     <img src={item.url} alt="logo" className={classes.imgSize}/>
                   </div>
               );

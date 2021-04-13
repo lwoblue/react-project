@@ -7,6 +7,16 @@ const imageUploadApp = require("./uploadRoutes/imageUploadRout");
 // create an express app and use json body parser
 const app = express();
 
+const cors = require('cors');
+
+// 특정 url에대한 cors allow
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+};
+// app.use(cors());
+app.use(cors(corsOptions));
+
 // app.use(cors());
 // app.use(cors());
 app.use('/users',socialLogin);
