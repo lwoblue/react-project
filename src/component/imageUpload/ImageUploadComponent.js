@@ -20,38 +20,48 @@ const useStyles = makeStyles((theme) => ({
 }));
 const ImageUploadComponent = memo((props)=>{ 
     const classes = useStyles();
-    const [imgCollection, setImgCollection] = useState('');
-    const [fileList, setFileList] = useState('');
+    const [imgFiles, setImgFiles] = useState('');
     let USER_API_BASE_URL = 'http://localhost:8090';
-
+    const setItems = props.setItems;
     const onFileChange = (e) => {
-        setImgCollection(e.target.files);
-        setFileList();
+        setImgFiles(e.target.files);
+        // setFileList();
     }
 
     const onSubmit = (e) => {
         e.preventDefault()
+        console.log()
+        if(imgFiles.length === 0) return;
 
         var formData = new FormData();
-        for (const key of Object.keys(imgCollection)) {
-            formData.append('imgCollection', imgCollection[key])
+        for (const key of Object.keys(imgFiles)) {
+            formData.append('img-files', imgFiles[key])
         }
+
+        Axios.post(`${USER_API_BASE_URL}/api/clear-images`, {
+        }).then(res => {
+            console.log('clear-images');
+        });
+        
         Axios.post(`${USER_API_BASE_URL}/api/upload-images`, formData, {
         }).then(res => {
-            console.log(res.data)
-        })
+            const tmpfileArray = res.data.data;
+            if(tmpfileArray.length > 0){
+                const fileArray = [];
+                for(let idx = 0; idx < tmpfileArray.length; idx++){
+                    let tmpArray = {id:(idx+1), url: `http://localhost:3000/images/slide-img/${tmpfileArray[idx].fileName}`};
+                    fileArray.push(tmpArray);
+                }
+                setItems(fileArray);
+            }
+        });
     }
 
     return (
-        <div >
+        <div>
             <form onSubmit={onSubmit} className={classes.uploadDiv}>
                 <div className="form-group">
-                    <input type="file" name="imgCollection" onChange={onFileChange} multiple />
-                    <div>
-                        <ul>
-                            {fileList}
-                        </ul>
-                    </div>
+                    <input type="file" name="img-files" onChange={onFileChange} multiple />
                 </div>
                 <div>
                     <Button variant="contained" type="button" onClick={onSubmit}>Upload</Button>

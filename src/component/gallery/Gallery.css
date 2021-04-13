@@ -21,7 +21,7 @@
 
 .move-button {
   min-width: 80px;
-  width: 100rem;
+  width: 50vh;
   border: 1px solid coral;
   background-color: #fff;
   color: coral;
@@ -35,7 +35,7 @@
 }
 
 .move-images {
-  width: 100%;
+  width: 150vh;
   height: 50vh;
   object-fit: cover;
 }

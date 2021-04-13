@@ -120,14 +120,14 @@ function createFirebaseToken(kakaoAccessToken, uid, email, name, photoURL) {
   );
 }
 
-// 특정 url에대한 cors allow
-const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true,
-};
-// app.use(cors());
-router.use(cors(corsOptions));
-router.use(bodyParser.json());
+// // 특정 url에대한 cors allow
+// const corsOptions = {
+//   origin: "http://localhost:3000",
+//   credentials: true,
+// };
+// // app.use(cors());
+// router.use(cors(corsOptions));
+// router.use(bodyParser.json());
 
 // default root url to test if the server is up
 router.get("/", (req, res) =>

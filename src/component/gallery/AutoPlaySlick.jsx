@@ -12,8 +12,8 @@ import {
   Divider,
 } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
-import MainSlideService from '../../api/MainSlideService';
 import ImageUploadComponent from '../imageUpload/ImageUploadComponent';
+import Axios from 'axios';
 
 const goldColor = createMuiTheme({
   palette: {
@@ -76,34 +76,37 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AutoPlaySlick(props) {
-  const sliderRef = useRef(Slider);
+  const sliderRef = useRef(null);
   const classes = useStyles();
   const [imagePath, setImagePath] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [upOpen, setUpOpen] = React.useState(false);
   const [downOpen, setDownOpen] = React.useState(false);
-
-  const [items, setItems] = React.useState([
+  const defaultImages = [
     { id: 1, url: 'images/img1.jpg' },
     { id: 2, url: 'images/img2.jpg' },
     { id: 3, url: 'images/img3.jpg' },
     { id: 4, url: 'images/img4.jpg' },
     { id: 5, url: 'images/img5.jpg' },
-  ]);
+  ]
+  const [items,setItems] = React.useState(defaultImages);
 
   useEffect(() => {
-    let imageList = MainSlideService.slideImageList();
-    let arrItem = [];
-    if (imageList.length > 0) {
-      imageList.resultData.map((v) => {
-        return arrItem.push({
-          id: v.REQ_SEQ,
-          url: `data:image/${v.FILE_TYPE};base64,${v.FILE_DATA}`,
-        });
-      });
-      setItems(arrItem);
-    }
-  }, [setItems]);
+    let USER_API_BASE_URL = 'http://localhost:8090';
+    const fileArray = [];
+    Axios.post(`${USER_API_BASE_URL}/api/read-images`, {
+    }).then(res => {
+        const tmpfileArray = res.data.data;
+        if(tmpfileArray.length > 0){
+          for(var idx = 0; idx < tmpfileArray.length; idx++){
+            var tmpArray = {id:(idx+1), url: `http://localhost:3000/images/slide-img/${tmpfileArray[idx].fileName}`};
+            fileArray.push(tmpArray);
+          }
+        }
+        // existsSync: 파일이나 폴더가 존재하는 파악
+        if(fileArray.length > 0) setItems(fileArray); 
+    });
+  }, []);
 
   const imgViewBody = (
     <div className={classes.modalBody}>
@@ -113,13 +116,13 @@ export default function AutoPlaySlick(props) {
 
   const upLoadBody = (
     <div className={classes.modalBody}>
-      <ImageUploadComponent setUpOpen={setUpOpen} />
+      <ImageUploadComponent setUpOpen={setUpOpen} setItems={setItems}/>
     </div>
   );
 
   const downLoadBody = (
     <div className={classes.modalBody}>
-      <ImageUploadComponent setDownOpen={setDownOpen} />
+      <ImageUploadComponent setDownOpen={setDownOpen} setItems={setItems}/>
     </div>
   );
 
@@ -163,17 +166,17 @@ export default function AutoPlaySlick(props) {
       <Grid item xs={12} sm={6}>
         <Paper className={classes.paper}>
           <Slider {...settings} className={classes.sliderRoot} ref={sliderRef}>
-            {items.map((item, i) => {
+            {
+            items.map((item, i) => {
               return (
-                <div
-                  key={`img${item.id}`}
-                  onDoubleClick={() => {
-                    setOpen(true);
-                    setImagePath(item.url);
-                  }}
-                >
-                  <img src={item.url} alt="logo" className={classes.imgSize} />
-                </div>
+                  <div className="imgdiv" key={`img${item.id}`} onDoubleClick={
+                    ()=>{    
+                      setOpen(true);
+                      setImagePath(item.url);
+                    }}
+                  >
+                    <img src={item.url} alt="logo" className={classes.imgSize} key={item.id}/>
+                  </div>
               );
             })}
           </Slider>
@@ -210,7 +213,7 @@ export default function AutoPlaySlick(props) {
                 Pause
               </Button>
               <Divider className={classes.mgTB} />
-              {/* <Button
+             {/*  <Button
                 className={classes.btnMR}
                 theme={goldColor}
                 variant="contained"
@@ -219,7 +222,7 @@ export default function AutoPlaySlick(props) {
                 onClick={download}
               >
                 Download
-              </Button>
+              </Button> */}
               <Button
                 theme={goldColor}
                 variant="contained"
@@ -228,7 +231,7 @@ export default function AutoPlaySlick(props) {
                 onClick={upload}
               >
                 Uplode
-              </Button> */}
+              </Button>
             </Box>
           </ThemeProvider>
         </Paper>
@@ -253,7 +256,7 @@ export default function AutoPlaySlick(props) {
       >
         {upLoadBody}
       </Modal>
-      <Modal
+      {/* <Modal
         open={downOpen}
         onClose={() => {
           setDownOpen(false);
@@ -261,8 +264,8 @@ export default function AutoPlaySlick(props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        {downLoadBody}
-      </Modal>
+      {downLoadBody}
+      </Modal> */}
     </>
   );
 }
