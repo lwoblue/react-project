@@ -120,12 +120,11 @@ function createFirebaseToken(kakaoAccessToken, uid, email, name, photoURL) {
   );
 }
 
-// // 특정 url에대한 cors allow
+// 특정 url에대한 cors allow
 // const corsOptions = {
 //   origin: "http://localhost:3000",
 //   credentials: true,
 // };
-// // app.use(cors());
 // router.use(cors(corsOptions));
 // router.use(bodyParser.json());
 
@@ -163,12 +162,14 @@ router.post("/verifyToken", (req, res) => {
   );
 });
 
-router.post("/loginGoogle", (req, res) => {
+router.post("/loginGoogle", (req, res, next) => {
   console.log("here in!!!!");
-  console.log(req.body);
   // put data in mySql DB
   con.connect(function (err) {
     if (err) throw err;
+    console.log(`req 1111`);
+    console.log(req);
+    console.log(`req 2222`);
     console.log("Connected! DB for post google user data");
     // check is exist
     var sql_check = `SELECT email,id FROM users where email=(?)`;
