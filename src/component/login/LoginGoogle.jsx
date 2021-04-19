@@ -21,13 +21,14 @@ function LoginGoogle() {
       })
       .then(() => {
         // users table 조회 후 없는 계정이라면 users table에 추가할것.
-        const user = {
+        let user = {
           email: auth.currentUser.email,
           username: auth.currentUser.displayName,
           photoURL: auth.currentUser.photoURL,
           deleteYN: 'n',
           provider: 'google',
         };
+        console.log(user);
         ApiService.fetchGoogleUser(user)
           .then((res) => {})
           .catch((error) => {

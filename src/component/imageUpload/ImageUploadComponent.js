@@ -23,6 +23,7 @@ const ImageUploadComponent = memo((props)=>{
     const [imgFiles, setImgFiles] = useState('');
     let USER_API_BASE_URL = 'http://localhost:8090';
     const setItems = props.setItems;
+    const minCnt = props.minCount;
     const onFileChange = (e) => {
         setImgFiles(e.target.files);
         // setFileList();
@@ -32,12 +33,16 @@ const ImageUploadComponent = memo((props)=>{
         e.preventDefault()
         console.log()
         if(imgFiles.length === 0) return;
-
+        let imgCnt = 0;
         var formData = new FormData();
         for (const key of Object.keys(imgFiles)) {
+            imgCnt++;
             formData.append('img-files', imgFiles[key])
         }
-
+        if(imgCnt < minCnt) {
+            alert(`최소 ${minCnt} 이상의 이미지를 업로드해 주세요.`);
+            return;
+        }
         Axios.post(`${USER_API_BASE_URL}/api/clear-images`, {
         }).then(res => {
             console.log('clear-images');

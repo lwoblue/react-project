@@ -15,6 +15,8 @@ import { ThemeProvider } from '@material-ui/styles';
 import ImageUploadComponent from '../imageUpload/ImageUploadComponent';
 import Axios from 'axios';
 
+const minimumImageCount = 3;
+
 const goldColor = createMuiTheme({
   palette: {
     primary: {
@@ -116,13 +118,13 @@ export default function AutoPlaySlick(props) {
 
   const upLoadBody = (
     <div className={classes.modalBody}>
-      <ImageUploadComponent setUpOpen={setUpOpen} setItems={setItems}/>
+      <ImageUploadComponent setUpOpen={setUpOpen} setItems={setItems} minCount={minimumImageCount}/>
     </div>
   );
 
   const downLoadBody = (
     <div className={classes.modalBody}>
-      <ImageUploadComponent setDownOpen={setDownOpen} setItems={setItems}/>
+      <ImageUploadComponent setDownOpen={setDownOpen} setItems={setItems} minCount={minimumImageCount}/>
     </div>
   );
 
